@@ -1,0 +1,79 @@
+<section class="dashboard-page">
+  <div class="dashboard-header">
+    <div>
+      <h1>Environmental Sensor Dashboard</h1>
+      <p>Controller overview from live sensor measurements.</p>
+    </div>
+
+    <button class="btn btn-outline-light" type="button" (click)="loadMeasurements()" [disabled]="isLoading()">
+      Refresh
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="alert alert-info">Loading dashboard measurements...</div>
+  }
+
+  @if (errorMessage()) {
+    <div class="alert alert-danger">{{ errorMessage() }}</div>
+  }
+
+  @if (!isLoading() && !errorMessage() && controllers().length === 0) {
+    <div class="alert alert-warning">No measurements were returned.</div>
+  }
+
+  <div class="row g-4">
+    @for (controller of controllers(); track controller.controllerId) {
+      <div class="col-12 col-md-6 col-xl-4">
+        <article class="controller-card">
+          <header class="controller-card-header">
+            <div>
+              <div class="controller-icon">eco</div>
+              <h2>{{ controller.controllerName }}</h2>
+              <span>{{ controller.controllerKey }}</span>
+            </div>
+
+            <span class="location-pill">{{ controller.location }}</span>
+          </header>
+
+          <section class="sensor-strip">
+            <div>
+              <span class="sensor-count">{{ controller.sensors.length }}</span>
+              <span>Sensor{{ controller.sensors.length === 1 ? '' : 's' }}</span>
+            </div>
+
+            @if (controller.sensors[0]) {
+              <div class="primary-sensor">
+                {{ controller.sensors[0].sensorName }}
+              </div>
+            }
+          </section>
+
+          @if (controller.sensors[0]; as sensor) {
+            <section class="metric-grid">
+              @if (getMeasurement(sensor, 'Humidity'); as humidity) {
+                <div class="metric-tile humidity">
+                  <span>Humidity</span>
+                  <strong>{{ humidity.value }}{{ humidity.unit }}</strong>
+                </div>
+              }
+
+              @if (getMeasurement(sensor, 'Temperature'); as temperature) {
+                <div class="metric-tile temperature">
+                  <span>Temperature</span>
+                  <strong>{{ temperature.value }}°{{ temperature.unit }}</strong>
+                </div>
+              }
+            </section>
+          }
+
+          <footer>
+            @if (getLastUpdatedUtc(controller); as lastUpdatedUtc) {
+              Last updated {{ lastUpdatedUtc | date:'short' }}
+            }
+          </footer>
+        </article>
+      </div>
+    }
+  </div>
+</section>
