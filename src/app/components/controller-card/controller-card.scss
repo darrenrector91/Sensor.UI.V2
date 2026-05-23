@@ -352,3 +352,75 @@
     grid-template-columns: 1fr;
   }
 }
+
+.metric-card--default {
+  border: 1px solid rgba(170, 210, 255, 0.42);
+}
+
+.metric-card--soil-moisture {
+  border: 1px solid rgba(86, 188, 255, 0.48);
+}
+
+.metric-card--light {
+  border: 1px solid rgba(255, 215, 87, 0.48);
+}
+
+.metric-card--battery {
+  border: 1px solid rgba(113, 255, 136, 0.48);
+}
+
+.metric-card--pump {
+  border: 1px solid rgba(72, 215, 255, 0.48);
+}
+
+.metric-card--door {
+  border: 1px solid rgba(255, 167, 82, 0.48);
+}
+
+.metric-card--water-level {
+  border: 1px solid rgba(72, 164, 255, 0.48);
+}
+
+.metric-card--signal {
+  border: 1px solid rgba(190, 164, 255, 0.48);
+}
+
+.metric-card--default .metric-card__header,
+.metric-card--default .metric-card__wave {
+  color: #9fc9ff;
+}
+
+.metric-card--soil-moisture .metric-card__header,
+.metric-card--soil-moisture .metric-card__wave {
+  color: #56bcff;
+}
+
+.metric-card--light .metric-card__header,
+.metric-card--light .metric-card__wave {
+  color: #ffd757;
+}
+
+.metric-card--battery .metric-card__header,
+.metric-card--battery .metric-card__wave {
+  color: #71ff88;
+}
+
+.metric-card--pump .metric-card__header,
+.metric-card--pump .metric-card__wave {
+  color: #48d7ff;
+}
+
+.metric-card--door .metric-card__header,
+.metric-card--door .metric-card__wave {
+  color: #ffa752;
+}
+
+.metric-card--water-level .metric-card__header,
+.metric-card--water-level .metric-card__wave {
+  color: #48a4ff;
+}
+
+.metric-card--signal .metric-card__header,
+.metric-card--signal .metric-card__wave {
+  color: #bea4ff;
+}

@@ -55,44 +55,30 @@
     </section>
 
     <section class="controller-card__metrics">
-      <div class="metric-card metric-card--humidity">
-        <div class="metric-card__header">
-          <span class="material-symbols-outlined">humidity_percentage</span>
-          <span>Humidity</span>
-        </div>
+      @for (metric of metrics(); track trackMetric($index, metric)) {
+        <div class="metric-card" [class]="metric.config.cssClass">
+          <div class="metric-card__header">
+            <span class="material-symbols-outlined">{{ metric.config.icon }}</span>
+            <span>{{ metric.config.label }}</span>
+          </div>
 
-        <div class="metric-card__value">
-          @if (humidityMeasurement(); as humidity) {
-            <span class="metric-card__number">{{ humidity.value }}</span>
-            <span class="metric-card__unit">{{ humidity.unit }}</span>
-          } @else {
-            <span class="metric-card__number">--</span>
-          }
-        </div>
-      </div>
+          <div class="metric-card__value">
+            <span class="metric-card__number">{{ metric.measurement.value }}</span>
+            <span class="metric-card__unit">{{ metric.measurement.unit || metric.config.defaultUnit }}</span>
+          </div>
 
-      <div class="metric-card metric-card--temperature">
-        <div class="metric-card__header">
-          <span class="material-symbols-outlined">thermostat</span>
-          <span>Temperature</span>
+          <svg class="metric-card__wave" viewBox="0 0 320 70" preserveAspectRatio="none">
+            <path d="M0 48 C25 30, 45 66, 75 44 C105 22, 125 62, 160 43 C195 22, 215 59, 250 38 C280 20, 300 44, 320 30" />
+          </svg>
         </div>
-
-        <div class="metric-card__value">
-          @if (temperatureMeasurement(); as temperature) {
-            <span class="metric-card__number">{{ temperature.value }}</span>
-            <span class="metric-card__unit">°{{ temperature.unit }}</span>
-          } @else {
-            <span class="metric-card__number">--</span>
-          }
-        </div>
-      </div>
+      }
     </section>
 
     <footer class="controller-card__footer">
       <span class="material-symbols-outlined">schedule</span>
       <span>
         Last updated:
-        {{ lastUpdatedUtc() | date: 'short' }}
+        {{ lastUpdatedUtc() | date:'short' }}
       </span>
     </footer>
   </mat-card-content>

@@ -81,10 +81,24 @@ describe('ControllerCard', () => {
     expect(compiled.textContent).toContain('Temperature / Humidity');
   });
 
+  it('should render configured measurement labels', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    expect(compiled.textContent).toContain('Temperature');
+    expect(compiled.textContent).toContain('Humidity');
+  });
+
   it('should render humidity and temperature values', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
     expect(compiled.textContent).toContain('58.15');
     expect(compiled.textContent).toContain('20.35');
+  });
+
+  it('should render dynamic measurement icons', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    expect(compiled.textContent).toContain('humidity_percentage');
+    expect(compiled.textContent).toContain('thermostat');
   });
 });

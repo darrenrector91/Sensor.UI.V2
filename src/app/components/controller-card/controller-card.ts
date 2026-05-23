@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { AngularMaterialModules } from '../../shared/material/angular-material';
+import { ControllerCardMetric } from '../../models/controller-card-metric';
 import { DashboardController } from '../../models/dashboard-controller';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
 import { DashboardSensor } from '../../models/dashboard-sensor';
+import { MeasurementDisplayConfigService } from '../../services/measurement-display-config.service';
 
 @Component({
   selector: 'app-controller-card',
@@ -14,24 +16,30 @@ import { DashboardSensor } from '../../models/dashboard-sensor';
 export class ControllerCard {
   readonly controller = input.required<DashboardController>();
 
+  private readonly measurementDisplayConfigService = inject(MeasurementDisplayConfigService);
+
   protected readonly primarySensor = computed(() => this.controller().sensors[0] ?? null);
 
   protected readonly primarySensorName = computed(() => this.primarySensor()?.sensorName ?? 'No sensor found');
 
   protected readonly primarySensorType = computed(() => this.formatSensorType(this.primarySensor()));
 
-  protected readonly humidityMeasurement = computed(() => this.getMeasurementByType('humidity'));
-
-  protected readonly temperatureMeasurement = computed(() => this.getMeasurementByType('temperature'));
-
   protected readonly sensorCount = computed(() => this.controller().sensorCount);
 
   protected readonly lastUpdatedUtc = computed(() => this.controller().lastUpdatedUtc);
 
-  private getMeasurementByType(measurementType: string): DashboardMeasurement | null {
-    return this.primarySensor()?.measurements.find(
-      measurement => measurement.measurementType.toLowerCase() === measurementType
-    ) ?? null;
+  protected readonly metrics = computed(() =>
+    this.primarySensor()?.measurements
+      .map(measurement => new ControllerCardMetric(
+        measurement,
+        this.measurementDisplayConfigService.getConfig(measurement.measurementType)
+      ))
+      .sort((first, second) => first.config.priority - second.config.priority)
+      .slice(0, 2) ?? []
+  );
+
+  protected trackMetric(_: number, metric: ControllerCardMetric): string {
+    return metric.measurement.measurementType;
   }
 
   private formatSensorType(sensor: DashboardSensor | null): string {
