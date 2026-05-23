@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ControllerCard } from './controller-card';
 import { DashboardController } from '../../models/dashboard-controller';
 
@@ -53,9 +54,8 @@ describe('ControllerCard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ControllerCard]
-    })
-      .compileComponents();
+      imports: [ControllerCard, NoopAnimationsModule]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ControllerCard);
     component = fixture.componentInstance;
@@ -71,6 +71,12 @@ describe('ControllerCard', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
     expect(compiled.textContent).toContain('Greenhouse Controller');
+  });
+
+  it('should render the formatted sensor type', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    expect(compiled.textContent).toContain('Temperature / Humidity');
   });
 
   it('should render humidity and temperature values', () => {
