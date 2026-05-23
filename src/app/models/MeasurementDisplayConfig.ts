@@ -8,6 +8,6 @@ export class MeasurementDisplayConfig {
     public displayKind: MeasurementDisplayKind,
     public priority: number,
     public cssClass: string,
-    public defaultUnit?: string
+    public defaultUnit?: string,
   ) {}
 }

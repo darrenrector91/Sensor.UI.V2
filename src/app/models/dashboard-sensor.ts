@@ -1,9 +1,11 @@
 import { DashboardMeasurement } from './dashboard-measurement';
 
-export interface DashboardSensor {
-  sensorId: number;
-  sensorKey: string;
-  sensorName: string;
-  sensorType: string;
-  measurements: DashboardMeasurement[];
+export class DashboardSensor {
+  constructor(
+    public sensorId: number,
+    public sensorKey: string,
+    public sensorName: string,
+    public sensorType: string,
+    public measurements: DashboardMeasurement[]
+  ) {}
 }
