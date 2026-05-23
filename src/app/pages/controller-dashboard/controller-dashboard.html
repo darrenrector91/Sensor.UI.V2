@@ -7,7 +7,12 @@
           <div class="dashboard-subtitle">Controller overview from live sensor measurements.</div>
         </div>
 
-        <button class="btn btn-outline-light" type="button" (click)="loadMeasurements()" [disabled]="isLoading()">
+        <button
+          class="btn btn-outline-light"
+          type="button"
+          (click)="loadMeasurements()"
+          [disabled]="isLoading()"
+        >
           Refresh
         </button>
       </div>
@@ -27,8 +32,11 @@
 
     <div class="row g-3">
       @for (controller of controllers(); track controller.controllerKey) {
-        <div class="col-12 col-md-6 col-xl-4 col-xxl-3">
-          <app-controller-card class="d-block h-100" [controller]="controller"></app-controller-card>
+        <div class="col-12 col-lg-6 col-xxl-4">
+          <app-controller-card
+            class="d-block h-100"
+            [controller]="controller"
+          ></app-controller-card>
         </div>
       }
     </div>
