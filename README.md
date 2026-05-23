@@ -1,59 +1,95 @@
-# SensorUI
+# Sensor.UI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.26.
+Angular dashboard for a Raspberry Pi-hosted ESP32 sensor platform.
 
-## Development server
+This application displays environmental sensor data from a generalized **Controller → Sensor → Measurement** backend model. The current working sensor is an ESP32 with an SHT35 temperature/humidity sensor, but the UI is designed to support additional sensor types over time.
 
-To start a local development server, run:
+## Project Purpose
 
-```bash
-ng serve
-```
+Sensor.UI is the frontend dashboard for viewing measurements collected from ESP32-based sensor controllers and stored by a Raspberry Pi-hosted .NET API.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The UI is intentionally measurement-driven instead of sensor-specific. Temperature, humidity, soil moisture, light, battery voltage, pump state, water level, signal strength, and other future readings can all be represented as generalized measurements.
 
-## Code scaffolding
+## Current Architecture
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Controller
+└── Sensor
+    └── Measurement
 
-```bash
-ng generate component component-name
-```
+The backend returns flat measurement rows. The Angular UI groups those rows into controllers and sensors, then displays the latest measurements on compact dashboard cards.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Current Backend
 
-```bash
-ng generate --help
-```
+The dashboard currently connects to:
 
-## Building
+http://192.168.5.103:5278/api/dashboard/measurements
 
-To build the project run:
+The API is hosted on a Raspberry Pi and backed by a .NET API with PostgreSQL.
 
-```bash
+## Current Features
+
+- Angular standalone application
+- Controller dashboard
+- Compact controller cards
+- Dynamic measurement icon mapping
+- Generalized measurement display configuration
+- Celsius and Fahrenheit temperature display
+- Generic scoped dashboard routes
+- Controller, location, and sensor scoped views
+- Loading, empty, and error states
+- Bootstrap grid layout
+- Angular Material support
+
+## Current Dashboard Routes
+
+/                                Main controller dashboard
+/dashboard/controller/:id         Controller scoped dashboard
+/dashboard/location/:location     Location scoped dashboard
+/dashboard/sensor/:id             Sensor scoped dashboard
+
+## Measurement Display
+
+Measurement display is driven by configuration instead of hardcoded sensor types.
+
+Examples:
+
+Temperature       thermostat icon       °C and °F display
+Humidity          humidity icon          percentage display
+SoilMoisture      water drop icon        gauge-ready display
+BatteryVoltage    battery icon           voltage display
+SignalStrength    Wi-Fi icon             signal display
+
+Unknown measurement types fall back to a generic display configuration.
+
+## Development
+
+Install dependencies:
+
+npm install
+
+Run locally:
+
+ng serve --host 0.0.0.0 --port 4200
+
+Build:
+
 ng build
-```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Run tests:
 
-## Running unit tests
+ng test --watch=false
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Notes
 
-```bash
-ng test
-```
+This project is intentionally being rebuilt cleanly as a modern Angular standalone application.
 
-## Running end-to-end tests
+Avoid bringing in old Angular module-based files, legacy SensorReadings models, or earlier experimental UI branches. The preferred direction is the generalized measurement model.
 
-For end-to-end (e2e) testing, run:
+## Planned Work
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Improve scoped dashboard styling
+- Add richer measurement-specific detail views
+- Add historical charts for sensor measurements
+- Add additional display kinds such as gauge, status, timeline, and value card
+- Add future backend endpoints for scoped/history data if needed
+- Continue supporting new measurement types without redesigning the core UI
