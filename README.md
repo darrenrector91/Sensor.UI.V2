@@ -42,10 +42,17 @@ The API is hosted on a Raspberry Pi and backed by a .NET API with PostgreSQL.
 
 ## Current Dashboard Routes
 
-/                                Main controller dashboard
-/dashboard/controller/:id         Controller scoped dashboard
-/dashboard/location/:location     Location scoped dashboard
-/dashboard/sensor/:id             Sensor scoped dashboard
+- `/`  
+  Main controller dashboard
+
+- `/dashboard/controller/:id`  
+  Controller scoped dashboard
+
+- `/dashboard/location/:location`  
+  Location scoped dashboard
+
+- `/dashboard/sensor/:id`  
+  Sensor scoped dashboard
 
 ## Measurement Display
 
