@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AngularMaterialModules } from '../../shared/material/angular-material';
+import { AngularMaterialModules } from '../../shared/angular-material';
 import { ControllerCardMetric } from '../../models/controller-card-metric';
 import { DashboardController } from '../../models/dashboard-controller';
 import { DashboardSensor } from '../../models/dashboard-sensor';
@@ -12,7 +12,7 @@ import { MeasurementDisplayValueService } from '../../services/measurement-displ
   selector: 'app-controller-card',
   imports: [DatePipe, RouterLink, AngularMaterialModules],
   templateUrl: './controller-card.html',
-  styleUrl: './controller-card.scss'
+  styleUrl: './controller-card.scss',
 })
 export class ControllerCard {
   readonly controller = input.required<DashboardController>();
@@ -23,29 +23,37 @@ export class ControllerCard {
 
   protected readonly primarySensor = computed(() => this.controller().sensors[0] ?? null);
 
-  protected readonly primarySensorName = computed(() => this.primarySensor()?.sensorName ?? 'No sensor found');
+  protected readonly primarySensorName = computed(
+    () => this.primarySensor()?.sensorName ?? 'No sensor found',
+  );
 
-  protected readonly primarySensorType = computed(() => this.formatSensorType(this.primarySensor()));
+  protected readonly primarySensorType = computed(() =>
+    this.formatSensorType(this.primarySensor()),
+  );
 
   protected readonly sensorCount = computed(() => this.controller().sensorCount);
 
   protected readonly lastUpdatedUtc = computed(() => this.controller().lastUpdatedUtc);
 
-  protected readonly allMetrics = computed(() =>
-    this.primarySensor()?.measurements
-      .map(measurement => new ControllerCardMetric(
-        measurement,
-        this.measurementDisplayConfigService.getConfig(measurement.measurementType)
-      ))
-      .sort((first, second) => first.config.priority - second.config.priority) ?? []
+  protected readonly allMetrics = computed(
+    () =>
+      this.primarySensor()
+        ?.measurements.map(
+          (measurement) =>
+            new ControllerCardMetric(
+              measurement,
+              this.measurementDisplayConfigService.getConfig(measurement.measurementType),
+            ),
+        )
+        .sort((first, second) => first.config.priority - second.config.priority) ?? [],
   );
 
   protected readonly visibleMetrics = computed(() =>
-    this.allMetrics().slice(0, this.visibleMetricLimit)
+    this.allMetrics().slice(0, this.visibleMetricLimit),
   );
 
   protected readonly hiddenMetricCount = computed(() =>
-    Math.max(this.allMetrics().length - this.visibleMetricLimit, 0)
+    Math.max(this.allMetrics().length - this.visibleMetricLimit, 0),
   );
 
   protected trackMetric(_: number, metric: ControllerCardMetric): string {
