@@ -1,4 +1,7 @@
-<mat-card class="controller-card">
+<mat-card
+  class="controller-card"
+  [routerLink]="['/dashboard/controller', controller().controllerId]"
+>
   <mat-card-content class="controller-card__content">
     <header class="controller-card__header">
       <div class="controller-card__identity">
@@ -17,10 +20,14 @@
         </div>
       </div>
 
-      <div class="controller-card__location">
+      <a
+        class="controller-card__location"
+        [routerLink]="['/dashboard/location', controller().location]"
+        (click)="$event.stopPropagation()"
+      >
         <span class="material-symbols-outlined">location_on</span>
         <span>{{ controller().location }}</span>
-      </div>
+      </a>
     </header>
 
     <section class="controller-card__summary">
@@ -37,21 +44,27 @@
 
       <div class="summary-divider"></div>
 
-      <div class="summary-item summary-item--sensor">
-        <div class="summary-item__icon">
-          <span class="material-symbols-outlined">developer_board</span>
-        </div>
+      @if (primarySensor(); as sensor) {
+        <a
+          class="summary-item summary-item--sensor"
+          [routerLink]="['/dashboard/sensor', sensor.sensorId]"
+          (click)="$event.stopPropagation()"
+        >
+          <div class="summary-item__icon">
+            <span class="material-symbols-outlined">developer_board</span>
+          </div>
 
-        <div>
-          <p class="summary-item__name">
-            {{ primarySensorName() }}
-          </p>
+          <div>
+            <p class="summary-item__name">
+              {{ primarySensorName() }}
+            </p>
 
-          <p class="summary-item__description">
-            {{ primarySensorType() }}
-          </p>
-        </div>
-      </div>
+            <p class="summary-item__description">
+              {{ primarySensorType() }}
+            </p>
+          </div>
+        </a>
+      }
     </section>
 
     <section class="controller-card__metrics" [class.controller-card__metrics--many]="visibleMetrics().length > 2">
@@ -89,12 +102,6 @@
                 <span></span>
                 <span></span>
               </div>
-            }
-
-            @default {
-              <svg class="metric-card__wave" viewBox="0 0 320 70" preserveAspectRatio="none">
-                <path d="M0 48 C25 30, 45 66, 75 44 C105 22, 125 62, 160 43 C195 22, 215 59, 250 38 C280 20, 300 44, 320 30" />
-              </svg>
             }
           }
         </div>

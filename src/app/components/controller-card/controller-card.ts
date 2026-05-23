@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AngularMaterialModules } from '../../shared/material/angular-material';
 import { ControllerCardMetric } from '../../models/controller-card-metric';
 import { DashboardController } from '../../models/dashboard-controller';
@@ -9,7 +10,7 @@ import { MeasurementDisplayConfigService } from '../../services/measurement-disp
 
 @Component({
   selector: 'app-controller-card',
-  imports: [DatePipe, AngularMaterialModules],
+  imports: [DatePipe, RouterLink, AngularMaterialModules],
   templateUrl: './controller-card.html',
   styleUrl: './controller-card.scss'
 })

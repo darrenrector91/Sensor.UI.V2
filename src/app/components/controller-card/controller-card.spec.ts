@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
 import { ControllerCard } from './controller-card';
 import { DashboardController } from '../../models/dashboard-controller';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
@@ -98,7 +99,8 @@ describe('ControllerCard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ControllerCard, NoopAnimationsModule]
+      imports: [ControllerCard, NoopAnimationsModule],
+      providers: [provideRouter([])]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ControllerCard);

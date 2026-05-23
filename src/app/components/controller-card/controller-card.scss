@@ -495,3 +495,32 @@
   font-size: 0.68rem;
   font-weight: 750;
 }
+
+.controller-card {
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.controller-card:hover {
+  border-color: rgba(143, 210, 116, 0.62);
+  box-shadow:
+    0 22px 44px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  transform: translateY(-2px);
+}
+
+.controller-card__location,
+.summary-item--sensor {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.controller-card__location:hover,
+.summary-item--sensor:hover {
+  border-color: rgba(145, 223, 105, 0.46);
+  background: rgba(29, 82, 43, 0.86);
+}
