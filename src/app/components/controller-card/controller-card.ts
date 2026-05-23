@@ -17,6 +17,7 @@ export class ControllerCard {
   readonly controller = input.required<DashboardController>();
 
   private readonly measurementDisplayConfigService = inject(MeasurementDisplayConfigService);
+  private readonly visibleMetricLimit = 4;
 
   protected readonly primarySensor = computed(() => this.controller().sensors[0] ?? null);
 
@@ -28,14 +29,21 @@ export class ControllerCard {
 
   protected readonly lastUpdatedUtc = computed(() => this.controller().lastUpdatedUtc);
 
-  protected readonly metrics = computed(() =>
+  protected readonly allMetrics = computed(() =>
     this.primarySensor()?.measurements
       .map(measurement => new ControllerCardMetric(
         measurement,
         this.measurementDisplayConfigService.getConfig(measurement.measurementType)
       ))
-      .sort((first, second) => first.config.priority - second.config.priority)
-      .slice(0, 2) ?? []
+      .sort((first, second) => first.config.priority - second.config.priority) ?? []
+  );
+
+  protected readonly visibleMetrics = computed(() =>
+    this.allMetrics().slice(0, this.visibleMetricLimit)
+  );
+
+  protected readonly hiddenMetricCount = computed(() =>
+    Math.max(this.allMetrics().length - this.visibleMetricLimit, 0)
   );
 
   protected trackMetric(_: number, metric: ControllerCardMetric): string {
