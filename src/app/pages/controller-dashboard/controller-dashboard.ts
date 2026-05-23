@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { ControllerCard } from '../../components/controller-card/controller-card';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { DashboardMeasurementsService } from '../../services/dashboard-measurements.service';
@@ -8,7 +9,7 @@ import { DashboardSensor } from '../../models/dashboard-sensor';
 
 @Component({
   selector: 'app-controller-dashboard',
-  imports: [CommonModule],
+  imports: [CommonModule, ControllerCard],
   templateUrl: './controller-dashboard.html',
   styleUrl: './controller-dashboard.scss'
 })

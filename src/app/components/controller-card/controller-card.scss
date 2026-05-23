@@ -1,0 +1,357 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.controller-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 20rem;
+  padding: 1rem;
+  border: 1px solid rgba(143, 210, 116, 0.38);
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(112, 211, 107, 0.14), transparent 36%),
+    radial-gradient(circle at 90% 12%, rgba(104, 194, 86, 0.1), transparent 34%),
+    linear-gradient(145deg, #082314 0%, #102f1a 48%, #071f17 100%);
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  color: #f2fff4;
+}
+
+.controller-card__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0.65rem;
+}
+
+.controller-card__identity {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.controller-card__icon {
+  display: grid;
+  width: 2.4rem;
+  height: 2.4rem;
+  place-items: center;
+  border: 1px solid rgba(145, 223, 105, 0.34);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(132, 230, 111, 0.15), transparent 64%),
+    rgba(10, 49, 26, 0.82);
+  color: #a8ef72;
+}
+
+.controller-card__icon .material-symbols-outlined {
+  font-size: 1.6rem;
+}
+
+.controller-card__heading {
+  min-width: 0;
+}
+
+.controller-card__title {
+  overflow: hidden;
+  margin: 0;
+  max-width: 100%;
+  color: #f7fff7;
+  font-size: 1.22rem;
+  font-weight: 850;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.controller-card__subtitle {
+  overflow: hidden;
+  margin: 0.2rem 0 0;
+  color: #73ce5d;
+  font-size: 0.86rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.controller-card__location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.38rem 0.55rem;
+  border: 1px solid rgba(145, 223, 105, 0.26);
+  border-radius: 0.65rem;
+  background: rgba(20, 58, 29, 0.78);
+  color: #f4fff2;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 750;
+}
+
+.controller-card__location .material-symbols-outlined {
+  color: #a6ef63;
+  font-size: 1rem;
+}
+
+.controller-card__summary {
+  display: grid;
+  grid-template-columns: minmax(4.6rem, 0.75fr) 1px minmax(0, 1.55fr);
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.85rem;
+  padding: 0.55rem;
+  border: 1px solid rgba(143, 210, 116, 0.2);
+  border-radius: 0.85rem;
+  background:
+    linear-gradient(135deg, rgba(22, 70, 34, 0.7), rgba(7, 35, 24, 0.74)),
+    rgba(8, 38, 24, 0.78);
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.summary-item__icon {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(145, 223, 105, 0.18);
+  border-radius: 0.55rem;
+  background: rgba(9, 43, 26, 0.78);
+  color: #a8ef72;
+}
+
+.summary-item__icon .material-symbols-outlined {
+  font-size: 1.15rem;
+}
+
+.summary-item__label,
+.summary-item__value,
+.summary-item__name,
+.summary-item__description {
+  margin: 0;
+}
+
+.summary-item__label {
+  color: #69df7a;
+  font-size: 0.58rem;
+  font-weight: 850;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.summary-item__value {
+  margin-top: 0.05rem;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 850;
+}
+
+.summary-item__name {
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 850;
+  line-height: 1.05;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.summary-item__description {
+  overflow: hidden;
+  margin-top: 0.12rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.65rem;
+  font-weight: 650;
+  line-height: 1.05;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.summary-divider {
+  width: 1px;
+  height: 2.25rem;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(151, 214, 98, 0.34),
+    transparent
+  );
+}
+
+.controller-card__metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 0.8rem;
+}
+
+.metric-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 7.6rem;
+  padding: 0.75rem;
+  border-radius: 0.85rem;
+  background:
+    radial-gradient(circle at 20% 12%, rgba(255, 255, 255, 0.06), transparent 30%),
+    rgba(5, 40, 29, 0.74);
+}
+
+.metric-card--humidity {
+  border: 1px solid rgba(82, 239, 193, 0.52);
+}
+
+.metric-card--temperature {
+  border: 1px solid rgba(205, 223, 45, 0.46);
+}
+
+.metric-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  min-width: 0;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.metric-card__header span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metric-card--humidity .metric-card__header {
+  color: #58efc3;
+}
+
+.metric-card--temperature .metric-card__header {
+  color: #d8e534;
+}
+
+.metric-card__header .material-symbols-outlined {
+  flex: 0 0 auto;
+  font-size: 1.4rem;
+  font-weight: 300;
+}
+
+.metric-card__value {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 0.18rem;
+  margin-top: 0.85rem;
+  color: #ffffff;
+  font-size: clamp(1.95rem, 3.25vw, 2.55rem);
+  font-weight: 950;
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+  text-shadow: 0 5px 18px rgba(0, 0, 0, 0.3);
+}
+
+.metric-card__number {
+  font-size: 1em;
+}
+
+.metric-card__unit {
+  flex: 0 0 auto;
+  font-size: 0.42em;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+}
+
+.metric-card__wave {
+  position: absolute;
+  right: 0;
+  bottom: 0.45rem;
+  left: 0;
+  width: 100%;
+  height: 1.9rem;
+  opacity: 0.95;
+}
+
+.metric-card__wave path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 4;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+.metric-card--humidity .metric-card__wave {
+  color: #49ecc1;
+}
+
+.metric-card--temperature .metric-card__wave {
+  color: #dce526;
+}
+
+.controller-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: auto;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(170, 219, 118, 0.14);
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 0.7rem;
+  font-weight: 750;
+}
+
+.controller-card__footer .material-symbols-outlined {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 1.1rem;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+@media (max-width: 420px) {
+  .controller-card__header {
+    grid-template-columns: 1fr;
+  }
+
+  .controller-card__location {
+    justify-self: start;
+  }
+
+  .controller-card__summary {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(151, 214, 98, 0.34),
+      transparent
+    );
+  }
+
+  .controller-card__metrics {
+    grid-template-columns: 1fr;
+  }
+}
