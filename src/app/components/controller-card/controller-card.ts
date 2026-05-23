@@ -24,21 +24,9 @@ export class ControllerCard {
 
   protected readonly temperatureMeasurement = computed(() => this.getMeasurementByType('temperature'));
 
-  protected readonly sensorCount = computed(() => this.controller().sensors.length);
+  protected readonly sensorCount = computed(() => this.controller().sensorCount);
 
-  protected readonly lastUpdatedUtc = computed(() => {
-    const measurements = this.controller().sensors.flatMap(sensor => sensor.measurements);
-
-    if (measurements.length === 0) {
-      return null;
-    }
-
-    return measurements.reduce((latest, current) =>
-      new Date(current.createdUtc).getTime() > new Date(latest.createdUtc).getTime()
-        ? current
-        : latest
-    ).createdUtc;
-  });
+  protected readonly lastUpdatedUtc = computed(() => this.controller().lastUpdatedUtc);
 
   private getMeasurementByType(measurementType: string): DashboardMeasurement | null {
     return this.primarySensor()?.measurements.find(

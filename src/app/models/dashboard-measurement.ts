@@ -1,14 +1,16 @@
-export interface DashboardMeasurement {
-  controllerId: number;
-  controllerKey: string;
-  controllerName: string;
-  location: string;
-  sensorId: number;
-  sensorKey: string;
-  sensorName: string;
-  sensorType: string;
-  measurementType: string;
-  value: string;
-  unit: string;
-  createdUtc: string;
+export class DashboardMeasurement {
+  constructor(
+    public controllerId: number,
+    public controllerKey: string,
+    public controllerName: string,
+    public location: string,
+    public sensorId: number,
+    public sensorKey: string,
+    public sensorName: string,
+    public sensorType: string,
+    public measurementType: string,
+    public value: string,
+    public unit: string,
+    public createdUtc: string,
+  ) {}
 }
