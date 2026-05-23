@@ -34,8 +34,24 @@
     <section class="latest-grid">
       @for (measurement of latestMeasurements(); track measurement.sensorId + measurement.measurementType) {
         <article class="latest-card">
-          <span>{{ measurement.measurementType }}</span>
-          <strong>{{ measurement.value }} {{ measurement.unit }}</strong>
+          <div class="latest-card__label">
+            <span class="material-symbols-outlined">{{ getMeasurementIcon(measurement) }}</span>
+            <span>{{ getMeasurementLabel(measurement) }}</span>
+          </div>
+
+          @if (getMeasurementDisplayValue(measurement); as displayValue) {
+            <strong>
+              {{ displayValue.primaryValue }}
+              <span>{{ displayValue.primaryUnit }}</span>
+            </strong>
+
+            @if (displayValue.secondaryValue && displayValue.secondaryUnit) {
+              <div class="latest-card__secondary">
+                {{ displayValue.secondaryValue }} {{ displayValue.secondaryUnit }}
+              </div>
+            }
+          }
+
           <small>{{ measurement.sensorName }}</small>
         </article>
       }
@@ -56,12 +72,21 @@
           @for (measurement of sensor.measurements; track measurement.measurementType + measurement.createdUtc) {
             <div class="measurement-row">
               <div>
-                <strong>{{ measurement.measurementType }}</strong>
+                <strong>
+                  <span class="material-symbols-outlined">{{ getMeasurementIcon(measurement) }}</span>
+                  {{ getMeasurementLabel(measurement) }}
+                </strong>
                 <span>{{ measurement.createdUtc | date:'short' }}</span>
               </div>
 
               <div class="measurement-value">
-                {{ measurement.value }} {{ measurement.unit }}
+                @if (getMeasurementDisplayValue(measurement); as displayValue) {
+                  {{ displayValue.primaryValue }} {{ displayValue.primaryUnit }}
+
+                  @if (displayValue.secondaryValue && displayValue.secondaryUnit) {
+                    <small>{{ displayValue.secondaryValue }} {{ displayValue.secondaryUnit }}</small>
+                  }
+                }
               </div>
             </div>
           }

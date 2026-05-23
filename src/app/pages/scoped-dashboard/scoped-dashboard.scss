@@ -140,7 +140,6 @@
 
 .latest-card span {
   display: block;
-  color: #16c797;
   font-size: 0.72rem;
   font-weight: 850;
   letter-spacing: 0.06em;
@@ -161,4 +160,75 @@
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.58);
   font-weight: 700;
+}
+
+.latest-card__label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #16c797;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.latest-card__label .material-symbols-outlined {
+  font-size: 1.2rem;
+}
+
+.latest-card strong span {
+  font-size: 0.5em;
+  letter-spacing: -0.02em;
+}
+
+.latest-card__secondary {
+  margin-top: 0.25rem;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.measurement-row strong {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.measurement-row strong .material-symbols-outlined {
+  color: #16c797;
+  font-size: 1.1rem;
+}
+
+.measurement-value small {
+  display: block;
+  margin-top: 0.15rem;
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 0.75rem;
+}
+
+.latest-card strong {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  margin-top: 0.45rem;
+  color: #ffffff;
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.latest-card strong span {
+  font-size: 0.72em;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+.latest-card__secondary {
+  margin-top: 0.35rem;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
