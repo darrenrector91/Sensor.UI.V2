@@ -69,10 +69,6 @@
             <span class="metric-card__number">--</span>
           }
         </div>
-
-        <svg class="metric-card__wave" viewBox="0 0 320 70" preserveAspectRatio="none">
-          <path d="M0 48 C25 30, 45 66, 75 44 C105 22, 125 62, 160 43 C195 22, 215 59, 250 38 C280 20, 300 44, 320 30" />
-        </svg>
       </div>
 
       <div class="metric-card metric-card--temperature">
@@ -84,15 +80,11 @@
         <div class="metric-card__value">
           @if (temperatureMeasurement(); as temperature) {
             <span class="metric-card__number">{{ temperature.value }}</span>
-            <span class="metric-card__unit">{{ temperature.unit }}</span>
+            <span class="metric-card__unit">°{{ temperature.unit }}</span>
           } @else {
             <span class="metric-card__number">--</span>
           }
         </div>
-
-        <svg class="metric-card__wave" viewBox="0 0 320 70" preserveAspectRatio="none">
-          <path d="M0 54 C30 58, 45 28, 80 35 C115 42, 125 10, 165 25 C205 42, 220 60, 260 36 C290 18, 302 38, 320 24" />
-        </svg>
       </div>
     </section>
 
@@ -100,7 +92,7 @@
       <span class="material-symbols-outlined">schedule</span>
       <span>
         Last updated:
-        {{ lastUpdatedUtc() | date:'short' }}
+        {{ lastUpdatedUtc() | date: 'short' }}
       </span>
     </footer>
   </mat-card-content>
