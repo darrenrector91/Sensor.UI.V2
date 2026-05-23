@@ -75,13 +75,18 @@
             <span>{{ metric.config.label }}</span>
           </div>
 
-          <div class="metric-card__value">
-            <span class="metric-card__number">{{ metric.measurement.value }}</span>
+          @if (getDisplayValue(metric); as displayValue) {
+            <div class="metric-card__value">
+              <span class="metric-card__number">{{ displayValue.primaryValue }}</span>
+              <span class="metric-card__unit">{{ displayValue.primaryUnit }}</span>
+            </div>
 
-            @if (metric.measurement.unit || metric.config.defaultUnit) {
-              <span class="metric-card__unit">{{ metric.measurement.unit || metric.config.defaultUnit }}</span>
+            @if (displayValue.secondaryValue && displayValue.secondaryUnit) {
+              <div class="metric-card__secondary-value">
+                {{ displayValue.secondaryValue }} {{ displayValue.secondaryUnit }}
+              </div>
             }
-          </div>
+          }
 
           @switch (metric.config.displayKind) {
             @case ('status') {
