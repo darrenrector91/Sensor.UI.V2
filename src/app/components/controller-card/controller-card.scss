@@ -5,12 +5,9 @@
 }
 
 .controller-card {
-  display: flex;
-  flex-direction: column;
   width: 100%;
   height: 100%;
-  min-height: 20rem;
-  padding: 1rem;
+  padding: 0;
   border: 1px solid rgba(143, 210, 116, 0.38);
   border-radius: 1.25rem;
   background:
@@ -21,6 +18,19 @@
     0 18px 38px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
   color: #f2fff4;
+}
+
+.controller-card.mat-mdc-card {
+  --mdc-elevated-card-container-color: transparent;
+  --mdc-outlined-card-container-color: transparent;
+  --mat-card-subtitle-text-color: rgba(255, 255, 255, 0.65);
+}
+
+.controller-card__content.mat-mdc-card-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem;
 }
 
 .controller-card__header {
@@ -49,6 +59,7 @@
     radial-gradient(circle, rgba(132, 230, 111, 0.15), transparent 64%),
     rgba(10, 49, 26, 0.82);
   color: #a8ef72;
+  box-shadow: inset 0 0 16px rgba(118, 218, 98, 0.12);
 }
 
 .controller-card__icon .material-symbols-outlined {
@@ -92,9 +103,9 @@
   border-radius: 0.65rem;
   background: rgba(20, 58, 29, 0.78);
   color: #f4fff2;
-  font: inherit;
   font-size: 0.76rem;
   font-weight: 750;
+  box-shadow: inset 0 0 14px rgba(132, 230, 111, 0.07);
 }
 
 .controller-card__location .material-symbols-outlined {
@@ -114,6 +125,7 @@
   background:
     linear-gradient(135deg, rgba(22, 70, 34, 0.7), rgba(7, 35, 24, 0.74)),
     rgba(8, 38, 24, 0.78);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
 }
 
 .summary-item {
@@ -209,6 +221,9 @@
   background:
     radial-gradient(circle at 20% 12%, rgba(255, 255, 255, 0.06), transparent 30%),
     rgba(5, 40, 29, 0.74);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.055),
+    0 10px 24px rgba(0, 0, 0, 0.15);
 }
 
 .metric-card--humidity {

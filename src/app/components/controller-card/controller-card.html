@@ -1,99 +1,107 @@
-<article class="controller-card">
-  <header class="controller-card__header">
-    <div class="controller-card__identity">
-      <div class="controller-card__icon">
-        <span class="material-symbols-outlined">potted_plant</span>
+<mat-card class="controller-card">
+  <mat-card-content class="controller-card__content">
+    <header class="controller-card__header">
+      <div class="controller-card__identity">
+        <div class="controller-card__icon">
+          <span class="material-symbols-outlined">potted_plant</span>
+        </div>
+
+        <div class="controller-card__heading">
+          <h2 class="controller-card__title">
+            {{ controller().controllerName }}
+          </h2>
+
+          <p class="controller-card__subtitle">
+            {{ controller().controllerKey }}
+          </p>
+        </div>
       </div>
 
-      <div class="controller-card__heading">
-        <h2 class="controller-card__title">{{ controller().controllerName }}</h2>
-        <p class="controller-card__subtitle">{{ controller().controllerKey }}</p>
+      <div class="controller-card__location">
+        <span class="material-symbols-outlined">location_on</span>
+        <span>{{ controller().location }}</span>
       </div>
-    </div>
+    </header>
 
-    <button class="controller-card__location" type="button">
-      <span class="material-symbols-outlined">location_on</span>
-      <span>{{ controller().location }}</span>
-    </button>
-  </header>
+    <section class="controller-card__summary">
+      <div class="summary-item">
+        <div class="summary-item__icon">
+          <span class="material-symbols-outlined">sensors</span>
+        </div>
 
-  <section class="controller-card__summary">
-    <div class="summary-item">
-      <div class="summary-item__icon">
-        <span class="material-symbols-outlined">sensors</span>
+        <div>
+          <p class="summary-item__label">Sensors</p>
+          <p class="summary-item__value">{{ sensorCount() }}</p>
+        </div>
       </div>
 
-      <div>
-        <p class="summary-item__label">Sensors</p>
-        <p class="summary-item__value">{{ controller().sensors.length }}</p>
-      </div>
-    </div>
+      <div class="summary-divider"></div>
 
-    <div class="summary-divider"></div>
-
-    @if (primarySensor(); as sensor) {
       <div class="summary-item summary-item--sensor">
         <div class="summary-item__icon">
           <span class="material-symbols-outlined">developer_board</span>
         </div>
 
         <div>
-          <p class="summary-item__name">{{ sensor.sensorName }}</p>
-          <p class="summary-item__description">{{ sensor.sensorType }}</p>
+          <p class="summary-item__name">
+            {{ primarySensorName() }}
+          </p>
+
+          <p class="summary-item__description">
+            {{ primarySensorType() }}
+          </p>
         </div>
       </div>
-    }
-  </section>
+    </section>
 
-  <section class="controller-card__metrics">
-    <div class="metric-card metric-card--humidity">
-      <div class="metric-card__header">
-        <span class="material-symbols-outlined">humidity_percentage</span>
-        <span>Humidity</span>
+    <section class="controller-card__metrics">
+      <div class="metric-card metric-card--humidity">
+        <div class="metric-card__header">
+          <span class="material-symbols-outlined">humidity_percentage</span>
+          <span>Humidity</span>
+        </div>
+
+        <div class="metric-card__value">
+          @if (humidityMeasurement(); as humidity) {
+            <span class="metric-card__number">{{ humidity.value }}</span>
+            <span class="metric-card__unit">{{ humidity.unit }}</span>
+          } @else {
+            <span class="metric-card__number">--</span>
+          }
+        </div>
+
+        <svg class="metric-card__wave" viewBox="0 0 320 70" preserveAspectRatio="none">
+          <path d="M0 48 C25 30, 45 66, 75 44 C105 22, 125 62, 160 43 C195 22, 215 59, 250 38 C280 20, 300 44, 320 30" />
+        </svg>
       </div>
 
-      <div class="metric-card__value">
-        @if (humidityMeasurement(); as humidity) {
-          <span class="metric-card__number">{{ humidity.value }}</span>
-          <span class="metric-card__unit">{{ humidity.unit }}</span>
-        } @else {
-          <span class="metric-card__number">--</span>
-        }
+      <div class="metric-card metric-card--temperature">
+        <div class="metric-card__header">
+          <span class="material-symbols-outlined">thermostat</span>
+          <span>Temperature</span>
+        </div>
+
+        <div class="metric-card__value">
+          @if (temperatureMeasurement(); as temperature) {
+            <span class="metric-card__number">{{ temperature.value }}</span>
+            <span class="metric-card__unit">{{ temperature.unit }}</span>
+          } @else {
+            <span class="metric-card__number">--</span>
+          }
+        </div>
+
+        <svg class="metric-card__wave" viewBox="0 0 320 70" preserveAspectRatio="none">
+          <path d="M0 54 C30 58, 45 28, 80 35 C115 42, 125 10, 165 25 C205 42, 220 60, 260 36 C290 18, 302 38, 320 24" />
+        </svg>
       </div>
+    </section>
 
-      <svg class="metric-card__wave" viewBox="0 0 320 70" preserveAspectRatio="none">
-        <path d="M0 48 C25 30, 45 66, 75 44 C105 22, 125 62, 160 43 C195 22, 215 59, 250 38 C280 20, 300 44, 320 30" />
-      </svg>
-    </div>
-
-    <div class="metric-card metric-card--temperature">
-      <div class="metric-card__header">
-        <span class="material-symbols-outlined">thermostat</span>
-        <span>Temperature</span>
-      </div>
-
-      <div class="metric-card__value">
-        @if (temperatureMeasurement(); as temperature) {
-          <span class="metric-card__number">{{ temperature.value }}</span>
-          <span class="metric-card__unit">{{ temperature.unit }}</span>
-        } @else {
-          <span class="metric-card__number">--</span>
-        }
-      </div>
-
-      <svg class="metric-card__wave" viewBox="0 0 320 70" preserveAspectRatio="none">
-        <path d="M0 54 C30 58, 45 28, 80 35 C115 42, 125 10, 165 25 C205 42, 220 60, 260 36 C290 18, 302 38, 320 24" />
-      </svg>
-    </div>
-  </section>
-
-  <footer class="controller-card__footer">
-    <span class="material-symbols-outlined">schedule</span>
-
-    @if (lastUpdatedUtc(); as updatedUtc) {
-      <span>Last updated: {{ updatedUtc | date:'short' }}</span>
-    } @else {
-      <span>Last updated: unavailable</span>
-    }
-  </footer>
-</article>
+    <footer class="controller-card__footer">
+      <span class="material-symbols-outlined">schedule</span>
+      <span>
+        Last updated:
+        {{ lastUpdatedUtc() | date:'short' }}
+      </span>
+    </footer>
+  </mat-card-content>
+</mat-card>
