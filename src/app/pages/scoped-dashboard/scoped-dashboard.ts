@@ -22,26 +22,6 @@ export class ScopedDashboard implements OnInit {
   protected readonly scope = signal<DashboardScope | null>(null);
   protected readonly scopeValue = signal<string | null>(null);
 
-  protected readonly title = computed(() => {
-    const scope = this.scope();
-    const scopeValue = this.scopeValue();
-
-    if (!scope || !scopeValue) {
-      return 'Dashboard';
-    }
-
-    switch (scope) {
-      case DashboardScope.Controller:
-        return `Controller ${scopeValue}`;
-
-      case DashboardScope.Location:
-        return `${scopeValue} Location`;
-
-      case DashboardScope.Sensor:
-        return `Sensor ${scopeValue}`;
-    }
-  });
-
   protected readonly filteredMeasurements = computed(() => {
     const scope = this.scope();
     const scopeValue = this.scopeValue();
@@ -64,6 +44,26 @@ export class ScopedDashboard implements OnInit {
     });
   });
 
+  protected readonly latestMeasurements = computed(() => {
+    const measurementMap = new Map<string, DashboardMeasurement>();
+
+    for (const measurement of this.filteredMeasurements()) {
+      const key = `${measurement.sensorId}-${measurement.measurementType}`;
+      const existingMeasurement = measurementMap.get(key);
+
+      if (
+        !existingMeasurement ||
+        new Date(measurement.createdUtc).getTime() > new Date(existingMeasurement.createdUtc).getTime()
+      ) {
+        measurementMap.set(key, measurement);
+      }
+    }
+
+    return Array.from(measurementMap.values()).sort(
+      (first, second) => first.measurementType.localeCompare(second.measurementType)
+    );
+  });
+
   protected readonly groupedSensors = computed(() => {
     const sensorMap = new Map<number, DashboardMeasurement[]>();
 
@@ -82,6 +82,59 @@ export class ScopedDashboard implements OnInit {
         (first, second) => new Date(second.createdUtc).getTime() - new Date(first.createdUtc).getTime()
       )
     }));
+  });
+
+  protected readonly title = computed(() => {
+    const scope = this.scope();
+    const scopeValue = this.scopeValue();
+    const firstMeasurement = this.filteredMeasurements()[0];
+
+    if (!scope || !scopeValue) {
+      return 'Dashboard';
+    }
+
+    switch (scope) {
+      case DashboardScope.Controller:
+        return firstMeasurement?.controllerName ?? `Controller ${scopeValue}`;
+
+      case DashboardScope.Location:
+        return firstMeasurement?.location ?? `${scopeValue} Location`;
+
+      case DashboardScope.Sensor:
+        return firstMeasurement?.sensorName ?? `Sensor ${scopeValue}`;
+    }
+  });
+
+  protected readonly subtitle = computed(() => {
+    const scope = this.scope();
+    const firstMeasurement = this.filteredMeasurements()[0];
+
+    if (!scope) {
+      return '';
+    }
+
+    switch (scope) {
+      case DashboardScope.Controller:
+        return firstMeasurement
+          ? `${firstMeasurement.controllerKey} · ${firstMeasurement.location}`
+          : 'Controller detail';
+
+      case DashboardScope.Location:
+        return 'All sensors in this location';
+
+      case DashboardScope.Sensor:
+        return firstMeasurement
+          ? `${firstMeasurement.sensorKey} · ${firstMeasurement.sensorType}`
+          : 'Sensor detail';
+    }
+  });
+
+  protected readonly latestUpdatedUtc = computed(() => {
+    const sortedMeasurements = [...this.filteredMeasurements()].sort(
+      (first, second) => new Date(second.createdUtc).getTime() - new Date(first.createdUtc).getTime()
+    );
+
+    return sortedMeasurements[0]?.createdUtc ?? null;
   });
 
   ngOnInit(): void {
