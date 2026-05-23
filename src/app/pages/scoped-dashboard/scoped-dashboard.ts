@@ -150,6 +150,10 @@ export class ScopedDashboard implements OnInit {
     return this.measurementDisplayConfigService.getConfig(measurement.measurementType).label;
   }
 
+  protected getMeasurementCssClass(measurement: DashboardMeasurement): string {
+    return this.measurementDisplayConfigService.getConfig(measurement.measurementType).cssClass;
+  }
+
   protected getMeasurementDisplayValue(measurement: DashboardMeasurement): MeasurementDisplayValue {
     const config = this.measurementDisplayConfigService.getConfig(measurement.measurementType);
 
