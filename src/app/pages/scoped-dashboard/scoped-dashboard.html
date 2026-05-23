@@ -1,0 +1,53 @@
+<section class="scoped-dashboard">
+  <header class="scoped-dashboard__header">
+    <div>
+      <a class="back-link" routerLink="/">← Back to dashboard</a>
+      <h1>{{ title() }}</h1>
+      <p>{{ filteredMeasurements().length }} measurement rows found.</p>
+    </div>
+
+    <button class="btn btn-outline-light" type="button" (click)="loadMeasurements()" [disabled]="isLoading()">
+      Refresh
+    </button>
+  </header>
+
+  @if (isLoading()) {
+    <div class="dashboard-status">Loading scoped dashboard...</div>
+  }
+
+  @if (errorMessage()) {
+    <div class="dashboard-error">{{ errorMessage() }}</div>
+  }
+
+  @if (!isLoading() && !errorMessage() && filteredMeasurements().length === 0) {
+    <div class="dashboard-empty">No measurements found for this scope.</div>
+  }
+
+  <div class="sensor-grid">
+    @for (sensor of groupedSensors(); track sensor.sensorId) {
+      <article class="sensor-panel">
+        <header>
+          <div>
+            <h2>{{ sensor.sensorName }}</h2>
+            <p>{{ sensor.sensorKey }} · {{ sensor.sensorType }}</p>
+          </div>
+        </header>
+
+        <div class="measurement-list">
+          @for (measurement of sensor.measurements; track measurement.measurementType + measurement.createdUtc) {
+            <div class="measurement-row">
+              <div>
+                <strong>{{ measurement.measurementType }}</strong>
+                <span>{{ measurement.createdUtc | date:'short' }}</span>
+              </div>
+
+              <div class="measurement-value">
+                {{ measurement.value }} {{ measurement.unit }}
+              </div>
+            </div>
+          }
+        </div>
+      </article>
+    }
+  </div>
+</section>
