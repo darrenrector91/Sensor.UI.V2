@@ -48,6 +48,48 @@ describe('ControllerCard', () => {
             '20.35',
             'C',
             '2026-05-22T20:49:20.734983'
+          ),
+          new DashboardMeasurement(
+            1,
+            'greenhouse-01',
+            'Greenhouse Controller',
+            'Garden',
+            1,
+            'sht35-01',
+            'SHT35 Sensor',
+            'TemperatureHumidity',
+            'SoilMoisture',
+            '42',
+            '%',
+            '2026-05-22T20:49:19.734983'
+          ),
+          new DashboardMeasurement(
+            1,
+            'greenhouse-01',
+            'Greenhouse Controller',
+            'Garden',
+            1,
+            'sht35-01',
+            'SHT35 Sensor',
+            'TemperatureHumidity',
+            'Light',
+            '812',
+            'lux',
+            '2026-05-22T20:49:18.734983'
+          ),
+          new DashboardMeasurement(
+            1,
+            'greenhouse-01',
+            'Greenhouse Controller',
+            'Garden',
+            1,
+            'sht35-01',
+            'SHT35 Sensor',
+            'TemperatureHumidity',
+            'BatteryVoltage',
+            '4.1',
+            'V',
+            '2026-05-22T20:49:17.734983'
           )
         ]
       )
@@ -81,18 +123,20 @@ describe('ControllerCard', () => {
     expect(compiled.textContent).toContain('Temperature / Humidity');
   });
 
-  it('should render configured measurement labels', () => {
+  it('should render top priority measurement labels', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
     expect(compiled.textContent).toContain('Temperature');
     expect(compiled.textContent).toContain('Humidity');
+    expect(compiled.textContent).toContain('Soil Moisture');
+    expect(compiled.textContent).toContain('Light');
   });
 
-  it('should render humidity and temperature values', () => {
+  it('should not render metrics beyond the compact card limit', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.textContent).toContain('58.15');
-    expect(compiled.textContent).toContain('20.35');
+    expect(compiled.textContent).not.toContain('Battery');
+    expect(compiled.textContent).toContain('+1 more measurement');
   });
 
   it('should render dynamic measurement icons', () => {
@@ -100,5 +144,7 @@ describe('ControllerCard', () => {
 
     expect(compiled.textContent).toContain('humidity_percentage');
     expect(compiled.textContent).toContain('thermostat');
+    expect(compiled.textContent).toContain('water_drop');
+    expect(compiled.textContent).toContain('wb_sunny');
   });
 });

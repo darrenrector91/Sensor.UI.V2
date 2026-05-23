@@ -54,8 +54,8 @@
       </div>
     </section>
 
-    <section class="controller-card__metrics">
-      @for (metric of metrics(); track trackMetric($index, metric)) {
+    <section class="controller-card__metrics" [class.controller-card__metrics--many]="visibleMetrics().length > 2">
+      @for (metric of visibleMetrics(); track trackMetric($index, metric)) {
         <div class="metric-card" [class]="metric.config.cssClass">
           <div class="metric-card__header">
             <span class="material-symbols-outlined">{{ metric.config.icon }}</span>
@@ -64,15 +64,48 @@
 
           <div class="metric-card__value">
             <span class="metric-card__number">{{ metric.measurement.value }}</span>
-            <span class="metric-card__unit">{{ metric.measurement.unit || metric.config.defaultUnit }}</span>
+
+            @if (metric.measurement.unit || metric.config.defaultUnit) {
+              <span class="metric-card__unit">{{ metric.measurement.unit || metric.config.defaultUnit }}</span>
+            }
           </div>
 
-          <svg class="metric-card__wave" viewBox="0 0 320 70" preserveAspectRatio="none">
-            <path d="M0 48 C25 30, 45 66, 75 44 C105 22, 125 62, 160 43 C195 22, 215 59, 250 38 C280 20, 300 44, 320 30" />
-          </svg>
+          @switch (metric.config.displayKind) {
+            @case ('status') {
+              <div class="metric-card__status-pill">
+                {{ metric.measurement.value }}
+              </div>
+            }
+
+            @case ('gauge') {
+              <div class="metric-card__gauge">
+                <span></span>
+              </div>
+            }
+
+            @case ('timeline') {
+              <div class="metric-card__timeline">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            }
+
+            @default {
+              <svg class="metric-card__wave" viewBox="0 0 320 70" preserveAspectRatio="none">
+                <path d="M0 48 C25 30, 45 66, 75 44 C105 22, 125 62, 160 43 C195 22, 215 59, 250 38 C280 20, 300 44, 320 30" />
+              </svg>
+            }
+          }
         </div>
       }
     </section>
+
+    @if (hiddenMetricCount() > 0) {
+      <div class="controller-card__more-metrics">
+        +{{ hiddenMetricCount() }} more measurement{{ hiddenMetricCount() === 1 ? '' : 's' }}
+      </div>
+    }
 
     <footer class="controller-card__footer">
       <span class="material-symbols-outlined">schedule</span>

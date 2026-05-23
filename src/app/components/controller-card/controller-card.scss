@@ -424,3 +424,74 @@
 .metric-card--signal .metric-card__wave {
   color: #bea4ff;
 }
+
+.controller-card__metrics--many {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.controller-card__metrics--many .metric-card {
+  min-height: 6.6rem;
+}
+
+.controller-card__metrics--many .metric-card__value {
+  margin-top: 0.55rem;
+  font-size: clamp(1.55rem, 2.5vw, 2.05rem);
+}
+
+.metric-card__status-pill {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.75rem;
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.metric-card__gauge {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  height: 0.45rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.metric-card__gauge span {
+  display: block;
+  width: 68%;
+  height: 100%;
+  border-radius: inherit;
+  background: currentColor;
+}
+
+.metric-card__timeline {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.metric-card__timeline span {
+  display: block;
+  height: 0.4rem;
+  flex: 1;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.75;
+}
+
+.controller-card__more-metrics {
+  margin-top: 0.55rem;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.68rem;
+  font-weight: 750;
+}
