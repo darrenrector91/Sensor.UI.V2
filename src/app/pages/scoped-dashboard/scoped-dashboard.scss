@@ -1,0 +1,116 @@
+.scoped-dashboard {
+  min-height: 100vh;
+  padding: 2rem;
+  background:
+    radial-gradient(circle at 50% 15%, rgba(26, 116, 70, 0.18), transparent 32%),
+    linear-gradient(135deg, #021c15 0%, #04110e 100%);
+  color: #f3fff8;
+}
+
+.scoped-dashboard__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  color: #16c797;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.scoped-dashboard h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 850;
+}
+
+.scoped-dashboard p {
+  margin: 0.35rem 0 0;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.dashboard-status,
+.dashboard-empty,
+.dashboard-error {
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.85rem;
+  font-weight: 750;
+}
+
+.dashboard-status,
+.dashboard-empty {
+  border: 1px solid rgba(120, 220, 160, 0.28);
+  background: rgba(14, 62, 39, 0.35);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.dashboard-error {
+  border: 1px solid rgba(255, 91, 91, 0.35);
+  background: rgba(90, 15, 15, 0.35);
+  color: #ffb8b8;
+}
+
+.sensor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+  gap: 1rem;
+}
+
+.sensor-panel {
+  padding: 1rem;
+  border: 1px solid rgba(143, 210, 116, 0.28);
+  border-radius: 1.15rem;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(112, 211, 107, 0.12), transparent 36%),
+    linear-gradient(145deg, #082314 0%, #071f17 100%);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+}
+
+.sensor-panel h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 850;
+}
+
+.measurement-list {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.measurement-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(143, 210, 116, 0.16);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.measurement-row strong {
+  display: block;
+  color: #f4fff8;
+}
+
+.measurement-row span {
+  display: block;
+  margin-top: 0.15rem;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.78rem;
+}
+
+.measurement-value {
+  color: #8fffd7;
+  font-size: 1.15rem;
+  font-weight: 850;
+  white-space: nowrap;
+}
