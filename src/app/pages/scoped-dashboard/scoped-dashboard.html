@@ -2,8 +2,15 @@
   <header class="scoped-dashboard__header">
     <div>
       <a class="back-link" routerLink="/">← Back to dashboard</a>
+
       <h1>{{ title() }}</h1>
-      <p>{{ filteredMeasurements().length }} measurement rows found.</p>
+      <p>{{ subtitle() }}</p>
+
+      @if (latestUpdatedUtc(); as updatedUtc) {
+        <div class="last-updated">
+          Last updated {{ updatedUtc | date:'short' }}
+        </div>
+      }
     </div>
 
     <button class="btn btn-outline-light" type="button" (click)="loadMeasurements()" [disabled]="isLoading()">
@@ -21,6 +28,18 @@
 
   @if (!isLoading() && !errorMessage() && filteredMeasurements().length === 0) {
     <div class="dashboard-empty">No measurements found for this scope.</div>
+  }
+
+  @if (latestMeasurements().length > 0) {
+    <section class="latest-grid">
+      @for (measurement of latestMeasurements(); track measurement.sensorId + measurement.measurementType) {
+        <article class="latest-card">
+          <span>{{ measurement.measurementType }}</span>
+          <strong>{{ measurement.value }} {{ measurement.unit }}</strong>
+          <small>{{ measurement.sensorName }}</small>
+        </article>
+      }
+    </section>
   }
 
   <div class="sensor-grid">

@@ -114,3 +114,51 @@
   font-weight: 850;
   white-space: nowrap;
 }
+
+.last-updated {
+  margin-top: 0.7rem;
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.latest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.latest-card {
+  padding: 1rem;
+  border: 1px solid rgba(143, 210, 116, 0.24);
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at top right, rgba(95, 226, 153, 0.12), transparent 42%),
+    rgba(255, 255, 255, 0.045);
+}
+
+.latest-card span {
+  display: block;
+  color: #16c797;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.latest-card strong {
+  display: block;
+  margin-top: 0.45rem;
+  color: #ffffff;
+  font-size: 1.65rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+}
+
+.latest-card small {
+  display: block;
+  margin-top: 0.35rem;
+  color: rgba(255, 255, 255, 0.58);
+  font-weight: 700;
+}
