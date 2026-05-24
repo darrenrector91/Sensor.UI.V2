@@ -152,7 +152,7 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
             },
             ticks: {
               color: 'rgba(255, 255, 255, 0.55)',
-              callback: value => `${this.formatNumericValue(Number(value))} ${this.formatUnit()}`
+              callback: value => this.formatChartValue(Number(value))
             }
           }
         }
@@ -187,12 +187,27 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
 
   private formatTooltipValue(value: number): string {
     if (this.unit().toUpperCase() !== 'C') {
-      return `${this.formatNumericValue(value)} ${this.formatUnit()}`;
+      return this.formatChartValue(value);
     }
 
     const fahrenheit = (value * 9) / 5 + 32;
 
     return `${this.formatNumericValue(value)} °C / ${this.formatNumericValue(fahrenheit)} °F`;
+  }
+
+  private formatChartValue(value: number): string {
+    const formattedValue = this.formatNumericValue(value);
+    const unit = this.formatUnit();
+
+    if (!unit) {
+      return formattedValue;
+    }
+
+    if (unit === '%') {
+      return `${formattedValue}%`;
+    }
+
+    return `${formattedValue} ${unit}`;
   }
 
   private formatNumericValue(value: number): string {
