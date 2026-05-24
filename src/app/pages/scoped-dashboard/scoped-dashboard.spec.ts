@@ -29,7 +29,8 @@ describe('ScopedDashboard', () => {
         {
           provide: DashboardMeasurementsService,
           useValue: {
-            getMeasurements: () => of([])
+            getMeasurements: () => of([]),
+            getSensorMeasurements: () => of([])
           }
         }
       ]
