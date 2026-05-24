@@ -13,4 +13,8 @@ export class DashboardMeasurementsService {
   getMeasurements(): Observable<DashboardMeasurement[]> {
     return this.http.get<DashboardMeasurement[]>(`${this.apiBaseUrl}/api/dashboard/measurements`);
   }
+
+  getSensorMeasurements(sensorId: number): Observable<DashboardMeasurement[]> {
+    return this.http.get<DashboardMeasurement[]>(`${this.apiBaseUrl}/api/sensors/${sensorId}/measurements`);
+  }
 }
