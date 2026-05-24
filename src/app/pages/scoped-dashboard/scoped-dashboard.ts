@@ -4,6 +4,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { DashboardScope } from '../../enums/dashboard-scope';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
+import { ScopedMeasurementGroup } from '../../models/scoped-measurement-group';
+import { ScopedSensorGroup } from '../../models/scoped-sensor-group';
 import { DashboardMeasurementsService } from '../../services/dashboard-measurements.service';
 import { MeasurementDisplayConfigService } from '../../services/measurement-display-config.service';
 import { MeasurementDisplayValueService } from '../../services/measurement-display-value.service';
@@ -78,15 +80,34 @@ export class ScopedDashboard implements OnInit {
       sensorMap.set(measurement.sensorId, existingMeasurements);
     }
 
-    return Array.from(sensorMap.entries()).map(([sensorId, measurements]) => ({
-      sensorId,
-      sensorName: measurements[0]?.sensorName ?? `Sensor ${sensorId}`,
-      sensorKey: measurements[0]?.sensorKey ?? '',
-      sensorType: measurements[0]?.sensorType ?? '',
-      measurements: measurements.sort(
-        (first, second) => new Date(second.createdUtc).getTime() - new Date(first.createdUtc).getTime()
-      )
-    }));
+    return Array.from(sensorMap.entries()).map(([sensorId, measurements]) => {
+      const measurementTypeMap = new Map<string, DashboardMeasurement[]>();
+
+      for (const measurement of measurements) {
+        const existingMeasurements = measurementTypeMap.get(measurement.measurementType) ?? [];
+        existingMeasurements.push(measurement);
+        measurementTypeMap.set(measurement.measurementType, existingMeasurements);
+      }
+
+      const measurementGroups = Array.from(measurementTypeMap.entries())
+        .map(([measurementType, groupedMeasurements]) =>
+          new ScopedMeasurementGroup(
+            measurementType,
+            groupedMeasurements.sort(
+              (first, second) => new Date(second.createdUtc).getTime() - new Date(first.createdUtc).getTime()
+            )
+          )
+        )
+        .sort((first, second) => first.measurementType.localeCompare(second.measurementType));
+
+      return new ScopedSensorGroup(
+        sensorId,
+        measurements[0]?.sensorName ?? `Sensor ${sensorId}`,
+        measurements[0]?.sensorKey ?? '',
+        measurements[0]?.sensorType ?? '',
+        measurementGroups
+      );
+    });
   });
 
   protected readonly title = computed(() => {
