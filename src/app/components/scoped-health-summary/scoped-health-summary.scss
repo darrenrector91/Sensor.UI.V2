@@ -1,0 +1,45 @@
+.health-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.85rem;
+  margin-top: 1.25rem;
+}
+
+.health-card {
+  padding: 0.9rem;
+  border: 1px solid rgba(143, 210, 116, 0.22);
+  border-radius: 0.95rem;
+  background:
+    radial-gradient(circle at top right, rgba(95, 226, 153, 0.1), transparent 42%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.health-card span {
+  display: block;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.health-card strong {
+  display: block;
+  margin-top: 0.35rem;
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.health-card--status {
+  border-color: rgba(82, 239, 193, 0.42);
+}
+
+.health-card--status strong {
+  color: #58efc3;
+}
+
+.health-card--wide {
+  min-width: 13rem;
+}

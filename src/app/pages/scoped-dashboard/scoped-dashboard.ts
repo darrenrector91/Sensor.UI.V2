@@ -9,6 +9,7 @@ import { ScopedSensorGroup } from '../../models/scoped-sensor-group';
 import { ScopedDashboardHeader } from '../../components/scoped-dashboard-header/scoped-dashboard-header';
 import { ScopedLatestMeasurements } from '../../components/scoped-latest-measurements/scoped-latest-measurements';
 import { ScopedMeasurementPanel } from '../../components/scoped-measurement-panel/scoped-measurement-panel';
+import { ScopedHealthSummary } from '../../components/scoped-health-summary/scoped-health-summary';
 import { DashboardMeasurementsService } from '../../services/dashboard-measurements.service';
 import { MeasurementDisplayConfigService } from '../../services/measurement-display-config.service';
 import { MeasurementDisplayValueService } from '../../services/measurement-display-value.service';
@@ -16,7 +17,7 @@ import { MeasurementDisplayValue } from '../../models/measurement-display-value'
 
 @Component({
   selector: 'app-scoped-dashboard',
-  imports: [CommonModule, RouterLink, ScopedDashboardHeader, ScopedLatestMeasurements, ScopedMeasurementPanel],
+  imports: [CommonModule, RouterLink, ScopedDashboardHeader, ScopedLatestMeasurements, ScopedMeasurementPanel, ScopedHealthSummary],
   templateUrl: './scoped-dashboard.html',
   styleUrl: './scoped-dashboard.scss'
 })

@@ -23,6 +23,11 @@
     [measurements]="latestMeasurements()"
   ></app-scoped-latest-measurements>
 
+  <app-scoped-health-summary
+    [measurements]="filteredMeasurements()"
+    [latestUpdatedUtc]="latestUpdatedUtc()"
+  ></app-scoped-health-summary>
+
   <div class="sensor-grid">
     @for (sensor of groupedSensors(); track sensor.sensorId) {
       <app-scoped-measurement-panel [sensor]="sensor"></app-scoped-measurement-panel>

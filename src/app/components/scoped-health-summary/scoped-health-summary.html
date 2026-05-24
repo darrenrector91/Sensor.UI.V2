@@ -1,1 +1,31 @@
-<p>scoped-health-summary works!</p>
+<section class="health-summary">
+  <article class="health-card health-card--status">
+    <span>Status</span>
+    <strong>{{ statusLabel() }}</strong>
+  </article>
+
+  <article class="health-card">
+    <span>Sensors</span>
+    <strong>{{ sensorCount() }}</strong>
+  </article>
+
+  <article class="health-card">
+    <span>Measurement Types</span>
+    <strong>{{ measurementTypeCount() }}</strong>
+  </article>
+
+  <article class="health-card">
+    <span>Rows Loaded</span>
+    <strong>{{ measurementRowCount() }}</strong>
+  </article>
+
+  <article class="health-card health-card--wide">
+    <span>Latest Update</span>
+
+    @if (latestUpdatedUtc(); as updatedUtc) {
+      <strong>{{ updatedUtc | date:'short' }}</strong>
+    } @else {
+      <strong>Unavailable</strong>
+    }
+  </article>
+</section>
