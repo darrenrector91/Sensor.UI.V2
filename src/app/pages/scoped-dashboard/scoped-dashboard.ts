@@ -6,6 +6,7 @@ import { DashboardScope } from '../../enums/dashboard-scope';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
 import { ScopedMeasurementGroup } from '../../models/scoped-measurement-group';
 import { ScopedSensorGroup } from '../../models/scoped-sensor-group';
+import { SensorMeasurementHistory } from '../../models/sensor-measurement-history';
 import { ScopedDashboardHeader } from '../../components/scoped-dashboard-header/scoped-dashboard-header';
 import { ScopedLatestMeasurements } from '../../components/scoped-latest-measurements/scoped-latest-measurements';
 import { ScopedMeasurementPanel } from '../../components/scoped-measurement-panel/scoped-measurement-panel';
@@ -183,8 +184,15 @@ export class ScopedDashboard implements OnInit {
     const scopeValue = this.scopeValue();
 
     if (scope === DashboardScope.Sensor && scopeValue) {
-      this.dashboardMeasurementsService.getSensorMeasurements(Number(scopeValue))
-        .pipe(finalize(() => this.isLoading.set(false)))
+      this.dashboardMeasurementsService.getMeasurements()
+        .pipe(
+          switchMap(metadataRows =>
+            this.dashboardMeasurementsService.getSensorMeasurements(Number(scopeValue)).pipe(
+              map(historyRows => this.mapHistoryToDashboardMeasurements(historyRows, metadataRows))
+            )
+          ),
+          finalize(() => this.isLoading.set(false))
+        )
         .subscribe({
           next: measurements => this.measurements.set(measurements),
           error: () => this.errorMessage.set('Unable to load scoped dashboard measurements.')
@@ -206,7 +214,7 @@ export class ScopedDashboard implements OnInit {
           return forkJoin(
             sensorIds.map(sensorId => this.dashboardMeasurementsService.getSensorMeasurements(sensorId))
           ).pipe(
-            map(sensorHistories => sensorHistories.flat())
+            map(sensorHistories => this.mapHistoryToDashboardMeasurements(sensorHistories.flat(), scopedMeasurements))
           );
         }),
         finalize(() => this.isLoading.set(false))
@@ -215,6 +223,36 @@ export class ScopedDashboard implements OnInit {
         next: measurements => this.measurements.set(measurements),
         error: () => this.errorMessage.set('Unable to load scoped dashboard measurements.')
       });
+  }
+
+  private mapHistoryToDashboardMeasurements(
+    historyRows: SensorMeasurementHistory[],
+    metadataRows: DashboardMeasurement[]
+  ): DashboardMeasurement[] {
+    return historyRows
+      .map(historyRow => {
+        const metadata = metadataRows.find(row => row.sensorId === historyRow.sensorId);
+
+        if (!metadata) {
+          return null;
+        }
+
+        return new DashboardMeasurement(
+          metadata.controllerId,
+          metadata.controllerKey,
+          metadata.controllerName,
+          metadata.location,
+          historyRow.sensorId,
+          metadata.sensorKey,
+          metadata.sensorName,
+          metadata.sensorType,
+          historyRow.measurementType,
+          historyRow.value,
+          historyRow.unit,
+          historyRow.createdUtc
+        );
+      })
+      .filter((measurement): measurement is DashboardMeasurement => measurement !== null);
   }
 
   private filterMeasurementsForScope(measurements: DashboardMeasurement[]): DashboardMeasurement[] {
