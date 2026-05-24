@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 
-export type ScopedTimeRange = '1H' | '6H' | '24H' | '7D' | '30D';
+export type ScopedTimeRange = '6H' | '24H' | '7D' | '30D';
 
 @Component({
   selector: 'app-scoped-time-range-selector',
@@ -13,7 +13,7 @@ export class ScopedTimeRangeSelector {
 
   readonly rangeSelected = output<ScopedTimeRange>();
 
-  protected readonly ranges: ScopedTimeRange[] = ['1H', '6H', '24H', '7D', '30D'];
+  protected readonly ranges: ScopedTimeRange[] = ['6H', '24H', '7D', '30D'];
 
   protected selectRange(range: ScopedTimeRange): void {
     this.rangeSelected.emit(range);

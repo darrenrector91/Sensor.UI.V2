@@ -11,13 +11,13 @@ import { ScopedDashboardHeader } from '../../components/scoped-dashboard-header/
 import { ScopedLatestMeasurements } from '../../components/scoped-latest-measurements/scoped-latest-measurements';
 import { ScopedMeasurementPanel } from '../../components/scoped-measurement-panel/scoped-measurement-panel';
 import { ScopedHealthSummary } from '../../components/scoped-health-summary/scoped-health-summary';
-import { ScopedTimeRange, ScopedTimeRangeSelector } from '../../components/scoped-time-range-selector/scoped-time-range-selector';
+import { ScopedTimeRange } from '../../components/scoped-time-range-selector/scoped-time-range-selector';
 import { DashboardMeasurementsService } from '../../services/dashboard-measurements.service';
 import { MeasurementDisplayConfigService } from '../../services/measurement-display-config.service';
 
 @Component({
   selector: 'app-scoped-dashboard',
-  imports: [CommonModule, ScopedDashboardHeader, ScopedLatestMeasurements, ScopedMeasurementPanel, ScopedHealthSummary, ScopedTimeRangeSelector],
+  imports: [CommonModule, ScopedDashboardHeader, ScopedLatestMeasurements, ScopedMeasurementPanel, ScopedHealthSummary],
   templateUrl: './scoped-dashboard.html',
   styleUrl: './scoped-dashboard.scss'
 })
@@ -280,9 +280,6 @@ export class ScopedDashboard implements OnInit {
     const now = new Date();
 
     switch (range) {
-      case '1H':
-        return new Date(now.getTime() - 60 * 60 * 1000);
-
       case '6H':
         return new Date(now.getTime() - 6 * 60 * 60 * 1000);
 
@@ -328,7 +325,7 @@ export class ScopedDashboard implements OnInit {
   }
 
   private isScopedTimeRange(value: string | null): value is ScopedTimeRange {
-    return value === '1H' || value === '6H' || value === '24H' || value === '7D' || value === '30D';
+    return value === '6H' || value === '24H' || value === '7D' || value === '30D';
   }
 
   private setScopeFromRoute(): void {
