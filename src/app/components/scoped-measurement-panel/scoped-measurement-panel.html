@@ -47,8 +47,7 @@
               <div>
                 <span>Min</span>
                 <strong>
-                  {{ statistics.minimum.primaryValue }}
-                  <small>{{ statistics.minimum.primaryUnit }}</small>
+                  {{ statistics.minimum.primaryValue }}@if (statistics.minimum.primaryUnit === '%') {{{ statistics.minimum.primaryUnit }}} @else { <small>{{ statistics.minimum.primaryUnit }}</small> }
                 </strong>
 
                 @if (statistics.minimum.secondaryValue && statistics.minimum.secondaryUnit) {
@@ -59,8 +58,7 @@
               <div>
                 <span>Avg</span>
                 <strong>
-                  {{ statistics.average.primaryValue }}
-                  <small>{{ statistics.average.primaryUnit }}</small>
+                  {{ statistics.average.primaryValue }}@if (statistics.average.primaryUnit === '%') {{{ statistics.average.primaryUnit }}} @else { <small>{{ statistics.average.primaryUnit }}</small> }
                 </strong>
 
                 @if (statistics.average.secondaryValue && statistics.average.secondaryUnit) {
@@ -71,8 +69,7 @@
               <div>
                 <span>Max</span>
                 <strong>
-                  {{ statistics.maximum.primaryValue }}
-                  <small>{{ statistics.maximum.primaryUnit }}</small>
+                  {{ statistics.maximum.primaryValue }}@if (statistics.maximum.primaryUnit === '%') {{{ statistics.maximum.primaryUnit }}} @else { <small>{{ statistics.maximum.primaryUnit }}</small> }
                 </strong>
 
                 @if (statistics.maximum.secondaryValue && statistics.maximum.secondaryUnit) {

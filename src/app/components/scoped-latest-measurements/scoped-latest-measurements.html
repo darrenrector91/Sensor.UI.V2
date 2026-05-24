@@ -9,8 +9,7 @@
 
         @if (getMeasurementDisplayValue(measurement); as displayValue) {
           <strong>
-            {{ displayValue.primaryValue }}
-            <span>{{ displayValue.primaryUnit }}</span>
+            {{ displayValue.primaryValue }}@if (displayValue.primaryUnit === '%') {{{ displayValue.primaryUnit }}} @else { <span>{{ displayValue.primaryUnit }}</span> }
           </strong>
 
           @if (displayValue.secondaryValue && displayValue.secondaryUnit) {
