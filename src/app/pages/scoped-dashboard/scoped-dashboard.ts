@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { finalize } from 'rxjs';
+import { finalize, forkJoin, map, of, switchMap } from 'rxjs';
 import { DashboardScope } from '../../enums/dashboard-scope';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
 import { ScopedMeasurementGroup } from '../../models/scoped-measurement-group';
@@ -33,27 +33,9 @@ export class ScopedDashboard implements OnInit {
   protected readonly scope = signal<DashboardScope | null>(null);
   protected readonly scopeValue = signal<string | null>(null);
 
-  protected readonly filteredMeasurements = computed(() => {
-    const scope = this.scope();
-    const scopeValue = this.scopeValue();
-
-    if (!scope || !scopeValue) {
-      return [];
-    }
-
-    return this.measurements().filter(measurement => {
-      switch (scope) {
-        case DashboardScope.Controller:
-          return measurement.controllerId === Number(scopeValue);
-
-        case DashboardScope.Location:
-          return measurement.location.toLowerCase() === scopeValue.toLowerCase();
-
-        case DashboardScope.Sensor:
-          return measurement.sensorId === Number(scopeValue);
-      }
-    });
-  });
+  protected readonly filteredMeasurements = computed(() =>
+    this.filterMeasurementsForScope(this.measurements())
+  );
 
   protected readonly latestMeasurements = computed(() => {
     const measurementMap = new Map<string, DashboardMeasurement>();
@@ -200,17 +182,61 @@ export class ScopedDashboard implements OnInit {
     const scope = this.scope();
     const scopeValue = this.scopeValue();
 
-    const measurementsRequest =
-      scope === DashboardScope.Sensor && scopeValue
-        ? this.dashboardMeasurementsService.getSensorMeasurements(Number(scopeValue))
-        : this.dashboardMeasurementsService.getMeasurements();
+    if (scope === DashboardScope.Sensor && scopeValue) {
+      this.dashboardMeasurementsService.getSensorMeasurements(Number(scopeValue))
+        .pipe(finalize(() => this.isLoading.set(false)))
+        .subscribe({
+          next: measurements => this.measurements.set(measurements),
+          error: () => this.errorMessage.set('Unable to load scoped dashboard measurements.')
+        });
 
-    measurementsRequest
-      .pipe(finalize(() => this.isLoading.set(false)))
+      return;
+    }
+
+    this.dashboardMeasurementsService.getMeasurements()
+      .pipe(
+        switchMap(measurements => {
+          const scopedMeasurements = this.filterMeasurementsForScope(measurements);
+          const sensorIds = Array.from(new Set(scopedMeasurements.map(measurement => measurement.sensorId)));
+
+          if (sensorIds.length === 0) {
+            return of(scopedMeasurements);
+          }
+
+          return forkJoin(
+            sensorIds.map(sensorId => this.dashboardMeasurementsService.getSensorMeasurements(sensorId))
+          ).pipe(
+            map(sensorHistories => sensorHistories.flat())
+          );
+        }),
+        finalize(() => this.isLoading.set(false))
+      )
       .subscribe({
         next: measurements => this.measurements.set(measurements),
         error: () => this.errorMessage.set('Unable to load scoped dashboard measurements.')
       });
+  }
+
+  private filterMeasurementsForScope(measurements: DashboardMeasurement[]): DashboardMeasurement[] {
+    const scope = this.scope();
+    const scopeValue = this.scopeValue();
+
+    if (!scope || !scopeValue) {
+      return [];
+    }
+
+    return measurements.filter(measurement => {
+      switch (scope) {
+        case DashboardScope.Controller:
+          return measurement.controllerId === Number(scopeValue);
+
+        case DashboardScope.Location:
+          return measurement.location.toLowerCase() === scopeValue.toLowerCase();
+
+        case DashboardScope.Sensor:
+          return measurement.sensorId === Number(scopeValue);
+      }
+    });
   }
 
   private setScopeFromRoute(): void {
