@@ -34,11 +34,12 @@
             }
           </header>
 
-          <div class="measurement-visual-panel__chart-placeholder">
-            <div class="chart-grid-line"></div>
-            <div class="chart-grid-line"></div>
-            <div class="chart-grid-line"></div>
-            <div class="chart-placeholder-line"></div>
+          <div class="measurement-visual-panel__chart">
+            <app-measurement-line-chart
+              [measurements]="group.measurements"
+              [label]="getMeasurementLabel(latestMeasurement)"
+              [unit]="latestMeasurement.unit"
+            ></app-measurement-line-chart>
           </div>
 
           @if (getStatistics(group); as statistics) {

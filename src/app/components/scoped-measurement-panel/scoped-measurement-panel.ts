@@ -5,12 +5,13 @@ import { DashboardMeasurement } from '../../models/dashboard-measurement';
 import { MeasurementDisplayValue } from '../../models/measurement-display-value';
 import { ScopedMeasurementGroup } from '../../models/scoped-measurement-group';
 import { ScopedMeasurementStatistics } from '../../models/scoped-measurement-statistics';
+import { MeasurementLineChart } from '../measurement-line-chart/measurement-line-chart';
 import { MeasurementDisplayConfigService } from '../../services/measurement-display-config.service';
 import { MeasurementDisplayValueService } from '../../services/measurement-display-value.service';
 
 @Component({
   selector: 'app-scoped-measurement-panel',
-  imports: [DatePipe],
+  imports: [DatePipe, MeasurementLineChart],
   templateUrl: './scoped-measurement-panel.html',
   styleUrl: './scoped-measurement-panel.scss'
 })
