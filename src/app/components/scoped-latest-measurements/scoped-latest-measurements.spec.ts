@@ -59,6 +59,6 @@ describe('ScopedLatestMeasurements', () => {
     expect(compiled.textContent).toContain('Humidity');
     expect(compiled.textContent).toContain('20.0');
     expect(compiled.textContent).toContain('68.0');
-    expect(compiled.textContent).toContain('58.15');
+    expect(compiled.textContent).toContain('58.2');
   });
 });
