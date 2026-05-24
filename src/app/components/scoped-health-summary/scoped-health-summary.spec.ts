@@ -56,7 +56,7 @@ describe('ScopedHealthSummary', () => {
   it('should render health summary counts', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.textContent).toContain('Online');
+    expect(compiled.textContent).toContain('Stale');
     expect(compiled.textContent).toContain('Sensors');
     expect(compiled.textContent).toContain('Measurement Types');
     expect(compiled.textContent).toContain('Rows Loaded');
