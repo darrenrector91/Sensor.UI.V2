@@ -54,7 +54,7 @@ export class ScopedDashboard implements OnInit {
     }
 
     return Array.from(measurementMap.values()).sort(
-      (first, second) => first.measurementType.localeCompare(second.measurementType)
+      (first, second) => this.getMeasurementPriority(first.measurementType) - this.getMeasurementPriority(second.measurementType)
     );
   });
 
@@ -85,7 +85,7 @@ export class ScopedDashboard implements OnInit {
             )
           )
         )
-        .sort((first, second) => first.measurementType.localeCompare(second.measurementType));
+        .sort((first, second) => this.getMeasurementPriority(first.measurementType) - this.getMeasurementPriority(second.measurementType));
 
       return new ScopedSensorGroup(
         sensorId,
@@ -223,6 +223,10 @@ export class ScopedDashboard implements OnInit {
         next: measurements => this.measurements.set(measurements),
         error: () => this.errorMessage.set('Unable to load scoped dashboard measurements.')
       });
+  }
+
+  private getMeasurementPriority(measurementType: string): number {
+    return this.measurementDisplayConfigService.getConfig(measurementType).priority;
   }
 
   private mapHistoryToDashboardMeasurements(
