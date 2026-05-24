@@ -17,6 +17,7 @@ describe('ScopedDashboardHeader', () => {
     fixture.componentRef.setInput('title', 'Greenhouse Controller');
     fixture.componentRef.setInput('subtitle', 'greenhouse-01 · Garden');
     fixture.componentRef.setInput('latestUpdatedUtc', '2026-05-22T20:49:21.01768');
+    fixture.componentRef.setInput('selectedTimeRange', '24H');
     fixture.detectChanges();
   });
 
@@ -34,9 +35,17 @@ describe('ScopedDashboardHeader', () => {
   it('should emit refresh requests', () => {
     spyOn(component.refreshRequested, 'emit');
 
-    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    const button = fixture.nativeElement.querySelector('.scoped-dashboard-header__refresh') as HTMLButtonElement;
     button.click();
 
     expect(component.refreshRequested.emit).toHaveBeenCalled();
+  });
+
+  it('should render time range options', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    expect(compiled.textContent).toContain('1H');
+    expect(compiled.textContent).toContain('24H');
+    expect(compiled.textContent).toContain('30D');
   });
 });
