@@ -43,3 +43,29 @@
 .health-card--wide {
   min-width: 13rem;
 }
+
+.health-card--recent {
+  border-color: rgba(82, 239, 193, 0.42);
+}
+
+.health-card--recent strong {
+  color: #58efc3;
+}
+
+.health-card--stale {
+  border-color: rgba(255, 215, 87, 0.48);
+}
+
+.health-card--stale strong {
+  color: #ffd757;
+}
+
+.health-card--empty,
+.health-card--unknown {
+  border-color: rgba(255, 167, 82, 0.42);
+}
+
+.health-card--empty strong,
+.health-card--unknown strong {
+  color: #ffa752;
+}
