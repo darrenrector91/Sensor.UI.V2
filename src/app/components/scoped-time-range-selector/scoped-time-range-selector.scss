@@ -1,0 +1,29 @@
+.time-range-selector {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid rgba(143, 210, 116, 0.24);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.time-range-selector button {
+  min-width: 2.75rem;
+  padding: 0.35rem 0.55rem;
+  border: 0;
+  border-radius: 0.55rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.64);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 850;
+}
+
+.time-range-selector button.active {
+  background: #7bdc5f;
+  color: #062314;
+}
+
+.time-range-selector button:hover {
+  color: #ffffff;
+}

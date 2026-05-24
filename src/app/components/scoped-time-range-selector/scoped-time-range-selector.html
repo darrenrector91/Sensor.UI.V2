@@ -1,0 +1,11 @@
+<div class="time-range-selector" aria-label="Chart time range">
+  @for (range of ranges; track range) {
+    <button
+      type="button"
+      [class.active]="range === selectedRange()"
+      (click)="selectRange(range)"
+    >
+      {{ range }}
+    </button>
+  }
+</div>
