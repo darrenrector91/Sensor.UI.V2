@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
+import { MeasurementDisplayKind } from '../../enums/measurement-display-kind';
 import { ScopedSensorGroup } from '../../models/scoped-sensor-group';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
 import { MeasurementDisplayValue } from '../../models/measurement-display-value';
@@ -31,6 +32,10 @@ export class ScopedMeasurementPanel {
 
   protected getMeasurementCssClass(measurement: DashboardMeasurement): string {
     return this.measurementDisplayConfigService.getConfig(measurement.measurementType).cssClass;
+  }
+
+  protected getMeasurementDisplayKind(measurement: DashboardMeasurement): MeasurementDisplayKind {
+    return this.measurementDisplayConfigService.getConfig(measurement.measurementType).displayKind;
   }
 
   protected getLatestMeasurement(group: ScopedMeasurementGroup): DashboardMeasurement | null {
