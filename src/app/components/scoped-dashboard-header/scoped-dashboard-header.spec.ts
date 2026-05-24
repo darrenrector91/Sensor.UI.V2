@@ -46,5 +46,6 @@ describe('ScopedDashboardHeader', () => {
 
     expect(compiled.textContent).toContain('24H');
     expect(compiled.textContent).toContain('30D');
+    expect(compiled.textContent).toContain('Showing recent history');
   });
 });
