@@ -32,3 +32,38 @@
   font-size: 0.82rem;
   font-weight: 700;
 }
+
+.scoped-dashboard-header__actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.scoped-dashboard-header__range {
+  display: grid;
+  gap: 0.4rem;
+  justify-items: end;
+}
+
+.scoped-dashboard-header__range > span {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 48rem) {
+  .scoped-dashboard-header {
+    flex-direction: column;
+  }
+
+  .scoped-dashboard-header__actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .scoped-dashboard-header__range {
+    justify-items: start;
+  }
+}

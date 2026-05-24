@@ -12,7 +12,18 @@
     }
   </div>
 
-  <button class="btn btn-outline-light" type="button" (click)="refresh()" [disabled]="isLoading()">
-    Refresh
-  </button>
+  <div class="scoped-dashboard-header__actions">
+    <div class="scoped-dashboard-header__range">
+      <span>Chart Range</span>
+
+      <app-scoped-time-range-selector
+        [selectedRange]="selectedTimeRange()"
+        (rangeSelected)="selectTimeRange($event)"
+      ></app-scoped-time-range-selector>
+    </div>
+
+    <button class="btn btn-outline-light scoped-dashboard-header__refresh" type="button" (click)="refresh()" [disabled]="isLoading()">
+      Refresh
+    </button>
+  </div>
 </header>
