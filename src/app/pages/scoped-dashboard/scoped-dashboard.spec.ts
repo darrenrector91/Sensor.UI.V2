@@ -60,6 +60,9 @@ describe('ScopedDashboard', () => {
               },
               paramMap: {
                 get: (key: string) => key === 'sensorId' ? '1' : null
+              },
+              queryParamMap: {
+                get: (key: string) => key === 'range' ? '7D' : null
               }
             }
           }

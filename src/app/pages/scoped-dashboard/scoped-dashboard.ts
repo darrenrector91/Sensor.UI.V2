@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, forkJoin, map, of, switchMap } from 'rxjs';
 import { DashboardScope } from '../../enums/dashboard-scope';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
@@ -23,6 +23,7 @@ import { MeasurementDisplayConfigService } from '../../services/measurement-disp
 })
 export class ScopedDashboard implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly dashboardMeasurementsService = inject(DashboardMeasurementsService);
   private readonly measurementDisplayConfigService = inject(MeasurementDisplayConfigService);
 
@@ -163,11 +164,21 @@ export class ScopedDashboard implements OnInit {
 
   ngOnInit(): void {
     this.setScopeFromRoute();
+    this.setTimeRangeFromRoute();
     this.loadMeasurements();
   }
 
   protected selectTimeRange(range: ScopedTimeRange): void {
     this.selectedTimeRange.set(range);
+
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        range
+      },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
   }
 
   protected loadMeasurements(): void {
@@ -306,6 +317,18 @@ export class ScopedDashboard implements OnInit {
           return measurement.sensorId === Number(scopeValue);
       }
     });
+  }
+
+  private setTimeRangeFromRoute(): void {
+    const range = this.activatedRoute.snapshot.queryParamMap.get('range');
+
+    if (this.isScopedTimeRange(range)) {
+      this.selectedTimeRange.set(range);
+    }
+  }
+
+  private isScopedTimeRange(value: string | null): value is ScopedTimeRange {
+    return value === '1H' || value === '6H' || value === '24H' || value === '7D' || value === '30D';
   }
 
   private setScopeFromRoute(): void {
