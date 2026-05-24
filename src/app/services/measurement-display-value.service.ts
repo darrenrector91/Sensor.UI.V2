@@ -13,7 +13,7 @@ export class MeasurementDisplayValueService {
     }
 
     return new MeasurementDisplayValue(
-      metric.measurement.value,
+      this.formatNumericDisplayValue(metric.measurement.value),
       metric.measurement.unit || metric.config.defaultUnit || ''
     );
   }
@@ -24,7 +24,7 @@ export class MeasurementDisplayValueService {
     }
 
     return new MeasurementDisplayValue(
-      measurement.value,
+      this.formatNumericDisplayValue(measurement.value),
       measurement.unit || defaultUnit
     );
   }
@@ -48,5 +48,17 @@ export class MeasurementDisplayValueService {
 
   private formatTemperature(value: number): string {
     return value.toFixed(1);
+  }
+
+  private formatNumericDisplayValue(value: string): string {
+    const numericValue = Number(value);
+
+    if (Number.isNaN(numericValue)) {
+      return value;
+    }
+
+    return new Intl.NumberFormat('en-US', {
+      maximumFractionDigits: 1
+    }).format(numericValue);
   }
 }

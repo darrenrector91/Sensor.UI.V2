@@ -83,7 +83,7 @@ describe('MeasurementDisplayValueService', () => {
 
     const value = service.getDisplayValue(metric);
 
-    expect(value.primaryValue).toBe('58.15');
+    expect(value.primaryValue).toBe('58.2');
     expect(value.primaryUnit).toBe('%');
     expect(value.secondaryValue).toBeUndefined();
     expect(value.secondaryUnit).toBeUndefined();

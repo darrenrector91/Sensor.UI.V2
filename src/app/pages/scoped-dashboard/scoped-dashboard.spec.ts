@@ -92,7 +92,7 @@ describe('ScopedDashboard', () => {
     expect(compiled.textContent).toContain('SHT35 Sensor');
     expect(compiled.textContent).toContain('Temperature');
     expect(compiled.textContent).toContain('Humidity');
-    expect(compiled.textContent).toContain('62.20');
+    expect(compiled.textContent).toContain('62.2');
     expect(compiled.textContent).toContain('19.9');
   });
 });
