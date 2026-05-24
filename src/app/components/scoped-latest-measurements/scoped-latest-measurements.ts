@@ -28,6 +28,10 @@ export class ScopedLatestMeasurements {
     return this.measurementDisplayConfigService.getConfig(measurement.measurementType).cssClass;
   }
 
+  protected getMeasurementAccentColor(measurement: DashboardMeasurement): string {
+    return this.measurementDisplayConfigService.getConfig(measurement.measurementType).accentColor;
+  }
+
   protected getMeasurementDisplayValue(measurement: DashboardMeasurement): MeasurementDisplayValue {
     const config = this.measurementDisplayConfigService.getConfig(measurement.measurementType);
 
