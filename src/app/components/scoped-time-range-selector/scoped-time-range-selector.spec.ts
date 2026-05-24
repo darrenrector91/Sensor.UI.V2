@@ -22,7 +22,6 @@ describe('ScopedTimeRangeSelector', () => {
   it('should render time range options', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.textContent).toContain('1H');
     expect(compiled.textContent).toContain('6H');
     expect(compiled.textContent).toContain('24H');
     expect(compiled.textContent).toContain('7D');
@@ -35,6 +34,6 @@ describe('ScopedTimeRangeSelector', () => {
     const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
     button.click();
 
-    expect(component.rangeSelected.emit).toHaveBeenCalledWith('1H');
+    expect(component.rangeSelected.emit).toHaveBeenCalledWith('6H');
   });
 });

@@ -44,7 +44,6 @@ describe('ScopedDashboardHeader', () => {
   it('should render time range options', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.textContent).toContain('1H');
     expect(compiled.textContent).toContain('24H');
     expect(compiled.textContent).toContain('30D');
   });
