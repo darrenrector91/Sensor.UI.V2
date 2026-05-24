@@ -25,48 +25,7 @@
 
   <div class="sensor-grid">
     @for (sensor of groupedSensors(); track sensor.sensorId) {
-      <article class="sensor-panel">
-        <header>
-          <div>
-            <h2>{{ sensor.sensorName }}</h2>
-            <p>{{ sensor.sensorKey }} · {{ sensor.sensorType }}</p>
-          </div>
-        </header>
-
-        <div class="measurement-group-list">
-          @for (group of sensor.measurementGroups; track group.measurementType) {
-            <section class="measurement-group">
-              <h3>
-                @if (group.measurements[0]; as firstMeasurement) {
-                  <span class="material-symbols-outlined">{{ getMeasurementIcon(firstMeasurement) }}</span>
-                  {{ getMeasurementLabel(firstMeasurement) }}
-                }
-              </h3>
-
-              <div class="measurement-list">
-                @for (measurement of group.measurements; track measurement.measurementType + measurement.createdUtc) {
-                  <div class="measurement-row">
-                    <div>
-                      <strong>{{ measurement.createdUtc | date:'short' }}</strong>
-                      <span>{{ measurement.controllerName }} · {{ measurement.location }}</span>
-                    </div>
-
-                    <div class="measurement-value">
-                      @if (getMeasurementDisplayValue(measurement); as displayValue) {
-                        {{ displayValue.primaryValue }} {{ displayValue.primaryUnit }}
-
-                        @if (displayValue.secondaryValue && displayValue.secondaryUnit) {
-                          <small>{{ displayValue.secondaryValue }} {{ displayValue.secondaryUnit }}</small>
-                        }
-                      }
-                    </div>
-                  </div>
-                }
-              </div>
-            </section>
-          }
-        </div>
-      </article>
+      <app-scoped-measurement-panel [sensor]="sensor"></app-scoped-measurement-panel>
     }
   </div>
 </section>

@@ -1,0 +1,92 @@
+.sensor-panel {
+  padding: 1rem;
+  border: 1px solid rgba(143, 210, 116, 0.28);
+  border-radius: 1.15rem;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(112, 211, 107, 0.12), transparent 36%),
+    linear-gradient(145deg, #082314 0%, #071f17 100%);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+}
+
+.sensor-panel h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 850;
+}
+
+.sensor-panel p {
+  margin: 0.35rem 0 0;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.measurement-group-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.measurement-group {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.measurement-group h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  color: #16c797;
+  font-size: 0.9rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.measurement-group h3 .material-symbols-outlined {
+  font-size: 1.15rem;
+}
+
+.measurement-list {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.measurement-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(143, 210, 116, 0.16);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.measurement-row strong {
+  display: block;
+  color: #f4fff8;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.measurement-row span {
+  display: block;
+  margin-top: 0.15rem;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.78rem;
+}
+
+.measurement-value {
+  color: #8fffd7;
+  font-size: 1.15rem;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.measurement-value small {
+  display: block;
+  margin-top: 0.15rem;
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 0.75rem;
+}
