@@ -261,3 +261,24 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+.measurement-stat-grid strong {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
+.measurement-stat-grid strong small {
+  color: currentColor;
+  font-size: 0.62em;
+  font-weight: 850;
+}
+
+.measurement-stat-grid em {
+  display: block;
+  margin-top: 0.15rem;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 750;
+}

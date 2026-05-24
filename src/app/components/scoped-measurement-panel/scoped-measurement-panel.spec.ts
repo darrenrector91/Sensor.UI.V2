@@ -81,5 +81,8 @@ describe('ScopedMeasurementPanel', () => {
     expect(compiled.textContent).toContain('Avg');
     expect(compiled.textContent).toContain('Max');
     expect(compiled.textContent).toContain('Readings');
+    expect(compiled.textContent).toContain('°C');
+    expect(compiled.textContent).toContain('°F');
+    expect(compiled.textContent).toContain('71.6');
   });
 });
