@@ -1,0 +1,154 @@
+.latest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.latest-card {
+  padding: 1rem;
+  border: 1px solid rgba(143, 210, 116, 0.24);
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at top right, rgba(95, 226, 153, 0.12), transparent 42%),
+    rgba(255, 255, 255, 0.045);
+}
+
+.latest-card__label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #16c797;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.latest-card__label .material-symbols-outlined {
+  font-size: 1.2rem;
+}
+
+.latest-card strong {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  margin-top: 0.45rem;
+  color: #ffffff;
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.latest-card strong span {
+  color: #8fffd7;
+  font-size: 0.42em;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+.latest-card__secondary {
+  margin-top: 0.35rem;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.latest-card small {
+  display: block;
+  margin-top: 0.35rem;
+  color: rgba(255, 255, 255, 0.58);
+  font-weight: 700;
+}
+
+.latest-card.metric-card--temperature {
+  border-color: rgba(205, 223, 45, 0.46);
+}
+
+.latest-card.metric-card--humidity {
+  border-color: rgba(82, 239, 193, 0.52);
+}
+
+.latest-card.metric-card--soil-moisture {
+  border-color: rgba(86, 188, 255, 0.48);
+}
+
+.latest-card.metric-card--light {
+  border-color: rgba(255, 215, 87, 0.48);
+}
+
+.latest-card.metric-card--battery {
+  border-color: rgba(113, 255, 136, 0.48);
+}
+
+.latest-card.metric-card--pump {
+  border-color: rgba(72, 215, 255, 0.48);
+}
+
+.latest-card.metric-card--door {
+  border-color: rgba(255, 167, 82, 0.48);
+}
+
+.latest-card.metric-card--water-level {
+  border-color: rgba(72, 164, 255, 0.48);
+}
+
+.latest-card.metric-card--signal {
+  border-color: rgba(190, 164, 255, 0.48);
+}
+
+.latest-card.metric-card--default {
+  border-color: rgba(170, 210, 255, 0.42);
+}
+
+.latest-card.metric-card--temperature .latest-card__label,
+.latest-card.metric-card--temperature strong span {
+  color: #d8e534;
+}
+
+.latest-card.metric-card--humidity .latest-card__label,
+.latest-card.metric-card--humidity strong span {
+  color: #58efc3;
+}
+
+.latest-card.metric-card--soil-moisture .latest-card__label,
+.latest-card.metric-card--soil-moisture strong span {
+  color: #56bcff;
+}
+
+.latest-card.metric-card--light .latest-card__label,
+.latest-card.metric-card--light strong span {
+  color: #ffd757;
+}
+
+.latest-card.metric-card--battery .latest-card__label,
+.latest-card.metric-card--battery strong span {
+  color: #71ff88;
+}
+
+.latest-card.metric-card--pump .latest-card__label,
+.latest-card.metric-card--pump strong span {
+  color: #48d7ff;
+}
+
+.latest-card.metric-card--door .latest-card__label,
+.latest-card.metric-card--door strong span {
+  color: #ffa752;
+}
+
+.latest-card.metric-card--water-level .latest-card__label,
+.latest-card.metric-card--water-level strong span {
+  color: #48a4ff;
+}
+
+.latest-card.metric-card--signal .latest-card__label,
+.latest-card.metric-card--signal strong span {
+  color: #bea4ff;
+}
+
+.latest-card.metric-card--default .latest-card__label,
+.latest-card.metric-card--default strong span {
+  color: #9fc9ff;
+}
