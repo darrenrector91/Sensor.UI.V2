@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { finalize, forkJoin, map, of, switchMap } from 'rxjs';
 import { DashboardScope } from '../../enums/dashboard-scope';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
@@ -13,12 +13,10 @@ import { ScopedMeasurementPanel } from '../../components/scoped-measurement-pane
 import { ScopedHealthSummary } from '../../components/scoped-health-summary/scoped-health-summary';
 import { DashboardMeasurementsService } from '../../services/dashboard-measurements.service';
 import { MeasurementDisplayConfigService } from '../../services/measurement-display-config.service';
-import { MeasurementDisplayValueService } from '../../services/measurement-display-value.service';
-import { MeasurementDisplayValue } from '../../models/measurement-display-value';
 
 @Component({
   selector: 'app-scoped-dashboard',
-  imports: [CommonModule, RouterLink, ScopedDashboardHeader, ScopedLatestMeasurements, ScopedMeasurementPanel, ScopedHealthSummary],
+  imports: [CommonModule, ScopedDashboardHeader, ScopedLatestMeasurements, ScopedMeasurementPanel, ScopedHealthSummary],
   templateUrl: './scoped-dashboard.html',
   styleUrl: './scoped-dashboard.scss'
 })
@@ -26,7 +24,6 @@ export class ScopedDashboard implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly dashboardMeasurementsService = inject(DashboardMeasurementsService);
   private readonly measurementDisplayConfigService = inject(MeasurementDisplayConfigService);
-  private readonly measurementDisplayValueService = inject(MeasurementDisplayValueService);
 
   protected readonly measurements = signal<DashboardMeasurement[]>([]);
   protected readonly isLoading = signal(false);
@@ -149,27 +146,6 @@ export class ScopedDashboard implements OnInit {
 
     return sortedMeasurements[0]?.createdUtc ?? null;
   });
-
-  protected getMeasurementIcon(measurement: DashboardMeasurement): string {
-    return this.measurementDisplayConfigService.getConfig(measurement.measurementType).icon;
-  }
-
-  protected getMeasurementLabel(measurement: DashboardMeasurement): string {
-    return this.measurementDisplayConfigService.getConfig(measurement.measurementType).label;
-  }
-
-  protected getMeasurementCssClass(measurement: DashboardMeasurement): string {
-    return this.measurementDisplayConfigService.getConfig(measurement.measurementType).cssClass;
-  }
-
-  protected getMeasurementDisplayValue(measurement: DashboardMeasurement): MeasurementDisplayValue {
-    const config = this.measurementDisplayConfigService.getConfig(measurement.measurementType);
-
-    return this.measurementDisplayValueService.getMeasurementDisplayValue(
-      measurement,
-      config.defaultUnit ?? ''
-    );
-  }
 
   ngOnInit(): void {
     this.setScopeFromRoute();
