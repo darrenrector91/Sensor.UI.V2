@@ -69,6 +69,34 @@ export class ScopedMeasurementPanel {
     return group.measurements[0] ?? null;
   }
 
+  protected getHistoryRangeLabel(group: ScopedMeasurementGroup): string {
+    if (group.measurements.length === 0) {
+      return 'No readings';
+    }
+
+    const sortedMeasurements = [...group.measurements].sort(
+      (first, second) => new Date(first.createdUtc).getTime() - new Date(second.createdUtc).getTime()
+    );
+
+    const firstReading = sortedMeasurements[0];
+    const lastReading = sortedMeasurements[sortedMeasurements.length - 1];
+
+    if (!firstReading || !lastReading || firstReading.createdUtc === lastReading.createdUtc) {
+      return 'Single reading';
+    }
+
+    return `${this.formatShortDate(firstReading.createdUtc)} – ${this.formatShortDate(lastReading.createdUtc)}`;
+  }
+
+  private formatShortDate(createdUtc: string): string {
+    return new Date(createdUtc).toLocaleString([], {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit'
+    });
+  }
+
   protected getMeasurementDisplayValue(measurement: DashboardMeasurement): MeasurementDisplayValue {
     const config = this.measurementDisplayConfigService.getConfig(measurement.measurementType);
 

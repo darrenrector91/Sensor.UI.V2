@@ -17,7 +17,7 @@
                 {{ getMeasurementLabel(latestMeasurement) }}
               </h3>
 
-              <p>{{ latestMeasurement.createdUtc | date:'short' }}</p>
+              <p>{{ getHistoryRangeLabel(group) }}</p>
             </div>
 
             @if (getMeasurementDisplayValue(latestMeasurement); as displayValue) {
