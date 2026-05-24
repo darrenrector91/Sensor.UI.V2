@@ -8,6 +8,10 @@
   box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
 }
 
+.sensor-panel__header {
+  margin-bottom: 1rem;
+}
+
 .sensor-panel h2 {
   margin: 0;
   color: #ffffff;
@@ -20,18 +24,29 @@
   color: rgba(255, 255, 255, 0.64);
 }
 
-.measurement-group-list {
+.measurement-visual-grid {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
   gap: 1rem;
-  margin-top: 1rem;
 }
 
-.measurement-group {
-  display: grid;
-  gap: 0.65rem;
+.measurement-visual-panel {
+  padding: 1rem;
+  border: 1px solid rgba(143, 210, 116, 0.22);
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at top right, rgba(95, 226, 153, 0.1), transparent 42%),
+    rgba(255, 255, 255, 0.04);
 }
 
-.measurement-group h3 {
+.measurement-visual-panel__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.measurement-visual-panel h3 {
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -43,50 +58,154 @@
   text-transform: uppercase;
 }
 
-.measurement-group h3 .material-symbols-outlined {
+.measurement-visual-panel h3 .material-symbols-outlined {
   font-size: 1.15rem;
 }
 
-.measurement-list {
-  display: grid;
-  gap: 0.65rem;
+.measurement-visual-panel__latest {
+  text-align: right;
 }
 
-.measurement-row {
+.measurement-visual-panel__latest strong {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.75rem;
-  border: 1px solid rgba(143, 210, 116, 0.16);
-  border-radius: 0.75rem;
-  background: rgba(255, 255, 255, 0.045);
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  color: #ffffff;
+  font-size: 1.7rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1;
 }
 
-.measurement-row strong {
+.measurement-visual-panel__latest strong span {
+  color: #8fffd7;
+  font-size: 0.42em;
+  font-weight: 850;
+}
+
+.measurement-visual-panel__latest small {
   display: block;
-  color: #f4fff8;
-  font-size: 0.9rem;
+  margin-top: 0.3rem;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.82rem;
   font-weight: 800;
 }
 
-.measurement-row span {
-  display: block;
-  margin-top: 0.15rem;
-  color: rgba(255, 255, 255, 0.58);
-  font-size: 0.78rem;
+.measurement-visual-panel__chart-placeholder {
+  position: relative;
+  height: 11rem;
+  margin-top: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(143, 210, 116, 0.12);
+  border-radius: 0.85rem;
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035), transparent),
+    rgba(0, 0, 0, 0.12);
 }
 
-.measurement-value {
-  color: #8fffd7;
-  font-size: 1.15rem;
+.chart-grid-line {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.chart-grid-line:nth-child(1) {
+  top: 25%;
+}
+
+.chart-grid-line:nth-child(2) {
+  top: 50%;
+}
+
+.chart-grid-line:nth-child(3) {
+  top: 75%;
+}
+
+.chart-placeholder-line {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 2.6rem;
+  left: 0.75rem;
+  height: 3.8rem;
+  border-bottom: 3px solid currentColor;
+  border-left: 3px solid transparent;
+  opacity: 0.85;
+  clip-path: polygon(0 75%, 15% 58%, 30% 66%, 45% 36%, 60% 46%, 76% 28%, 100% 18%, 100% 100%, 0 100%);
+}
+
+.measurement-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.measurement-stat-grid div {
+  padding: 0.6rem;
+  border: 1px solid rgba(143, 210, 116, 0.12);
+  border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.measurement-stat-grid span {
+  display: block;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.62rem;
   font-weight: 850;
-  white-space: nowrap;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-.measurement-value small {
+.measurement-stat-grid strong {
   display: block;
-  margin-top: 0.15rem;
-  color: rgba(255, 255, 255, 0.54);
-  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+
+.measurement-visual-panel.metric-card--temperature {
+  border-color: rgba(205, 223, 45, 0.46);
+  color: #d8e534;
+}
+
+.measurement-visual-panel.metric-card--humidity {
+  border-color: rgba(82, 239, 193, 0.52);
+  color: #58efc3;
+}
+
+.measurement-visual-panel.metric-card--soil-moisture {
+  border-color: rgba(86, 188, 255, 0.48);
+  color: #56bcff;
+}
+
+.measurement-visual-panel.metric-card--light {
+  border-color: rgba(255, 215, 87, 0.48);
+  color: #ffd757;
+}
+
+.measurement-visual-panel.metric-card--default {
+  border-color: rgba(170, 210, 255, 0.42);
+  color: #9fc9ff;
+}
+
+@media (max-width: 540px) {
+  .measurement-visual-panel__header {
+    flex-direction: column;
+  }
+
+  .measurement-visual-panel__latest {
+    text-align: left;
+  }
+
+  .measurement-visual-panel__latest strong {
+    justify-content: flex-start;
+  }
+
+  .measurement-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

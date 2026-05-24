@@ -3,6 +3,8 @@ import { Component, inject, input } from '@angular/core';
 import { ScopedSensorGroup } from '../../models/scoped-sensor-group';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
 import { MeasurementDisplayValue } from '../../models/measurement-display-value';
+import { ScopedMeasurementGroup } from '../../models/scoped-measurement-group';
+import { ScopedMeasurementStatistics } from '../../models/scoped-measurement-statistics';
 import { MeasurementDisplayConfigService } from '../../services/measurement-display-config.service';
 import { MeasurementDisplayValueService } from '../../services/measurement-display-value.service';
 
@@ -26,6 +28,14 @@ export class ScopedMeasurementPanel {
     return this.measurementDisplayConfigService.getConfig(measurement.measurementType).label;
   }
 
+  protected getMeasurementCssClass(measurement: DashboardMeasurement): string {
+    return this.measurementDisplayConfigService.getConfig(measurement.measurementType).cssClass;
+  }
+
+  protected getLatestMeasurement(group: ScopedMeasurementGroup): DashboardMeasurement | null {
+    return group.measurements[0] ?? null;
+  }
+
   protected getMeasurementDisplayValue(measurement: DashboardMeasurement): MeasurementDisplayValue {
     const config = this.measurementDisplayConfigService.getConfig(measurement.measurementType);
 
@@ -33,5 +43,30 @@ export class ScopedMeasurementPanel {
       measurement,
       config.defaultUnit ?? ''
     );
+  }
+
+  protected getStatistics(group: ScopedMeasurementGroup): ScopedMeasurementStatistics | null {
+    const numericValues = group.measurements
+      .map(measurement => Number(measurement.value))
+      .filter(value => !Number.isNaN(value));
+
+    if (numericValues.length === 0) {
+      return null;
+    }
+
+    const minimum = Math.min(...numericValues);
+    const maximum = Math.max(...numericValues);
+    const average = numericValues.reduce((total, value) => total + value, 0) / numericValues.length;
+
+    return new ScopedMeasurementStatistics(
+      this.formatStatistic(minimum),
+      this.formatStatistic(maximum),
+      this.formatStatistic(average),
+      numericValues.length
+    );
+  }
+
+  private formatStatistic(value: number): string {
+    return value.toFixed(1);
   }
 }
