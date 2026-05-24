@@ -1,7 +1,8 @@
 <section class="health-summary">
-  <article class="health-card health-card--status" [class]="statusClass()">
+  <article class="health-card health-card--status" [class]="healthStatus().cssClass">
     <span>Status</span>
-    <strong>{{ statusLabel() }}</strong>
+    <strong>{{ healthStatus().label }}</strong>
+    <small>{{ healthStatus().ageLabel }}</small>
   </article>
 
   <article class="health-card">

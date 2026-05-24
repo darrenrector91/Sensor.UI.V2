@@ -69,3 +69,11 @@
 .health-card--unknown strong {
   color: #ffa752;
 }
+
+.health-card small {
+  display: block;
+  margin-top: 0.25rem;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
