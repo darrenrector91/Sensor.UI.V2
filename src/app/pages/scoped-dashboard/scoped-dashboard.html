@@ -28,6 +28,15 @@
     [latestUpdatedUtc]="latestUpdatedUtc()"
   ></app-scoped-health-summary>
 
+  <div class="scoped-dashboard__toolbar">
+    <span>Chart Range</span>
+
+    <app-scoped-time-range-selector
+      [selectedRange]="selectedTimeRange()"
+      (rangeSelected)="selectTimeRange($event)"
+    ></app-scoped-time-range-selector>
+  </div>
+
   <div class="sensor-grid">
     @for (sensor of groupedSensors(); track sensor.sensorId) {
       <app-scoped-measurement-panel [sensor]="sensor"></app-scoped-measurement-panel>

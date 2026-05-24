@@ -11,12 +11,13 @@ import { ScopedDashboardHeader } from '../../components/scoped-dashboard-header/
 import { ScopedLatestMeasurements } from '../../components/scoped-latest-measurements/scoped-latest-measurements';
 import { ScopedMeasurementPanel } from '../../components/scoped-measurement-panel/scoped-measurement-panel';
 import { ScopedHealthSummary } from '../../components/scoped-health-summary/scoped-health-summary';
+import { ScopedTimeRange, ScopedTimeRangeSelector } from '../../components/scoped-time-range-selector/scoped-time-range-selector';
 import { DashboardMeasurementsService } from '../../services/dashboard-measurements.service';
 import { MeasurementDisplayConfigService } from '../../services/measurement-display-config.service';
 
 @Component({
   selector: 'app-scoped-dashboard',
-  imports: [CommonModule, ScopedDashboardHeader, ScopedLatestMeasurements, ScopedMeasurementPanel, ScopedHealthSummary],
+  imports: [CommonModule, ScopedDashboardHeader, ScopedLatestMeasurements, ScopedMeasurementPanel, ScopedHealthSummary, ScopedTimeRangeSelector],
   templateUrl: './scoped-dashboard.html',
   styleUrl: './scoped-dashboard.scss'
 })
@@ -30,9 +31,12 @@ export class ScopedDashboard implements OnInit {
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly scope = signal<DashboardScope | null>(null);
   protected readonly scopeValue = signal<string | null>(null);
+  protected readonly selectedTimeRange = signal<ScopedTimeRange>('24H');
 
   protected readonly filteredMeasurements = computed(() =>
-    this.filterMeasurementsForScope(this.measurements())
+    this.filterMeasurementsByTimeRange(
+      this.filterMeasurementsForScope(this.measurements())
+    )
   );
 
   protected readonly latestMeasurements = computed(() => {
@@ -152,6 +156,10 @@ export class ScopedDashboard implements OnInit {
     this.loadMeasurements();
   }
 
+  protected selectTimeRange(range: ScopedTimeRange): void {
+    this.selectedTimeRange.set(range);
+  }
+
   protected loadMeasurements(): void {
     this.isLoading.set(true);
     this.errorMessage.set(null);
@@ -233,6 +241,39 @@ export class ScopedDashboard implements OnInit {
         );
       })
       .filter((measurement): measurement is DashboardMeasurement => measurement !== null);
+  }
+
+  private filterMeasurementsByTimeRange(measurements: DashboardMeasurement[]): DashboardMeasurement[] {
+    const cutoffUtc = this.getTimeRangeCutoffUtc(this.selectedTimeRange());
+
+    if (!cutoffUtc) {
+      return measurements;
+    }
+
+    return measurements.filter(measurement =>
+      new Date(measurement.createdUtc).getTime() >= cutoffUtc.getTime()
+    );
+  }
+
+  private getTimeRangeCutoffUtc(range: ScopedTimeRange): Date | null {
+    const now = new Date();
+
+    switch (range) {
+      case '1H':
+        return new Date(now.getTime() - 60 * 60 * 1000);
+
+      case '6H':
+        return new Date(now.getTime() - 6 * 60 * 60 * 1000);
+
+      case '24H':
+        return new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+      case '7D':
+        return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+      case '30D':
+        return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    }
   }
 
   private filterMeasurementsForScope(measurements: DashboardMeasurement[]): DashboardMeasurement[] {
