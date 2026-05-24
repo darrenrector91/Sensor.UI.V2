@@ -1,7 +1,7 @@
 @if (measurements().length > 0) {
   <section class="latest-grid">
     @for (measurement of measurements(); track measurement.sensorId + measurement.measurementType) {
-      <article class="latest-card" [class]="getMeasurementCssClass(measurement)">
+      <article class="latest-card" [class]="getMeasurementCssClass(measurement)" [style.--measurement-accent]="getMeasurementAccentColor(measurement)">
         <div class="latest-card__label">
           <span class="material-symbols-outlined">{{ getMeasurementIcon(measurement) }}</span>
           <span>{{ getMeasurementLabel(measurement) }}</span>
