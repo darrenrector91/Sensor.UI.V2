@@ -205,39 +205,9 @@
   font-weight: 900;
 }
 
-.measurement-visual-panel.metric-card--temperature {
-  border-color: rgba(205, 223, 45, 0.46);
-  color: #d8e534;
-}
-
-.measurement-visual-panel.metric-card--humidity {
-  border-color: rgba(82, 239, 193, 0.52);
-  color: #58efc3;
-}
-
-.measurement-visual-panel.metric-card--soil-moisture {
-  border-color: rgba(86, 188, 255, 0.48);
-  color: #56bcff;
-}
-
-.measurement-visual-panel.metric-card--light {
-  border-color: rgba(255, 215, 87, 0.48);
-  color: #ffd757;
-}
-
-.measurement-visual-panel.metric-card--battery {
-  border-color: rgba(113, 255, 136, 0.48);
-  color: #71ff88;
-}
-
-.measurement-visual-panel.metric-card--signal {
-  border-color: rgba(190, 164, 255, 0.48);
-  color: #bea4ff;
-}
-
-.measurement-visual-panel.metric-card--default {
-  border-color: rgba(170, 210, 255, 0.42);
-  color: #9fc9ff;
+.measurement-visual-panel {
+  border-color: color-mix(in srgb, var(--measurement-accent, #9fc9ff) 52%, transparent);
+  color: var(--measurement-accent, #9fc9ff);
 }
 
 @media (max-width: 48rem) {
