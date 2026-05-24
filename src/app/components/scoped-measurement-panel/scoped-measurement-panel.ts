@@ -35,30 +35,7 @@ export class ScopedMeasurementPanel {
   }
 
   protected getMeasurementAccentColor(measurement: DashboardMeasurement): string {
-    const cssClass = this.getMeasurementCssClass(measurement);
-
-    switch (cssClass) {
-      case 'metric-card--temperature':
-        return '#d8e534';
-
-      case 'metric-card--humidity':
-        return '#58efc3';
-
-      case 'metric-card--soil-moisture':
-        return '#56bcff';
-
-      case 'metric-card--light':
-        return '#ffd757';
-
-      case 'metric-card--battery':
-        return '#71ff88';
-
-      case 'metric-card--signal':
-        return '#bea4ff';
-
-      default:
-        return '#9fc9ff';
-    }
+    return this.measurementDisplayConfigService.getConfig(measurement.measurementType).accentColor;
   }
 
   protected getMeasurementDisplayKind(measurement: DashboardMeasurement): MeasurementDisplayKind {
