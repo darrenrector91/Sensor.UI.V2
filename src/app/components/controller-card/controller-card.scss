@@ -348,3 +348,11 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+.controller-card__location,
+.controller-card__location *,
+.summary-item--sensor,
+.summary-item--sensor * {
+  text-decoration: none;
+}
