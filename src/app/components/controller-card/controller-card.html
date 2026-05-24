@@ -69,7 +69,7 @@
 
     <section class="controller-card__metrics" [class.controller-card__metrics--many]="visibleMetrics().length > 2">
       @for (metric of visibleMetrics(); track trackMetric($index, metric)) {
-        <div class="metric-card" [class]="metric.config.cssClass">
+        <div class="metric-card" [class]="metric.config.cssClass" [style.--measurement-accent]="metric.config.accentColor">
           <div class="metric-card__header">
             <span class="material-symbols-outlined">{{ metric.config.icon }}</span>
             <span>{{ metric.config.label }}</span>
