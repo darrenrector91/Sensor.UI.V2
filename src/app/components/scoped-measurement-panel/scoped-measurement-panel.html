@@ -9,7 +9,7 @@
   <div class="measurement-visual-grid">
     @for (group of sensor().measurementGroups; track group.measurementType) {
       @if (getLatestMeasurement(group); as latestMeasurement) {
-        <section class="measurement-visual-panel" [class]="getMeasurementCssClass(latestMeasurement)">
+        <section class="measurement-visual-panel" [class]="getMeasurementCssClass(latestMeasurement)" [style.--measurement-accent]="getMeasurementAccentColor(latestMeasurement)">
           <header class="measurement-visual-panel__header">
             <div>
               <h3>
