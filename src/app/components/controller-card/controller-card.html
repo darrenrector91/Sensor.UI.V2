@@ -78,7 +78,7 @@
           @if (getDisplayValue(metric); as displayValue) {
             <div class="metric-card__value">
               <span class="metric-card__number">{{ displayValue.primaryValue }}</span>
-              <span class="metric-card__unit">{{ displayValue.primaryUnit }}</span>
+              <span class="metric-card__unit" [class.metric-card__unit--percent]="displayValue.primaryUnit === '%'">{{ displayValue.primaryUnit }}</span>
             </div>
 
             @if (displayValue.secondaryValue && displayValue.secondaryUnit) {
