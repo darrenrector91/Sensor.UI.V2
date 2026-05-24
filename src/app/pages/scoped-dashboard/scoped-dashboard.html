@@ -19,33 +19,9 @@
     <div class="dashboard-empty">No measurements found for this scope.</div>
   }
 
-  @if (latestMeasurements().length > 0) {
-    <section class="latest-grid">
-      @for (measurement of latestMeasurements(); track measurement.sensorId + measurement.measurementType) {
-        <article class="latest-card" [ngClass]="getMeasurementCssClass(measurement)">
-          <div class="latest-card__label">
-            <span class="material-symbols-outlined">{{ getMeasurementIcon(measurement) }}</span>
-            <span>{{ getMeasurementLabel(measurement) }}</span>
-          </div>
-
-          @if (getMeasurementDisplayValue(measurement); as displayValue) {
-            <strong>
-              {{ displayValue.primaryValue }}
-              <span>{{ displayValue.primaryUnit }}</span>
-            </strong>
-
-            @if (displayValue.secondaryValue && displayValue.secondaryUnit) {
-              <div class="latest-card__secondary">
-                {{ displayValue.secondaryValue }} {{ displayValue.secondaryUnit }}
-              </div>
-            }
-          }
-
-          <small>{{ measurement.sensorName }}</small>
-        </article>
-      }
-    </section>
-  }
+  <app-scoped-latest-measurements
+    [measurements]="latestMeasurements()"
+  ></app-scoped-latest-measurements>
 
   <div class="sensor-grid">
     @for (sensor of groupedSensors(); track sensor.sensorId) {
