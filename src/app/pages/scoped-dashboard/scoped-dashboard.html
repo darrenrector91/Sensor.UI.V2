@@ -16,7 +16,7 @@
   }
 
   @if (!isLoading() && !errorMessage() && filteredMeasurements().length === 0) {
-    <div class="dashboard-empty">No measurements found for this scope.</div>
+    <div class="dashboard-empty">{{ emptyStateMessage() }}</div>
   }
 
   <app-scoped-latest-measurements

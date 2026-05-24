@@ -151,6 +151,16 @@ export class ScopedDashboard implements OnInit {
     return sortedMeasurements[0]?.createdUtc ?? null;
   });
 
+  protected readonly emptyStateMessage = computed(() => {
+    const scopedMeasurements = this.filterMeasurementsForScope(this.measurements());
+
+    if (scopedMeasurements.length === 0) {
+      return 'No measurements found for this scope.';
+    }
+
+    return `No measurements found for the selected ${this.selectedTimeRange()} range.`;
+  });
+
   ngOnInit(): void {
     this.setScopeFromRoute();
     this.loadMeasurements();
