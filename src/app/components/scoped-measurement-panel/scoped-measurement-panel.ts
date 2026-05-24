@@ -79,27 +79,50 @@ export class ScopedMeasurementPanel {
   }
 
   protected getStatistics(group: ScopedMeasurementGroup): ScopedMeasurementStatistics | null {
-    const numericValues = group.measurements
-      .map(measurement => Number(measurement.value))
-      .filter(value => !Number.isNaN(value));
+    const numericMeasurements = group.measurements
+      .map(measurement => ({
+        measurement,
+        numericValue: Number(measurement.value)
+      }))
+      .filter(item => !Number.isNaN(item.numericValue));
 
-    if (numericValues.length === 0) {
+    if (numericMeasurements.length === 0) {
       return null;
     }
 
-    const minimum = Math.min(...numericValues);
-    const maximum = Math.max(...numericValues);
-    const average = numericValues.reduce((total, value) => total + value, 0) / numericValues.length;
+    const minimum = numericMeasurements.reduce((lowest, current) =>
+      current.numericValue < lowest.numericValue ? current : lowest
+    );
+
+    const maximum = numericMeasurements.reduce((highest, current) =>
+      current.numericValue > highest.numericValue ? current : highest
+    );
+
+    const averageValue = numericMeasurements.reduce(
+      (total, item) => total + item.numericValue,
+      0
+    ) / numericMeasurements.length;
+
+    const averageMeasurement = new DashboardMeasurement(
+      minimum.measurement.controllerId,
+      minimum.measurement.controllerKey,
+      minimum.measurement.controllerName,
+      minimum.measurement.location,
+      minimum.measurement.sensorId,
+      minimum.measurement.sensorKey,
+      minimum.measurement.sensorName,
+      minimum.measurement.sensorType,
+      minimum.measurement.measurementType,
+      averageValue.toString(),
+      minimum.measurement.unit,
+      minimum.measurement.createdUtc
+    );
 
     return new ScopedMeasurementStatistics(
-      this.formatStatistic(minimum),
-      this.formatStatistic(maximum),
-      this.formatStatistic(average),
-      numericValues.length
+      this.getMeasurementDisplayValue(minimum.measurement),
+      this.getMeasurementDisplayValue(maximum.measurement),
+      this.getMeasurementDisplayValue(averageMeasurement),
+      numericMeasurements.length
     );
-  }
-
-  private formatStatistic(value: number): string {
-    return value.toFixed(1);
   }
 }

@@ -46,17 +46,38 @@
             <div class="measurement-stat-grid">
               <div>
                 <span>Min</span>
-                <strong>{{ statistics.minimum }}</strong>
+                <strong>
+                  {{ statistics.minimum.primaryValue }}
+                  <small>{{ statistics.minimum.primaryUnit }}</small>
+                </strong>
+
+                @if (statistics.minimum.secondaryValue && statistics.minimum.secondaryUnit) {
+                  <em>{{ statistics.minimum.secondaryValue }} {{ statistics.minimum.secondaryUnit }}</em>
+                }
               </div>
 
               <div>
                 <span>Avg</span>
-                <strong>{{ statistics.average }}</strong>
+                <strong>
+                  {{ statistics.average.primaryValue }}
+                  <small>{{ statistics.average.primaryUnit }}</small>
+                </strong>
+
+                @if (statistics.average.secondaryValue && statistics.average.secondaryUnit) {
+                  <em>{{ statistics.average.secondaryValue }} {{ statistics.average.secondaryUnit }}</em>
+                }
               </div>
 
               <div>
                 <span>Max</span>
-                <strong>{{ statistics.maximum }}</strong>
+                <strong>
+                  {{ statistics.maximum.primaryValue }}
+                  <small>{{ statistics.maximum.primaryUnit }}</small>
+                </strong>
+
+                @if (statistics.maximum.secondaryValue && statistics.maximum.secondaryUnit) {
+                  <em>{{ statistics.maximum.secondaryValue }} {{ statistics.maximum.secondaryUnit }}</em>
+                }
               </div>
 
               <div>
