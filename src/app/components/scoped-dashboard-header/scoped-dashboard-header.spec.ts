@@ -17,7 +17,7 @@ describe('ScopedDashboardHeader', () => {
     fixture.componentRef.setInput('title', 'Greenhouse Controller');
     fixture.componentRef.setInput('subtitle', 'greenhouse-01 · Garden');
     fixture.componentRef.setInput('latestUpdatedUtc', '2026-05-22T20:49:21.01768');
-    fixture.componentRef.setInput('selectedTimeRange', '24H');
+    fixture.componentRef.setInput('selectedTimeRange', '7D');
     fixture.detectChanges();
   });
 
