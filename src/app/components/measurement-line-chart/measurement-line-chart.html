@@ -1,3 +1,11 @@
 <div class="measurement-line-chart">
-  <canvas #chartCanvas></canvas>
+  @if (hasEnoughData()) {
+    <canvas #chartCanvas></canvas>
+  } @else {
+    <div class="measurement-line-chart__empty">
+      <span class="material-symbols-outlined">monitoring</span>
+      <strong>{{ emptyMessage() }}</strong>
+      <small>{{ numericMeasurements().length }} numeric reading{{ numericMeasurements().length === 1 ? '' : 's' }}</small>
+    </div>
+  }
 </div>

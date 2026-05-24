@@ -20,6 +20,20 @@ describe('MeasurementLineChart', () => {
       '20',
       'C',
       '2026-05-22T20:49:20.734983'
+    ),
+    new DashboardMeasurement(
+      1,
+      'greenhouse-01',
+      'Greenhouse Controller',
+      'Garden',
+      1,
+      'sht35-01',
+      'SHT35 Sensor',
+      'TemperatureHumidity',
+      'Temperature',
+      '21',
+      'C',
+      '2026-05-22T21:49:20.734983'
     )
   ];
 
@@ -41,9 +55,18 @@ describe('MeasurementLineChart', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render a canvas', () => {
+  it('should render a canvas when enough data exists', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
     expect(compiled.querySelector('canvas')).toBeTruthy();
+  });
+
+  it('should render an empty state when fewer than two numeric readings exist', () => {
+    fixture.componentRef.setInput('measurements', [measurements[0]]);
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    expect(compiled.textContent).toContain('More readings needed for a trend.');
   });
 });

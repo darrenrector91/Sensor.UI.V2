@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ElementRef, input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import {
   CategoryScale,
   Chart,
   Filler,
+  Legend,
   LinearScale,
   LineController,
   LineElement,
@@ -11,7 +12,7 @@ import {
 } from 'chart.js';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
 
-Chart.register(CategoryScale, LinearScale, LineController, LineElement, PointElement, Tooltip, Filler);
+Chart.register(CategoryScale, LinearScale, LineController, LineElement, PointElement, Tooltip, Filler, Legend);
 
 @Component({
   selector: 'app-measurement-line-chart',
@@ -29,12 +30,33 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
 
   private chart?: Chart<'line'>;
 
+  protected readonly numericMeasurements = computed(() =>
+    [...this.measurements()]
+      .map(measurement => ({
+        value: Number(measurement.value),
+        createdUtc: measurement.createdUtc
+      }))
+      .filter(point => !Number.isNaN(point.value))
+      .sort((first, second) => new Date(first.createdUtc).getTime() - new Date(second.createdUtc).getTime())
+  );
+
+  protected readonly hasEnoughData = computed(() => this.numericMeasurements().length >= 2);
+
+  protected readonly emptyMessage = computed(() =>
+    this.numericMeasurements().length === 0
+      ? 'No numeric readings available.'
+      : 'More readings needed for a trend.'
+  );
+
   ngAfterViewInit(): void {
     this.renderChart();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ((changes['measurements'] || changes['label'] || changes['unit'] || changes['accentColor']) && this.chartCanvas) {
+    if (
+      (changes['measurements'] || changes['label'] || changes['unit'] || changes['accentColor']) &&
+      this.chartCanvas
+    ) {
       this.renderChart();
     }
   }
@@ -46,17 +68,13 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
   private renderChart(): void {
     const canvas = this.chartCanvas?.nativeElement;
 
-    if (!canvas) {
+    if (!canvas || !this.hasEnoughData()) {
+      this.chart?.destroy();
+      this.chart = undefined;
       return;
     }
 
-    const chartPoints = [...this.measurements()]
-      .map(measurement => ({
-        value: Number(measurement.value),
-        createdUtc: measurement.createdUtc
-      }))
-      .filter(point => !Number.isNaN(point.value))
-      .sort((first, second) => new Date(first.createdUtc).getTime() - new Date(second.createdUtc).getTime());
+    const chartPoints = this.numericMeasurements();
 
     this.chart?.destroy();
 
