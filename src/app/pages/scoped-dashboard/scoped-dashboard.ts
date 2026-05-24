@@ -197,7 +197,15 @@ export class ScopedDashboard implements OnInit {
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
-    this.dashboardMeasurementsService.getMeasurements()
+    const scope = this.scope();
+    const scopeValue = this.scopeValue();
+
+    const measurementsRequest =
+      scope === DashboardScope.Sensor && scopeValue
+        ? this.dashboardMeasurementsService.getSensorMeasurements(Number(scopeValue))
+        : this.dashboardMeasurementsService.getMeasurements();
+
+    measurementsRequest
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: measurements => this.measurements.set(measurements),
