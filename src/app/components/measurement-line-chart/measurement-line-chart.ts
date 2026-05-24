@@ -126,7 +126,7 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
             bodyColor: '#ffffff',
             displayColors: false,
             callbacks: {
-              label: context => `${context.dataset.label}: ${context.parsed.y} ${this.formatUnit()}`
+              label: context => context.parsed.y === null ? `${context.dataset.label}: unavailable` : `${context.dataset.label}: ${this.formatTooltipValue(context.parsed.y)}`
             }
           }
         },
@@ -183,6 +183,16 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
 
   private formatUnit(): string {
     return this.unit().toUpperCase() === 'C' ? '°C' : this.unit();
+  }
+
+  private formatTooltipValue(value: number): string {
+    if (this.unit().toUpperCase() !== 'C') {
+      return `${value} ${this.formatUnit()}`;
+    }
+
+    const fahrenheit = (value * 9) / 5 + 32;
+
+    return `${value.toFixed(1)} °C / ${fahrenheit.toFixed(1)} °F`;
   }
 
   private hexToRgba(hex: string, alpha: number): string {
