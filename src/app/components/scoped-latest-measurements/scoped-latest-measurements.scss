@@ -1,17 +1,21 @@
 .latest-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
   gap: 0.85rem;
   margin-bottom: 1.25rem;
 }
 
 .latest-card {
+  min-height: 9.25rem;
   padding: 1rem;
   border: 1px solid rgba(143, 210, 116, 0.24);
   border-radius: 1rem;
   background:
     radial-gradient(circle at top right, rgba(95, 226, 153, 0.12), transparent 42%),
-    rgba(255, 255, 255, 0.045);
+    linear-gradient(145deg, rgba(8, 35, 20, 0.88), rgba(7, 31, 23, 0.9));
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .latest-card__label {
@@ -33,11 +37,11 @@
   display: flex;
   align-items: baseline;
   gap: 0.25rem;
-  margin-top: 0.45rem;
+  margin-top: 0.65rem;
   color: #ffffff;
-  font-size: 1.85rem;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
   font-weight: 900;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.06em;
   line-height: 1;
 }
 
@@ -58,7 +62,7 @@
 
 .latest-card small {
   display: block;
-  margin-top: 0.35rem;
+  margin-top: 0.65rem;
   color: rgba(255, 255, 255, 0.58);
   font-weight: 700;
 }
