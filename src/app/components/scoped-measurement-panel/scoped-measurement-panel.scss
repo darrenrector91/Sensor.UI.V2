@@ -1,42 +1,52 @@
 .sensor-panel {
-  padding: 1rem;
-  border: 1px solid rgba(143, 210, 116, 0.28);
-  border-radius: 1.15rem;
+  padding: 1.15rem;
+  border: 1px solid rgba(143, 210, 116, 0.24);
+  border-radius: 1.25rem;
   background:
-    radial-gradient(circle at 12% 10%, rgba(112, 211, 107, 0.12), transparent 36%),
-    linear-gradient(145deg, #082314 0%, #071f17 100%);
+    radial-gradient(circle at 12% 10%, rgba(112, 211, 107, 0.1), transparent 34%),
+    linear-gradient(145deg, rgba(8, 35, 20, 0.94), rgba(7, 31, 23, 0.96));
   box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
 }
 
 .sensor-panel__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
   margin-bottom: 1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid rgba(143, 210, 116, 0.14);
 }
 
 .sensor-panel h2 {
   margin: 0;
   color: #ffffff;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 850;
+  letter-spacing: -0.03em;
 }
 
 .sensor-panel p {
   margin: 0.35rem 0 0;
   color: rgba(255, 255, 255, 0.64);
+  font-size: 0.88rem;
+  font-weight: 650;
 }
 
 .measurement-visual-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
   gap: 1rem;
 }
 
 .measurement-visual-panel {
   padding: 1rem;
-  border: 1px solid rgba(143, 210, 116, 0.22);
+  border: 1px solid rgba(143, 210, 116, 0.2);
   border-radius: 1rem;
   background:
-    radial-gradient(circle at top right, rgba(95, 226, 153, 0.1), transparent 42%),
-    rgba(255, 255, 255, 0.04);
+    radial-gradient(circle at top right, rgba(95, 226, 153, 0.08), transparent 42%),
+    rgba(255, 255, 255, 0.035);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .measurement-visual-panel__header {
@@ -44,6 +54,7 @@
   justify-content: space-between;
   gap: 1rem;
   align-items: flex-start;
+  margin-bottom: 0.9rem;
 }
 
 .measurement-visual-panel h3 {
@@ -51,8 +62,8 @@
   align-items: center;
   gap: 0.4rem;
   margin: 0;
-  color: #16c797;
-  font-size: 0.9rem;
+  color: currentColor;
+  font-size: 0.88rem;
   font-weight: 850;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -60,6 +71,12 @@
 
 .measurement-visual-panel h3 .material-symbols-outlined {
   font-size: 1.15rem;
+}
+
+.measurement-visual-panel__header p {
+  margin: 0.35rem 0 0;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.76rem;
 }
 
 .measurement-visual-panel__latest {
@@ -72,14 +89,14 @@
   justify-content: flex-end;
   gap: 0.25rem;
   color: #ffffff;
-  font-size: 1.7rem;
+  font-size: 1.75rem;
   font-weight: 900;
   letter-spacing: -0.05em;
   line-height: 1;
 }
 
 .measurement-visual-panel__latest strong span {
-  color: #8fffd7;
+  color: currentColor;
   font-size: 0.42em;
   font-weight: 850;
 }
@@ -92,122 +109,18 @@
   font-weight: 800;
 }
 
-.measurement-visual-panel__chart {
-  position: relative;
-  height: 11rem;
-  margin-top: 1rem;
-  overflow: hidden;
+.measurement-visual-panel__chart,
+.measurement-visual-panel__gauge,
+.measurement-visual-panel__status,
+.measurement-visual-panel__timeline,
+.measurement-visual-panel__value-card {
+  min-height: 13rem;
+  margin-top: 0.85rem;
   border: 1px solid rgba(143, 210, 116, 0.12);
   border-radius: 0.85rem;
   background:
     linear-gradient(to bottom, rgba(255, 255, 255, 0.035), transparent),
     rgba(0, 0, 0, 0.12);
-}
-
-.chart-grid-line {
-  position: absolute;
-  right: 0;
-  left: 0;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.chart-grid-line:nth-child(1) {
-  top: 25%;
-}
-
-.chart-grid-line:nth-child(2) {
-  top: 50%;
-}
-
-.chart-grid-line:nth-child(3) {
-  top: 75%;
-}
-
-.chart-placeholder-line {
-  position: absolute;
-  right: 0.75rem;
-  bottom: 2.6rem;
-  left: 0.75rem;
-  height: 3.8rem;
-  border-bottom: 3px solid currentColor;
-  border-left: 3px solid transparent;
-  opacity: 0.85;
-  clip-path: polygon(0 75%, 15% 58%, 30% 66%, 45% 36%, 60% 46%, 76% 28%, 100% 18%, 100% 100%, 0 100%);
-}
-
-.measurement-stat-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.5rem;
-  margin-top: 0.8rem;
-}
-
-.measurement-stat-grid div {
-  padding: 0.6rem;
-  border: 1px solid rgba(143, 210, 116, 0.12);
-  border-radius: 0.7rem;
-  background: rgba(255, 255, 255, 0.035);
-}
-
-.measurement-stat-grid span {
-  display: block;
-  color: rgba(255, 255, 255, 0.52);
-  font-size: 0.62rem;
-  font-weight: 850;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.measurement-stat-grid strong {
-  display: block;
-  margin-top: 0.25rem;
-  color: #ffffff;
-  font-size: 0.95rem;
-  font-weight: 900;
-}
-
-.measurement-visual-panel.metric-card--temperature {
-  border-color: rgba(205, 223, 45, 0.46);
-  color: #d8e534;
-}
-
-.measurement-visual-panel.metric-card--humidity {
-  border-color: rgba(82, 239, 193, 0.52);
-  color: #58efc3;
-}
-
-.measurement-visual-panel.metric-card--soil-moisture {
-  border-color: rgba(86, 188, 255, 0.48);
-  color: #56bcff;
-}
-
-.measurement-visual-panel.metric-card--light {
-  border-color: rgba(255, 215, 87, 0.48);
-  color: #ffd757;
-}
-
-.measurement-visual-panel.metric-card--default {
-  border-color: rgba(170, 210, 255, 0.42);
-  color: #9fc9ff;
-}
-
-@media (max-width: 540px) {
-  .measurement-visual-panel__header {
-    flex-direction: column;
-  }
-
-  .measurement-visual-panel__latest {
-    text-align: left;
-  }
-
-  .measurement-visual-panel__latest strong {
-    justify-content: flex-start;
-  }
-
-  .measurement-stat-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 .measurement-visual-panel__gauge,
@@ -216,13 +129,6 @@
 .measurement-visual-panel__value-card {
   display: grid;
   place-items: center;
-  min-height: 11rem;
-  margin-top: 1rem;
-  border: 1px solid rgba(143, 210, 116, 0.12);
-  border-radius: 0.85rem;
-  background:
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.035), transparent),
-    rgba(0, 0, 0, 0.12);
 }
 
 .gauge-track {
@@ -266,4 +172,92 @@
   color: rgba(255, 255, 255, 0.68);
   font-size: 0.9rem;
   font-weight: 800;
+}
+
+.measurement-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.measurement-stat-grid div {
+  padding: 0.65rem;
+  border: 1px solid rgba(143, 210, 116, 0.12);
+  border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.measurement-stat-grid span {
+  display: block;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.62rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.measurement-stat-grid strong {
+  display: block;
+  margin-top: 0.25rem;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+
+.measurement-visual-panel.metric-card--temperature {
+  border-color: rgba(205, 223, 45, 0.46);
+  color: #d8e534;
+}
+
+.measurement-visual-panel.metric-card--humidity {
+  border-color: rgba(82, 239, 193, 0.52);
+  color: #58efc3;
+}
+
+.measurement-visual-panel.metric-card--soil-moisture {
+  border-color: rgba(86, 188, 255, 0.48);
+  color: #56bcff;
+}
+
+.measurement-visual-panel.metric-card--light {
+  border-color: rgba(255, 215, 87, 0.48);
+  color: #ffd757;
+}
+
+.measurement-visual-panel.metric-card--battery {
+  border-color: rgba(113, 255, 136, 0.48);
+  color: #71ff88;
+}
+
+.measurement-visual-panel.metric-card--signal {
+  border-color: rgba(190, 164, 255, 0.48);
+  color: #bea4ff;
+}
+
+.measurement-visual-panel.metric-card--default {
+  border-color: rgba(170, 210, 255, 0.42);
+  color: #9fc9ff;
+}
+
+@media (max-width: 48rem) {
+  .measurement-visual-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .measurement-visual-panel__header {
+    flex-direction: column;
+  }
+
+  .measurement-visual-panel__latest {
+    text-align: left;
+  }
+
+  .measurement-visual-panel__latest strong {
+    justify-content: flex-start;
+  }
+
+  .measurement-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
