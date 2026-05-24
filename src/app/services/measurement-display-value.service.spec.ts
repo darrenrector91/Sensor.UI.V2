@@ -53,6 +53,7 @@ describe('MeasurementDisplayValueService', () => {
         MeasurementDisplayKind.LineChart,
         10,
         'metric-card--temperature',
+        '#d8e534',
         'C'
       )
     );
@@ -75,6 +76,7 @@ describe('MeasurementDisplayValueService', () => {
         MeasurementDisplayKind.LineChart,
         20,
         'metric-card--humidity',
+        '#58efc3',
         '%'
       )
     );

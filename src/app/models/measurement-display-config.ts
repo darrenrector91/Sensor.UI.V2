@@ -8,6 +8,7 @@ export class MeasurementDisplayConfig {
     public displayKind: MeasurementDisplayKind,
     public priority: number,
     public cssClass: string,
+    public accentColor: string,
     public defaultUnit?: string
   ) {}
 }

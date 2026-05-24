@@ -12,7 +12,8 @@ export class MeasurementDisplayConfigService {
     'monitoring',
     MeasurementDisplayKind.ValueCard,
     999,
-    'metric-card--default'
+    'metric-card--default',
+    '#9fc9ff'
   );
 
   private readonly configs = new Map<string, MeasurementDisplayConfig>([
@@ -25,6 +26,7 @@ export class MeasurementDisplayConfigService {
         MeasurementDisplayKind.LineChart,
         10,
         'metric-card--temperature',
+        '#d8e534',
         'C'
       )
     ],
@@ -37,6 +39,7 @@ export class MeasurementDisplayConfigService {
         MeasurementDisplayKind.LineChart,
         20,
         'metric-card--humidity',
+        '#58efc3',
         '%'
       )
     ],
@@ -49,6 +52,7 @@ export class MeasurementDisplayConfigService {
         MeasurementDisplayKind.Gauge,
         30,
         'metric-card--soil-moisture',
+        '#56bcff',
         '%'
       )
     ],
@@ -61,6 +65,7 @@ export class MeasurementDisplayConfigService {
         MeasurementDisplayKind.LineChart,
         40,
         'metric-card--light',
+        '#ffd757',
         'lux'
       )
     ],
@@ -73,6 +78,7 @@ export class MeasurementDisplayConfigService {
         MeasurementDisplayKind.ValueCard,
         50,
         'metric-card--battery',
+        '#71ff88',
         'V'
       )
     ],
@@ -84,7 +90,8 @@ export class MeasurementDisplayConfigService {
         'water_pump',
         MeasurementDisplayKind.Status,
         60,
-        'metric-card--pump'
+        'metric-card--pump',
+        '#48d7ff'
       )
     ],
     [
@@ -95,7 +102,8 @@ export class MeasurementDisplayConfigService {
         'door_open',
         MeasurementDisplayKind.Status,
         70,
-        'metric-card--door'
+        'metric-card--door',
+        '#ffa752'
       )
     ],
     [
@@ -107,6 +115,7 @@ export class MeasurementDisplayConfigService {
         MeasurementDisplayKind.Gauge,
         80,
         'metric-card--water-level',
+        '#48a4ff',
         '%'
       )
     ],
@@ -119,6 +128,7 @@ export class MeasurementDisplayConfigService {
         MeasurementDisplayKind.ValueCard,
         90,
         'metric-card--signal',
+        '#bea4ff',
         'dBm'
       )
     ]
@@ -135,7 +145,8 @@ export class MeasurementDisplayConfigService {
       this.fallbackConfig.icon,
       this.fallbackConfig.displayKind,
       this.fallbackConfig.priority,
-      this.fallbackConfig.cssClass
+      this.fallbackConfig.cssClass,
+      this.fallbackConfig.accentColor
     );
   }
 
