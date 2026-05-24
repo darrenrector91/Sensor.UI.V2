@@ -25,6 +25,7 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
   readonly label = input.required<string>();
   readonly unit = input('');
   readonly accentColor = input('#58efc3');
+  readonly maxPoints = input(48);
 
   @ViewChild('chartCanvas') private chartCanvas?: ElementRef<HTMLCanvasElement>;
 
@@ -40,7 +41,15 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
       .sort((first, second) => new Date(first.createdUtc).getTime() - new Date(second.createdUtc).getTime())
   );
 
-  protected readonly hasEnoughData = computed(() => this.numericMeasurements().length >= 2);
+  protected readonly visibleMeasurements = computed(() =>
+    this.numericMeasurements().slice(-this.maxPoints())
+  );
+
+  protected readonly hiddenPointCount = computed(() =>
+    Math.max(this.numericMeasurements().length - this.visibleMeasurements().length, 0)
+  );
+
+  protected readonly hasEnoughData = computed(() => this.visibleMeasurements().length >= 2);
 
   protected readonly emptyMessage = computed(() =>
     this.numericMeasurements().length === 0
@@ -54,7 +63,7 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      (changes['measurements'] || changes['label'] || changes['unit'] || changes['accentColor']) &&
+      (changes['measurements'] || changes['label'] || changes['unit'] || changes['accentColor'] || changes['maxPoints']) &&
       this.chartCanvas
     ) {
       this.renderChart();
@@ -74,7 +83,7 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
       return;
     }
 
-    const chartPoints = this.numericMeasurements();
+    const chartPoints = this.visibleMeasurements();
 
     this.chart?.destroy();
 

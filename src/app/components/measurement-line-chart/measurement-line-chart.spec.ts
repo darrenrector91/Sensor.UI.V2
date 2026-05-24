@@ -48,6 +48,7 @@ describe('MeasurementLineChart', () => {
     fixture.componentRef.setInput('label', 'Temperature');
     fixture.componentRef.setInput('unit', 'C');
     fixture.componentRef.setInput('accentColor', '#d8e534');
+    fixture.componentRef.setInput('maxPoints', 48);
     fixture.detectChanges();
   });
 
