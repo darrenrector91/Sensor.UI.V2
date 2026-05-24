@@ -1,6 +1,12 @@
 <div class="measurement-line-chart">
   @if (hasEnoughData()) {
     <canvas #chartCanvas></canvas>
+
+    @if (hiddenPointCount() > 0) {
+      <div class="measurement-line-chart__note">
+        Showing latest {{ visibleMeasurements().length }} of {{ numericMeasurements().length }} readings
+      </div>
+    }
   } @else {
     <div class="measurement-line-chart__empty">
       <span class="material-symbols-outlined">monitoring</span>

@@ -38,3 +38,16 @@ canvas {
   font-size: 0.72rem;
   font-weight: 700;
 }
+
+.measurement-line-chart__note {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.measurement-line-chart {
+  position: relative;
+}
