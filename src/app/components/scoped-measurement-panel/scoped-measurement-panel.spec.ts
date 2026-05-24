@@ -30,6 +30,20 @@ describe('ScopedMeasurementPanel', () => {
             '20',
             'C',
             '2026-05-22T20:49:20.734983'
+          ),
+          new DashboardMeasurement(
+            1,
+            'greenhouse-01',
+            'Greenhouse Controller',
+            'Garden',
+            1,
+            'sht35-01',
+            'SHT35 Sensor',
+            'TemperatureHumidity',
+            'Temperature',
+            '22',
+            'C',
+            '2026-05-22T19:49:20.734983'
           )
         ]
       )
@@ -58,5 +72,14 @@ describe('ScopedMeasurementPanel', () => {
     expect(compiled.textContent).toContain('Temperature');
     expect(compiled.textContent).toContain('20.0');
     expect(compiled.textContent).toContain('68.0');
+  });
+
+  it('should render measurement statistics', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    expect(compiled.textContent).toContain('Min');
+    expect(compiled.textContent).toContain('Avg');
+    expect(compiled.textContent).toContain('Max');
+    expect(compiled.textContent).toContain('Readings');
   });
 });
