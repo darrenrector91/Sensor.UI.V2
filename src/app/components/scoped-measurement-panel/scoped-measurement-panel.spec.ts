@@ -72,6 +72,7 @@ describe('ScopedMeasurementPanel', () => {
     expect(compiled.textContent).toContain('Temperature');
     expect(compiled.textContent).toContain('20.0');
     expect(compiled.textContent).toContain('68.0');
+    expect(compiled.textContent).toContain('May');
   });
 
   it('should render measurement statistics', () => {
