@@ -322,3 +322,36 @@
 .latest-card.metric-card--default strong span {
   color: #9fc9ff;
 }
+
+.measurement-group-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.measurement-group {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.measurement-group h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  color: #16c797;
+  font-size: 0.9rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.measurement-group h3 .material-symbols-outlined {
+  font-size: 1.15rem;
+}
+
+.measurement-row div:first-child strong {
+  color: #f4fff8;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
