@@ -1,1 +1,18 @@
-<p>scoped-dashboard-header works!</p>
+<header class="scoped-dashboard-header">
+  <div>
+    <a class="back-link" routerLink="/">← Back to dashboard</a>
+
+    <h1>{{ title() }}</h1>
+    <p>{{ subtitle() }}</p>
+
+    @if (latestUpdatedUtc(); as updatedUtc) {
+      <div class="last-updated">
+        Last updated {{ updatedUtc | date:'short' }}
+      </div>
+    }
+  </div>
+
+  <button class="btn btn-outline-light" type="button" (click)="refresh()" [disabled]="isLoading()">
+    Refresh
+  </button>
+</header>

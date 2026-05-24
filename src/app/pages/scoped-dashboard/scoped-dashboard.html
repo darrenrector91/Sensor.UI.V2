@@ -1,22 +1,11 @@
 <section class="scoped-dashboard">
-  <header class="scoped-dashboard__header">
-    <div>
-      <a class="back-link" routerLink="/">← Back to dashboard</a>
-
-      <h1>{{ title() }}</h1>
-      <p>{{ subtitle() }}</p>
-
-      @if (latestUpdatedUtc(); as updatedUtc) {
-        <div class="last-updated">
-          Last updated {{ updatedUtc | date:'short' }}
-        </div>
-      }
-    </div>
-
-    <button class="btn btn-outline-light" type="button" (click)="loadMeasurements()" [disabled]="isLoading()">
-      Refresh
-    </button>
-  </header>
+  <app-scoped-dashboard-header
+    [title]="title()"
+    [subtitle]="subtitle()"
+    [latestUpdatedUtc]="latestUpdatedUtc()"
+    [isLoading]="isLoading()"
+    (refreshRequested)="loadMeasurements()"
+  ></app-scoped-dashboard-header>
 
   @if (isLoading()) {
     <div class="dashboard-status">Loading scoped dashboard...</div>

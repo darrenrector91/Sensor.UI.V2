@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideRouter } from '@angular/router';
 import { ScopedDashboardHeader } from './scoped-dashboard-header';
 
 describe('ScopedDashboardHeader', () => {
@@ -8,16 +8,35 @@ describe('ScopedDashboardHeader', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ScopedDashboardHeader]
-    })
-    .compileComponents();
+      imports: [ScopedDashboardHeader],
+      providers: [provideRouter([])]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ScopedDashboardHeader);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('title', 'Greenhouse Controller');
+    fixture.componentRef.setInput('subtitle', 'greenhouse-01 · Garden');
+    fixture.componentRef.setInput('latestUpdatedUtc', '2026-05-22T20:49:21.01768');
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render title and subtitle', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    expect(compiled.textContent).toContain('Greenhouse Controller');
+    expect(compiled.textContent).toContain('greenhouse-01 · Garden');
+  });
+
+  it('should emit refresh requests', () => {
+    spyOn(component.refreshRequested, 'emit');
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    button.click();
+
+    expect(component.refreshRequested.emit).toHaveBeenCalled();
   });
 });

@@ -1,0 +1,34 @@
+.scoped-dashboard-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  color: #16c797;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.scoped-dashboard-header h1 {
+  margin: 0;
+  color: #f3fff8;
+  font-size: 2rem;
+  font-weight: 850;
+}
+
+.scoped-dashboard-header p {
+  margin: 0.35rem 0 0;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.last-updated {
+  margin-top: 0.7rem;
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
