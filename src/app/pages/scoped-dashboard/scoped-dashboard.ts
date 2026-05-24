@@ -32,7 +32,7 @@ export class ScopedDashboard implements OnInit {
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly scope = signal<DashboardScope | null>(null);
   protected readonly scopeValue = signal<string | null>(null);
-  protected readonly selectedTimeRange = signal<ScopedTimeRange>('24H');
+  protected readonly selectedTimeRange = signal<ScopedTimeRange>('7D');
 
   protected readonly filteredMeasurements = computed(() =>
     this.filterMeasurementsByTimeRange(

@@ -14,7 +14,7 @@ export class ScopedDashboardHeader {
   readonly subtitle = input.required<string>();
   readonly latestUpdatedUtc = input<string | null>(null);
   readonly isLoading = input(false);
-  readonly selectedTimeRange = input<ScopedTimeRange>('24H');
+  readonly selectedTimeRange = input<ScopedTimeRange>('7D');
 
   readonly refreshRequested = output<void>();
   readonly timeRangeSelected = output<ScopedTimeRange>();
