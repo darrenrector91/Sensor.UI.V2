@@ -1,0 +1,36 @@
+<nav class="dashboard-action-rail">
+  <button type="button" class="rail-button rail-button--menu" aria-label="Menu">
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+
+  <button type="button" class="rail-button rail-button--active" aria-label="Dashboard">
+    <span class="material-symbols-outlined">dashboard</span>
+  </button>
+
+  <div class="rail-spacer"></div>
+
+  <div class="add-menu">
+    <button
+      type="button"
+      class="rail-button rail-button--add"
+      aria-label="Add new"
+      (click)="toggleAddMenu()"
+    >
+      <span class="material-symbols-outlined">add</span>
+    </button>
+
+    @if (isAddMenuOpen()) {
+      <div class="add-menu__panel">
+        <button type="button" (click)="onCreateController()">
+          <span class="material-symbols-outlined">developer_board</span>
+          Add Controller
+        </button>
+
+        <button type="button" (click)="onCreateSensor()">
+          <span class="material-symbols-outlined">sensors</span>
+          Add Sensor
+        </button>
+      </div>
+    }
+  </div>
+</nav>

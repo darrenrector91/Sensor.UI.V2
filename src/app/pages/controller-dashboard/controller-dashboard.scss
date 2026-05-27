@@ -5,6 +5,11 @@
     linear-gradient(135deg, #021c15 0%, #04110e 100%);
 }
 
+.dashboard-content {
+  min-height: 100vh;
+  padding-left: 6.25rem;
+}
+
 .kicker {
   color: #16c797;
   font-size: 1.05rem;
@@ -29,4 +34,10 @@
   background: rgba(90, 15, 15, 0.35);
   color: #ffb8b8;
   font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .dashboard-content {
+    padding-left: 5.5rem;
+  }
 }
