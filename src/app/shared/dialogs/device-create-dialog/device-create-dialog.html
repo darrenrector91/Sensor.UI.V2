@@ -4,192 +4,215 @@
       <h2>{{ title }}</h2>
       <p>{{ subtitle }}</p>
     </div>
-
-    <button type="button" class="icon-button" (click)="cancel()" aria-label="Close dialog">
+    <button
+      mat-icon-button
+      type="button"
+      class="icon-button"
+      (click)="cancel()"
+      aria-label="Close dialog"
+    >
       <span class="material-symbols-outlined">close</span>
     </button>
   </header>
 
-  @if (isControllerMode) {
+  @if (isLocationMode) {
+    <form [formGroup]="locationForm" class="dialog-form">
+      <section class="form-section">
+        <h3>Location Information</h3>
+        <div class="form-grid">
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" placeholder="Garden" />
+          </mat-form-field>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description" placeholder="Outdoor garden area" />
+          </mat-form-field>
+        </div>
+        <div class="form-grid">
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Latitude</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="latitude"
+              placeholder="45.1234"
+              readonly
+            />
+          </mat-form-field>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Longitude</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="longitude"
+              placeholder="-94.1234"
+              readonly
+            />
+          </mat-form-field>
+        </div>
+      </section>
+    </form>
+  } @else if (isControllerMode) {
     <form [formGroup]="controllerForm" class="dialog-form">
       <section class="form-section">
         <h3>Controller Information</h3>
-
         <div class="form-grid">
-          <label>
-            <span>Name *</span>
-            <input formControlName="name" placeholder="Garden ESP32" />
-          </label>
-
-          <label>
-            <span>Location *</span>
-            <input formControlName="location" placeholder="Garden" />
-          </label>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" placeholder="Garden ESP32" />
+          </mat-form-field>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Location</mat-label>
+            <input matInput formControlName="location" placeholder="Garden" />
+          </mat-form-field>
         </div>
-
-        <label>
-          <span>Description</span>
+        <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+          <mat-label>Description</mat-label>
           <textarea
+            matInput
             formControlName="description"
             placeholder="Main ESP32 controller for garden sensors"
           ></textarea>
-        </label>
-
+        </mat-form-field>
         <div class="form-grid">
-          <label>
-            <span>Controller Type *</span>
-            <select formControlName="controllerType">
-              <option value="ESP32">ESP32</option>
-              <option value="Raspberry Pi">Raspberry Pi</option>
-              <option value="Other">Other</option>
-            </select>
-          </label>
-
-          <label>
-            <span>Poll Interval Seconds</span>
-            <input type="number" formControlName="pollIntervalSeconds" />
-          </label>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Controller Type</mat-label>
+            <mat-select formControlName="controllerType">
+              <mat-option value="ESP32">ESP32</mat-option>
+              <mat-option value="Raspberry Pi">Raspberry Pi</mat-option>
+              <mat-option value="Other">Other</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Poll Interval Seconds</mat-label>
+            <input matInput type="number" formControlName="pollIntervalSeconds" />
+          </mat-form-field>
         </div>
-
         <div class="form-grid">
-          <label>
-            <span>IP Address</span>
-            <input formControlName="ipAddress" placeholder="192.168.4.34" />
-          </label>
-
-          <label>
-            <span>Device Identifier</span>
-            <input formControlName="deviceIdentifier" placeholder="esp32-garden-01" />
-          </label>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>IP Address</mat-label>
+            <input matInput formControlName="ipAddress" placeholder="192.168.4.34" />
+          </mat-form-field>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Device Identifier</mat-label>
+            <input matInput formControlName="deviceIdentifier" placeholder="esp32-garden-01" />
+          </mat-form-field>
         </div>
-
-        <label class="toggle-row">
-          <span>Status</span>
-          <input type="checkbox" formControlName="status" />
-          <strong>Active</strong>
-        </label>
+        <mat-slide-toggle formControlName="status">Active</mat-slide-toggle>
       </section>
-
       <section class="form-section">
         <h3>Additional Settings</h3>
-
-        <label>
-          <span>Notes</span>
-          <textarea formControlName="notes" placeholder="Located near the raised bed."></textarea>
-        </label>
+        <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+          <mat-label>Notes</mat-label>
+          <textarea
+            matInput
+            formControlName="notes"
+            placeholder="Located near the raised bed."
+          ></textarea>
+        </mat-form-field>
       </section>
     </form>
   } @else {
     <form [formGroup]="sensorForm" class="dialog-form">
       <section class="form-section">
         <h3>Sensor Information</h3>
-
         <div class="form-grid">
-          <label>
-            <span>Name *</span>
-            <input formControlName="name" placeholder="SHT35 Garden Sensor" />
-          </label>
-
-          <label>
-            <span>Sensor Type *</span>
-            <select formControlName="sensorType">
-              <option value="SHT35">SHT35</option>
-              <option value="Other">Other</option>
-            </select>
-          </label>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" placeholder="SHT35 Garden Sensor" />
+          </mat-form-field>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Sensor Type</mat-label>
+            <mat-select formControlName="sensorType">
+              <mat-option value="SHT35">SHT35</mat-option>
+              <mat-option value="Other">Other</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-
-        <label>
-          <span>Description</span>
+        <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+          <mat-label>Description</mat-label>
           <textarea
+            matInput
             formControlName="description"
             placeholder="Temperature and humidity sensor in the garden."
           ></textarea>
-        </label>
-
-        <label class="toggle-row">
-          <span>Status</span>
-          <input type="checkbox" formControlName="status" />
-          <strong>Active</strong>
-        </label>
+        </mat-form-field>
+        <mat-slide-toggle formControlName="status">Active</mat-slide-toggle>
       </section>
-
       <section class="form-section">
         <h3>Controller Connection</h3>
-
         <div class="form-grid">
-          <label>
-            <span>Controller *</span>
-            <select formControlName="controllerId">
-              <option [ngValue]="null">Select controller</option>
-
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Controller</mat-label>
+            <mat-select formControlName="controllerId">
+              <mat-option [value]="null">Select controller</mat-option>
               @for (controller of data.controllers ?? []; track controller.controllerId) {
-                <option [ngValue]="controller.controllerId">
+                <mat-option [value]="controller.controllerId">
                   {{ controller.controllerName }} — {{ controller.location }}
-                </option>
+                </mat-option>
               }
-            </select>
-          </label>
-
-          <label>
-            <span>Location *</span>
-            <input formControlName="location" placeholder="Garden" />
-          </label>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Location</mat-label>
+            <input matInput formControlName="location" placeholder="Garden" />
+          </mat-form-field>
         </div>
       </section>
-
       <section class="form-section">
         <h3>Sensor Details</h3>
-
         <div class="form-grid">
-          <label>
-            <span>Device Identifier *</span>
-            <input formControlName="deviceIdentifier" placeholder="sht35-01" />
-          </label>
-
-          <label>
-            <span>I2C Address</span>
-            <input formControlName="i2cAddress" placeholder="0x44" />
-          </label>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Device Identifier</mat-label>
+            <input matInput formControlName="deviceIdentifier" placeholder="sht35-01" />
+          </mat-form-field>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>I2C Address</mat-label>
+            <input matInput formControlName="i2cAddress" placeholder="0x44" />
+          </mat-form-field>
         </div>
-
         <div class="form-grid">
-          <label>
-            <span>Measurement Interval Seconds</span>
-            <input type="number" formControlName="measurementIntervalSeconds" />
-          </label>
-
-          <label>
-            <span>Temperature Unit</span>
-            <select formControlName="temperatureUnit">
-              <option value="°C">°C</option>
-              <option value="°F">°F</option>
-            </select>
-          </label>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Measurement Interval Seconds</mat-label>
+            <input matInput type="number" formControlName="measurementIntervalSeconds" />
+          </mat-form-field>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Temperature Unit</mat-label>
+            <mat-select formControlName="temperatureUnit">
+              <mat-option value="°C">°C</mat-option>
+              <mat-option value="°F">°F</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-
         <div class="form-grid">
-          <label>
-            <span>Humidity Unit</span>
-            <select formControlName="humidityUnit">
-              <option value="%">%</option>
-            </select>
-          </label>
-
-          <label>
-            <span>Notes</span>
-            <input formControlName="notes" placeholder="Optional setup notes." />
-          </label>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Humidity Unit</mat-label>
+            <mat-select formControlName="humidityUnit">
+              <mat-option value="%">%</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
+            <mat-label>Notes</mat-label>
+            <input matInput formControlName="notes" placeholder="Optional setup notes." />
+          </mat-form-field>
         </div>
       </section>
     </form>
   }
 
   <footer class="dialog-actions">
-    <button type="button" class="secondary-button" (click)="cancel()">Cancel</button>
-
-    <button type="button" class="primary-button" [disabled]="isSaving" (click)="save()">
-      {{ isControllerMode ? 'Save Controller' : 'Save Sensor' }}
+    <button mat-stroked-button type="button" class="secondary-button" (click)="cancel()">
+      Cancel
+    </button>
+    <button
+      mat-flat-button
+      type="button"
+      class="primary-button"
+      [disabled]="isSaving"
+      (click)="save()"
+    >
+      {{ saveButtonText }}
     </button>
   </footer>
 </div>

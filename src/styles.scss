@@ -21,18 +21,65 @@ body {
 .device-create-dialog-panel {
   width: min(920px, calc(100vw - 8rem)) !important;
   max-width: min(920px, calc(100vw - 8rem)) !important;
-}
 
-.device-create-dialog-panel .mat-mdc-dialog-container {
-  padding: 0 !important;
-}
+  .mat-mdc-dialog-container {
+    padding: 0 !important;
+  }
 
-.device-create-dialog-panel .mat-mdc-dialog-surface {
-  width: 100% !important;
-  max-width: none !important;
-  overflow: visible !important;
-  background: transparent !important;
-  box-shadow: none !important;
+  .mat-mdc-dialog-surface {
+    width: 100% !important;
+    max-width: none !important;
+    overflow: visible !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .mat-mdc-input-element {
+    color: #f4fff8 !important;
+    caret-color: #79e85d !important;
+  }
+
+  .mat-mdc-input-element::placeholder {
+    color: rgba(244, 255, 248, 0.55) !important;
+    opacity: 1;
+  }
+
+  .mdc-floating-label,
+  .mat-mdc-form-field-label,
+  mat-label {
+    color: rgba(244, 255, 248, 0.72) !important;
+  }
+
+  .mat-mdc-form-field.mat-focused .mdc-floating-label {
+    color: #79e85d !important;
+  }
+
+  .mat-mdc-select-value,
+  .mat-mdc-select-value-text {
+    color: #f4fff8 !important;
+  }
+
+  .mat-mdc-select-placeholder {
+    color: rgba(244, 255, 248, 0.55) !important;
+  }
+
+  .mat-mdc-select-arrow {
+    color: rgba(244, 255, 248, 0.8) !important;
+  }
+
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: rgba(84, 240, 207, 0.55) !important;
+  }
+
+  .mat-mdc-form-field.mat-focused {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: #79e85d !important;
+    }
+  }
 }
 
 .device-create-dialog-backdrop {

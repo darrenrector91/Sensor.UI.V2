@@ -1,34 +1,36 @@
 <nav class="dashboard-action-rail">
-  <button type="button" class="rail-button rail-button--menu" aria-label="Menu">
+  <button type="button" class="rail-button">
     <span class="material-symbols-outlined">menu</span>
   </button>
 
-  <button type="button" class="rail-button rail-button--active" aria-label="Dashboard">
+  <button type="button" class="rail-button rail-button--active">
     <span class="material-symbols-outlined">dashboard</span>
   </button>
 
   <div class="rail-spacer"></div>
 
-  <div class="add-menu">
-    <button
-      type="button"
-      class="rail-button rail-button--add"
-      aria-label="Add new"
-      (click)="toggleAddMenu()"
-    >
-      <span class="material-symbols-outlined">add</span>
+  <div class="add-menu" [class.add-menu--open]="isAddMenuOpen()">
+    <button type="button" class="rail-button rail-button--add" (click)="toggleAddMenu()">
+      <span class="material-symbols-outlined">
+        {{ isAddMenuOpen() ? 'close' : 'add' }}
+      </span>
     </button>
 
     @if (isAddMenuOpen()) {
       <div class="add-menu__panel">
+        <button type="button" (click)="onCreateLocation()">
+          <span class="material-symbols-outlined">location_on</span>
+          <span>Add Location</span>
+        </button>
+
         <button type="button" (click)="onCreateController()">
           <span class="material-symbols-outlined">developer_board</span>
-          Add Controller
+          <span>Add Controller</span>
         </button>
 
         <button type="button" (click)="onCreateSensor()">
           <span class="material-symbols-outlined">sensors</span>
-          Add Sensor
+          <span>Add Sensor</span>
         </button>
       </div>
     }
