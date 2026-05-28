@@ -1,11 +1,8 @@
-:host {
-  display: block;
-}
-
 .device-dialog {
-  width: min(860px, 92vw);
+  width: 100%;
   max-height: 88vh;
   overflow: auto;
+  box-sizing: border-box;
   padding: 1.5rem;
   color: #f4fff8;
   background:
@@ -35,13 +32,7 @@
 }
 
 .icon-button {
-  width: 2.5rem;
-  height: 2.5rem;
   color: #f4fff8;
-  background: transparent;
-  border: 0;
-  font-size: 2rem;
-  cursor: pointer;
 }
 
 .dialog-form {
@@ -72,60 +63,18 @@
   gap: 1rem;
 }
 
-label {
-  display: grid;
-  gap: 0.4rem;
-
-  span {
-    color: rgba(244, 255, 248, 0.78);
-    font-size: 0.9rem;
-    font-weight: 700;
-  }
-}
-
-input,
-select,
-textarea {
+.device-field {
   width: 100%;
-  color: #f4fff8;
-  background: rgba(1, 18, 14, 0.82);
-  border: 1px solid rgba(29, 211, 170, 0.55);
-  border-radius: 0.55rem;
-  padding: 0.8rem 0.9rem;
-  outline: none;
 }
 
-textarea {
+textarea[matInput] {
   min-height: 4.25rem;
   resize: vertical;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #79e85d;
-  box-shadow: 0 0 0 3px rgba(121, 232, 93, 0.16);
-}
-
-.toggle-row {
-  align-content: start;
-  grid-template-columns: auto auto 1fr;
-  align-items: center;
-  column-gap: 0.75rem;
-
-  span {
-    grid-column: 1 / -1;
-  }
-
-  input {
-    width: 1.25rem;
-    height: 1.25rem;
-    accent-color: #54f0cf;
-  }
-
-  strong {
-    color: #54f0cf;
-  }
+mat-slide-toggle {
+  color: #54f0cf;
+  font-weight: 700;
 }
 
 .dialog-actions {
@@ -138,38 +87,12 @@ textarea:focus {
 .secondary-button,
 .primary-button {
   min-width: 8.5rem;
-  border-radius: 0.6rem;
-  padding: 0.85rem 1rem;
   font-weight: 800;
-  cursor: pointer;
-}
-
-.secondary-button {
-  color: #f4fff8;
-  background: transparent;
-  border: 1px solid rgba(244, 255, 248, 0.7);
-}
-
-.primary-button {
-  color: #07160d;
-  background: #79e85d;
-  border: 1px solid #79e85d;
 }
 
 .primary-button:disabled {
   opacity: 0.65;
   cursor: default;
-}
-
-.device-create-dialog-backdrop {
-  background: rgba(0, 0, 0, 0.62);
-  backdrop-filter: blur(4px);
-}
-
-.device-create-dialog-panel .mat-mdc-dialog-surface {
-  background: transparent !important;
-  box-shadow: none !important;
-  overflow: visible !important;
 }
 
 @media (max-width: 760px) {

@@ -10,6 +10,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Output, signal } fro
 export class DashboardActionMenu {
   @Output() createController = new EventEmitter<void>();
   @Output() createSensor = new EventEmitter<void>();
+  @Output() createLocation = new EventEmitter<void>();
 
   protected readonly isAddMenuOpen = signal(false);
 
@@ -41,5 +42,10 @@ export class DashboardActionMenu {
   protected onCreateSensor(): void {
     this.isAddMenuOpen.set(false);
     this.createSensor.emit();
+  }
+
+  protected onCreateLocation(): void {
+    this.isAddMenuOpen.set(false);
+    this.createLocation.emit();
   }
 }

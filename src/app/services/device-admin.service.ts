@@ -1,33 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-export class CreateControllerRequest {
-  name!: string;
-  location!: string;
-  description?: string | null;
-  controllerType!: string;
-  ipAddress?: string | null;
-  deviceIdentifier?: string | null;
-  pollIntervalSeconds?: number | null;
-  status!: boolean;
-  notes?: string | null;
-}
-
-export class CreateSensorRequest {
-  name!: string;
-  sensorType!: string;
-  description?: string | null;
-  status!: boolean;
-  controllerId!: number;
-  location!: string;
-  deviceIdentifier!: string;
-  i2cAddress?: string | null;
-  measurementIntervalSeconds?: number | null;
-  temperatureUnit?: string | null;
-  humidityUnit?: string | null;
-  notes?: string | null;
-}
+import { CreateControllerRequest } from '../models/createControllerRequest';
+import { CreateSensorRequest } from '../models/createSensorRequest';
+import { CreateLocationRequest } from '../models/createLocationRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -43,5 +19,9 @@ export class DeviceAdminService {
 
   createSensor(request: CreateSensorRequest): Observable<unknown> {
     return this.httpClient.post(`${this.apiBaseUrl}/sensors`, request);
+  }
+
+  createLocation(request: CreateLocationRequest): Observable<unknown> {
+    return this.httpClient.post(`${this.apiBaseUrl}/locations`, request);
   }
 }

@@ -41,6 +41,24 @@ export class ControllerDashboard implements OnInit {
       });
   }
 
+  protected openCreateLocationDialog(): void {
+    this.dialog
+      .open(DeviceCreateDialogComponent, {
+        data: {
+          mode: 'location',
+        },
+        panelClass: 'device-create-dialog-panel',
+        backdropClass: 'device-create-dialog-backdrop',
+        autoFocus: false,
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.loadMeasurements();
+        }
+      });
+  }
+
   protected openCreateControllerDialog(): void {
     this.dialog
       .open(DeviceCreateDialogComponent, {
