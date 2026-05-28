@@ -1,0 +1,195 @@
+<div class="device-dialog">
+  <header class="dialog-header">
+    <div>
+      <h2>{{ title }}</h2>
+      <p>{{ subtitle }}</p>
+    </div>
+
+    <button type="button" class="icon-button" (click)="cancel()" aria-label="Close dialog">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </header>
+
+  @if (isControllerMode) {
+    <form [formGroup]="controllerForm" class="dialog-form">
+      <section class="form-section">
+        <h3>Controller Information</h3>
+
+        <div class="form-grid">
+          <label>
+            <span>Name *</span>
+            <input formControlName="name" placeholder="Garden ESP32" />
+          </label>
+
+          <label>
+            <span>Location *</span>
+            <input formControlName="location" placeholder="Garden" />
+          </label>
+        </div>
+
+        <label>
+          <span>Description</span>
+          <textarea
+            formControlName="description"
+            placeholder="Main ESP32 controller for garden sensors"
+          ></textarea>
+        </label>
+
+        <div class="form-grid">
+          <label>
+            <span>Controller Type *</span>
+            <select formControlName="controllerType">
+              <option value="ESP32">ESP32</option>
+              <option value="Raspberry Pi">Raspberry Pi</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Poll Interval Seconds</span>
+            <input type="number" formControlName="pollIntervalSeconds" />
+          </label>
+        </div>
+
+        <div class="form-grid">
+          <label>
+            <span>IP Address</span>
+            <input formControlName="ipAddress" placeholder="192.168.4.34" />
+          </label>
+
+          <label>
+            <span>Device Identifier</span>
+            <input formControlName="deviceIdentifier" placeholder="esp32-garden-01" />
+          </label>
+        </div>
+
+        <label class="toggle-row">
+          <span>Status</span>
+          <input type="checkbox" formControlName="status" />
+          <strong>Active</strong>
+        </label>
+      </section>
+
+      <section class="form-section">
+        <h3>Additional Settings</h3>
+
+        <label>
+          <span>Notes</span>
+          <textarea formControlName="notes" placeholder="Located near the raised bed."></textarea>
+        </label>
+      </section>
+    </form>
+  } @else {
+    <form [formGroup]="sensorForm" class="dialog-form">
+      <section class="form-section">
+        <h3>Sensor Information</h3>
+
+        <div class="form-grid">
+          <label>
+            <span>Name *</span>
+            <input formControlName="name" placeholder="SHT35 Garden Sensor" />
+          </label>
+
+          <label>
+            <span>Sensor Type *</span>
+            <select formControlName="sensorType">
+              <option value="SHT35">SHT35</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          <span>Description</span>
+          <textarea
+            formControlName="description"
+            placeholder="Temperature and humidity sensor in the garden."
+          ></textarea>
+        </label>
+
+        <label class="toggle-row">
+          <span>Status</span>
+          <input type="checkbox" formControlName="status" />
+          <strong>Active</strong>
+        </label>
+      </section>
+
+      <section class="form-section">
+        <h3>Controller Connection</h3>
+
+        <div class="form-grid">
+          <label>
+            <span>Controller *</span>
+            <select formControlName="controllerId">
+              <option [ngValue]="null">Select controller</option>
+
+              @for (controller of data.controllers ?? []; track controller.controllerId) {
+                <option [ngValue]="controller.controllerId">
+                  {{ controller.controllerName }} — {{ controller.location }}
+                </option>
+              }
+            </select>
+          </label>
+
+          <label>
+            <span>Location *</span>
+            <input formControlName="location" placeholder="Garden" />
+          </label>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h3>Sensor Details</h3>
+
+        <div class="form-grid">
+          <label>
+            <span>Device Identifier *</span>
+            <input formControlName="deviceIdentifier" placeholder="sht35-01" />
+          </label>
+
+          <label>
+            <span>I2C Address</span>
+            <input formControlName="i2cAddress" placeholder="0x44" />
+          </label>
+        </div>
+
+        <div class="form-grid">
+          <label>
+            <span>Measurement Interval Seconds</span>
+            <input type="number" formControlName="measurementIntervalSeconds" />
+          </label>
+
+          <label>
+            <span>Temperature Unit</span>
+            <select formControlName="temperatureUnit">
+              <option value="°C">°C</option>
+              <option value="°F">°F</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="form-grid">
+          <label>
+            <span>Humidity Unit</span>
+            <select formControlName="humidityUnit">
+              <option value="%">%</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Notes</span>
+            <input formControlName="notes" placeholder="Optional setup notes." />
+          </label>
+        </div>
+      </section>
+    </form>
+  }
+
+  <footer class="dialog-actions">
+    <button type="button" class="secondary-button" (click)="cancel()">Cancel</button>
+
+    <button type="button" class="primary-button" [disabled]="isSaving" (click)="save()">
+      {{ isControllerMode ? 'Save Controller' : 'Save Sensor' }}
+    </button>
+  </footer>
+</div>

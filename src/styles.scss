@@ -17,3 +17,25 @@ body {
   margin: 0;
   font-family: Roboto, Arial, sans-serif;
 }
+
+.device-create-dialog-panel {
+  width: min(920px, calc(100vw - 8rem)) !important;
+  max-width: min(920px, calc(100vw - 8rem)) !important;
+}
+
+.device-create-dialog-panel .mat-mdc-dialog-container {
+  padding: 0 !important;
+}
+
+.device-create-dialog-panel .mat-mdc-dialog-surface {
+  width: 100% !important;
+  max-width: none !important;
+  overflow: visible !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.device-create-dialog-backdrop {
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(4px);
+}

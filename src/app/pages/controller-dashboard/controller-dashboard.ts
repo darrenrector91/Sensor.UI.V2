@@ -1,20 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs';
 import { ControllerCard } from '../../components/controller-card/controller-card';
 import { DashboardController } from '../../models/dashboard-controller';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
 import { DashboardSensor } from '../../models/dashboard-sensor';
 import { DashboardMeasurementsService } from '../../services/dashboard-measurements.service';
+import { DeviceCreateDialogComponent } from '../../shared/dialogs/device-create-dialog/device-create-dialog';
+import { DashboardActionMenu } from '../../components/dashboard-action-menu/dashboard-action-menu';
 
 @Component({
   selector: 'app-controller-dashboard',
-  imports: [CommonModule, ControllerCard],
+  imports: [CommonModule, ControllerCard, DashboardActionMenu],
   templateUrl: './controller-dashboard.html',
   styleUrl: './controller-dashboard.scss',
 })
 export class ControllerDashboard implements OnInit {
   private readonly dashboardMeasurementsService = inject(DashboardMeasurementsService);
+  private readonly dialog = inject(MatDialog);
 
   protected readonly controllers = signal<DashboardController[]>([]);
   protected readonly isLoading = signal(false);
@@ -34,6 +38,44 @@ export class ControllerDashboard implements OnInit {
       .subscribe({
         next: (measurements) => this.controllers.set(this.groupMeasurements(measurements)),
         error: () => this.errorMessage.set('Unable to load dashboard measurements.'),
+      });
+  }
+
+  protected openCreateControllerDialog(): void {
+    this.dialog
+      .open(DeviceCreateDialogComponent, {
+        data: {
+          mode: 'controller',
+          location: 'Garden',
+        },
+        panelClass: 'device-create-dialog-panel',
+        backdropClass: 'device-create-dialog-backdrop',
+        autoFocus: false,
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.loadMeasurements();
+        }
+      });
+  }
+
+  protected openCreateSensorDialog(): void {
+    this.dialog
+      .open(DeviceCreateDialogComponent, {
+        data: {
+          mode: 'sensor',
+          location: 'Garden',
+        },
+        panelClass: 'device-create-dialog-panel',
+        backdropClass: 'device-create-dialog-backdrop',
+        autoFocus: false,
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.loadMeasurements();
+        }
       });
   }
 
