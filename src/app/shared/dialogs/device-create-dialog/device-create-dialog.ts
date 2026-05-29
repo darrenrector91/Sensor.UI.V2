@@ -3,19 +3,19 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { environment } from '../../../../environments/environment';
-import { CreateLocationRequest } from '../../../models/createLocationRequest';
-import { DashboardController } from '../../../models/dashboard-controller';
 import { DeviceAdminService } from '../../../services/device-admin.service';
 import { AngularMaterialModules } from '../../angular-material';
+import { DeviceCreateDialogData } from '../../../models/device-create-dialog-data';
+import { CreateControllerRequest } from '../../../models/create-controller-request';
+import { CreateLocationRequest } from '../../../models/create-location-request';
+import { CreateSensorRequest } from '../../../models/create-sensor-request';
 
 export type DeviceCreateDialogMode = 'controller' | 'sensor' | 'location';
 
-export class DeviceCreateDialogData {
-  mode!: DeviceCreateDialogMode;
-  location?: string;
-  controllerId?: number;
-  controllers?: DashboardController[];
-}
+type LocationOption = {
+  id: number;
+  name: string;
+};
 
 @Component({
   selector: 'app-device-create-dialog',
@@ -25,6 +25,8 @@ export class DeviceCreateDialogData {
 })
 export class DeviceCreateDialogComponent {
   isSaving = false;
+
+  locationOptions: LocationOption[] = [];
 
   locationForm: FormGroup;
   controllerForm: FormGroup;
@@ -36,6 +38,24 @@ export class DeviceCreateDialogComponent {
     private readonly deviceAdminService: DeviceAdminService,
     @Inject(MAT_DIALOG_DATA) public readonly data: DeviceCreateDialogData,
   ) {
+    this.locationOptions = (this.data.availableLocations ?? []).map((location: any) => ({
+      id: Number(location.locationId ?? location.id),
+      name: location.name,
+    }));
+
+    const defaultLocationId = this.data.selectedLocationName
+      ? (this.locationOptions.find((location) => location.name === this.data.selectedLocationName)
+          ?.id ?? null)
+      : this.locationOptions.length === 1
+        ? this.locationOptions[0].id
+        : null;
+
+    const defaultControllerId =
+      this.data.selectedControllerId ??
+      (this.data.availableControllers?.length === 1
+        ? this.data.availableControllers[0].controllerId
+        : null);
+
     this.locationForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: [''],
@@ -45,19 +65,15 @@ export class DeviceCreateDialogComponent {
 
     this.controllerForm = this.formBuilder.group({
       name: ['', Validators.required],
-      location: [this.data.location ?? '', Validators.required],
+      location: [defaultLocationId, Validators.required],
       description: [''],
       controllerType: ['ESP32', Validators.required],
       ipAddress: [''],
-      deviceIdentifier: [''],
+      controllerKey: ['', Validators.required],
       pollIntervalSeconds: [60],
       status: [true],
       notes: [''],
     });
-
-    const defaultControllerId =
-      this.data.controllerId ??
-      (this.data.controllers?.length === 1 ? this.data.controllers[0].controllerId : null);
 
     this.sensorForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -65,8 +81,8 @@ export class DeviceCreateDialogComponent {
       description: [''],
       status: [true],
       controllerId: [defaultControllerId, Validators.required],
-      location: [this.data.location ?? '', Validators.required],
-      deviceIdentifier: ['', Validators.required],
+      location: [this.data.selectedLocationName ?? '', Validators.required],
+      controllerKey: ['', Validators.required],
       i2cAddress: ['0x44'],
       measurementIntervalSeconds: [60],
       temperatureUnit: ['°C'],
@@ -169,9 +185,17 @@ export class DeviceCreateDialogComponent {
       return;
     }
 
+    const formValue = this.controllerForm.getRawValue();
+
+    const request: CreateControllerRequest = {
+      name: formValue.name.trim(),
+      controllerKey: formValue.controllerKey.trim(),
+      locationId: Number(formValue.location),
+    };
+
     this.isSaving = true;
 
-    this.deviceAdminService.createController(this.controllerForm.getRawValue()).subscribe({
+    this.deviceAdminService.createController(request).subscribe({
       next: (result) => this.dialogRef.close(result),
       error: (error) => {
         console.error('Failed to create controller', error);
@@ -186,9 +210,26 @@ export class DeviceCreateDialogComponent {
       return;
     }
 
+    const formValue = this.sensorForm.getRawValue();
+
+    const request: CreateSensorRequest = {
+      name: formValue.name.trim(),
+      sensorType: formValue.sensorType,
+      description: formValue.description?.trim() || null,
+      status: Boolean(formValue.status),
+      controllerId: Number(formValue.controllerId),
+      location: formValue.location,
+      controllerKey: formValue.controllerKey.trim(),
+      i2cAddress: formValue.i2cAddress?.trim() || null,
+      measurementIntervalSeconds: Number(formValue.measurementIntervalSeconds),
+      temperatureUnit: formValue.temperatureUnit || null,
+      humidityUnit: formValue.humidityUnit || null,
+      notes: formValue.notes?.trim() || null,
+    };
+
     this.isSaving = true;
 
-    this.deviceAdminService.createSensor(this.sensorForm.getRawValue()).subscribe({
+    this.deviceAdminService.createSensor(request).subscribe({
       next: (result) => this.dialogRef.close(result),
       error: (error) => {
         console.error('Failed to create sensor', error);

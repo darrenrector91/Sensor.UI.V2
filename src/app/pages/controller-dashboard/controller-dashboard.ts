@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { finalize } from 'rxjs';
+import { finalize, forkJoin } from 'rxjs';
 import { ControllerCard } from '../../components/controller-card/controller-card';
 import { DashboardController } from '../../models/dashboard-controller';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
@@ -9,6 +9,7 @@ import { DashboardSensor } from '../../models/dashboard-sensor';
 import { DashboardMeasurementsService } from '../../services/dashboard-measurements.service';
 import { DeviceCreateDialogComponent } from '../../shared/dialogs/device-create-dialog/device-create-dialog';
 import { DashboardActionMenu } from '../../components/dashboard-action-menu/dashboard-action-menu';
+import { DeviceAdminService } from '../../services/device-admin.service';
 
 @Component({
   selector: 'app-controller-dashboard',
@@ -23,6 +24,8 @@ export class ControllerDashboard implements OnInit {
   protected readonly controllers = signal<DashboardController[]>([]);
   protected readonly isLoading = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
+
+  private readonly deviceAdminService = inject(DeviceAdminService);
 
   ngOnInit(): void {
     this.loadMeasurements();
@@ -60,41 +63,54 @@ export class ControllerDashboard implements OnInit {
   }
 
   protected openCreateControllerDialog(): void {
-    this.dialog
-      .open(DeviceCreateDialogComponent, {
-        data: {
-          mode: 'controller',
-          location: 'Garden',
-        },
-        panelClass: 'device-create-dialog-panel',
-        backdropClass: 'device-create-dialog-backdrop',
-        autoFocus: false,
-      })
-      .afterClosed()
-      .subscribe((result) => {
-        if (result) {
-          this.loadMeasurements();
-        }
-      });
+    this.deviceAdminService.getLocations().subscribe({
+      next: (locations) => {
+        this.dialog
+          .open(DeviceCreateDialogComponent, {
+            data: {
+              mode: 'controller',
+              availableLocations: locations,
+            },
+            panelClass: 'device-create-dialog-panel',
+            backdropClass: 'device-create-dialog-backdrop',
+            autoFocus: false,
+          })
+          .afterClosed()
+          .subscribe((result) => {
+            console.log('result', result);
+            if (result) {
+              this.loadMeasurements();
+            }
+          });
+      },
+    });
   }
 
   protected openCreateSensorDialog(): void {
-    this.dialog
-      .open(DeviceCreateDialogComponent, {
-        data: {
-          mode: 'sensor',
-          location: 'Garden',
-        },
-        panelClass: 'device-create-dialog-panel',
-        backdropClass: 'device-create-dialog-backdrop',
-        autoFocus: false,
-      })
-      .afterClosed()
-      .subscribe((result) => {
-        if (result) {
-          this.loadMeasurements();
-        }
-      });
+    forkJoin({
+      locations: this.deviceAdminService.getLocations(),
+      controllers: this.deviceAdminService.getControllers(),
+    }).subscribe({
+      next: ({ locations, controllers }) => {
+        this.dialog
+          .open(DeviceCreateDialogComponent, {
+            data: {
+              mode: 'sensor',
+              availableLocations: locations,
+              availableControllers: controllers,
+            },
+            panelClass: 'device-create-dialog-panel',
+            backdropClass: 'device-create-dialog-backdrop',
+            autoFocus: false,
+          })
+          .afterClosed()
+          .subscribe((result) => {
+            if (result) {
+              this.loadMeasurements();
+            }
+          });
+      },
+    });
   }
 
   private groupMeasurements(measurements: DashboardMeasurement[]): DashboardController[] {

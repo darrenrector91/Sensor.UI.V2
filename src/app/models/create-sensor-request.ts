@@ -5,7 +5,7 @@ export class CreateSensorRequest {
   status!: boolean;
   controllerId!: number;
   location!: string;
-  deviceIdentifier!: string;
+  controllerKey!: string;
   i2cAddress?: string | null;
   measurementIntervalSeconds?: number | null;
   temperatureUnit?: string | null;

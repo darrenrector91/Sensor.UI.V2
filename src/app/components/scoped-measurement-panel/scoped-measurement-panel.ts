@@ -1,20 +1,19 @@
-import { DatePipe } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { MeasurementDisplayKind } from '../../enums/measurement-display-kind';
-import { ScopedSensorGroup } from '../../models/scoped-sensor-group';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
 import { MeasurementDisplayValue } from '../../models/measurement-display-value';
 import { ScopedMeasurementGroup } from '../../models/scoped-measurement-group';
 import { ScopedMeasurementStatistics } from '../../models/scoped-measurement-statistics';
-import { MeasurementLineChart } from '../measurement-line-chart/measurement-line-chart';
+import { ScopedSensorGroup } from '../../models/scoped-sensor-group';
 import { MeasurementDisplayConfigService } from '../../services/measurement-display-config.service';
 import { MeasurementDisplayValueService } from '../../services/measurement-display-value.service';
+import { MeasurementLineChart } from '../measurement-line-chart/measurement-line-chart';
 
 @Component({
   selector: 'app-scoped-measurement-panel',
-  imports: [DatePipe, MeasurementLineChart],
+  imports: [MeasurementLineChart],
   templateUrl: './scoped-measurement-panel.html',
-  styleUrl: './scoped-measurement-panel.scss'
+  styleUrl: './scoped-measurement-panel.scss',
 })
 export class ScopedMeasurementPanel {
   readonly sensor = input.required<ScopedSensorGroup>();
@@ -52,7 +51,8 @@ export class ScopedMeasurementPanel {
     }
 
     const sortedMeasurements = [...group.measurements].sort(
-      (first, second) => new Date(first.createdUtc).getTime() - new Date(second.createdUtc).getTime()
+      (first, second) =>
+        new Date(first.createdUtc).getTime() - new Date(second.createdUtc).getTime(),
     );
 
     const firstReading = sortedMeasurements[0];
@@ -70,7 +70,7 @@ export class ScopedMeasurementPanel {
       month: 'short',
       day: 'numeric',
       hour: 'numeric',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   }
 
@@ -79,34 +79,33 @@ export class ScopedMeasurementPanel {
 
     return this.measurementDisplayValueService.getMeasurementDisplayValue(
       measurement,
-      config.defaultUnit ?? ''
+      config.defaultUnit ?? '',
     );
   }
 
   protected getStatistics(group: ScopedMeasurementGroup): ScopedMeasurementStatistics | null {
     const numericMeasurements = group.measurements
-      .map(measurement => ({
+      .map((measurement) => ({
         measurement,
-        numericValue: Number(measurement.value)
+        numericValue: Number(measurement.value),
       }))
-      .filter(item => !Number.isNaN(item.numericValue));
+      .filter((item) => !Number.isNaN(item.numericValue));
 
     if (numericMeasurements.length === 0) {
       return null;
     }
 
     const minimum = numericMeasurements.reduce((lowest, current) =>
-      current.numericValue < lowest.numericValue ? current : lowest
+      current.numericValue < lowest.numericValue ? current : lowest,
     );
 
     const maximum = numericMeasurements.reduce((highest, current) =>
-      current.numericValue > highest.numericValue ? current : highest
+      current.numericValue > highest.numericValue ? current : highest,
     );
 
-    const averageValue = numericMeasurements.reduce(
-      (total, item) => total + item.numericValue,
-      0
-    ) / numericMeasurements.length;
+    const averageValue =
+      numericMeasurements.reduce((total, item) => total + item.numericValue, 0) /
+      numericMeasurements.length;
 
     const averageMeasurement = new DashboardMeasurement(
       minimum.measurement.controllerId,
@@ -120,14 +119,14 @@ export class ScopedMeasurementPanel {
       minimum.measurement.measurementType,
       averageValue.toString(),
       minimum.measurement.unit,
-      minimum.measurement.createdUtc
+      minimum.measurement.createdUtc,
     );
 
     return new ScopedMeasurementStatistics(
       this.getMeasurementDisplayValue(minimum.measurement),
       this.getMeasurementDisplayValue(maximum.measurement),
       this.getMeasurementDisplayValue(averageMeasurement),
-      numericMeasurements.length
+      numericMeasurements.length,
     );
   }
 }
