@@ -67,9 +67,16 @@
       }
     </section>
 
-    <section class="controller-card__metrics" [class.controller-card__metrics--many]="visibleMetrics().length > 2">
+    <section
+      class="controller-card__metrics"
+      [class.controller-card__metrics--many]="visibleMetrics().length > 2"
+    >
       @for (metric of visibleMetrics(); track trackMetric($index, metric)) {
-        <div class="metric-card" [class]="metric.config.cssClass" [style.--measurement-accent]="metric.config.accentColor">
+        <div
+          class="metric-card"
+          [class]="metric.config.cssClass"
+          [style.--measurement-accent]="metric.config.accentColor"
+        >
           <div class="metric-card__header">
             <span class="material-symbols-outlined">{{ metric.config.icon }}</span>
             <span>{{ metric.config.label }}</span>
@@ -78,7 +85,11 @@
           @if (getDisplayValue(metric); as displayValue) {
             <div class="metric-card__value">
               <span class="metric-card__number">{{ displayValue.primaryValue }}</span>
-              <span class="metric-card__unit" [class.metric-card__unit--percent]="displayValue.primaryUnit === '%'">{{ displayValue.primaryUnit }}</span>
+              <span
+                class="metric-card__unit"
+                [class.metric-card__unit--percent]="displayValue.primaryUnit === '%'"
+                >{{ displayValue.primaryUnit }}</span
+              >
             </div>
 
             @if (displayValue.secondaryValue && displayValue.secondaryUnit) {
@@ -123,7 +134,7 @@
       <span class="material-symbols-outlined">schedule</span>
       <span>
         Last updated:
-        {{ lastUpdatedUtc() | date:'short' }}
+        {{ lastUpdatedUtc() | date: 'short' }}
       </span>
     </footer>
   </mat-card-content>

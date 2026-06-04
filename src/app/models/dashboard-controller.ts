@@ -7,7 +7,7 @@ export class DashboardController {
     public controllerKey: string,
     public controllerName: string,
     public location: string,
-    public sensors: DashboardSensor[]
+    public sensors: DashboardSensor[],
   ) {}
 
   get sensorCount(): number {
@@ -15,7 +15,7 @@ export class DashboardController {
   }
 
   get lastUpdatedUtc(): string | null {
-    const measurements = this.sensors.flatMap(sensor => sensor.measurements);
+    const measurements = this.sensors.flatMap((sensor) => sensor.measurements);
 
     if (measurements.length === 0) {
       return null;
@@ -24,7 +24,7 @@ export class DashboardController {
     return measurements.reduce((latest: DashboardMeasurement, current: DashboardMeasurement) =>
       new Date(current.createdUtc).getTime() > new Date(latest.createdUtc).getTime()
         ? current
-        : latest
+        : latest,
     ).createdUtc;
   }
 }

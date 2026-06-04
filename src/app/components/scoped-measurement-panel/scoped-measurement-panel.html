@@ -2,18 +2,24 @@
   <header class="sensor-panel__header">
     <div>
       <h2>{{ sensor().sensorName }}</h2>
-      <p>{{ sensor().sensorKey }} · {{ sensor().sensorType }}</p>
+      <p>{{ sensor().controllerKey }} · {{ sensor().sensorType }}</p>
     </div>
   </header>
 
   <div class="measurement-visual-grid">
     @for (group of sensor().measurementGroups; track group.measurementType) {
       @if (getLatestMeasurement(group); as latestMeasurement) {
-        <section class="measurement-visual-panel" [class]="getMeasurementCssClass(latestMeasurement)" [style.--measurement-accent]="getMeasurementAccentColor(latestMeasurement)">
+        <section
+          class="measurement-visual-panel"
+          [class]="getMeasurementCssClass(latestMeasurement)"
+          [style.--measurement-accent]="getMeasurementAccentColor(latestMeasurement)"
+        >
           <header class="measurement-visual-panel__header">
             <div>
               <h3>
-                <span class="material-symbols-outlined">{{ getMeasurementIcon(latestMeasurement) }}</span>
+                <span class="material-symbols-outlined">{{
+                  getMeasurementIcon(latestMeasurement)
+                }}</span>
                 {{ getMeasurementLabel(latestMeasurement) }}
               </h3>
 
@@ -47,33 +53,57 @@
               <div>
                 <span>Min</span>
                 <strong>
-                  {{ statistics.minimum.primaryValue }}@if (statistics.minimum.primaryUnit === '%') {{{ statistics.minimum.primaryUnit }}} @else { <small>{{ statistics.minimum.primaryUnit }}</small> }
+                  {{ statistics.minimum.primaryValue }}
+                  @if (statistics.minimum.primaryUnit === '%') {
+                    {{ statistics.minimum.primaryUnit }}
+                  } @else {
+                    <small>{{ statistics.minimum.primaryUnit }}</small>
+                  }
                 </strong>
 
                 @if (statistics.minimum.secondaryValue && statistics.minimum.secondaryUnit) {
-                  <em>{{ statistics.minimum.secondaryValue }} {{ statistics.minimum.secondaryUnit }}</em>
+                  <em
+                    >{{ statistics.minimum.secondaryValue }}
+                    {{ statistics.minimum.secondaryUnit }}</em
+                  >
                 }
               </div>
 
               <div>
                 <span>Avg</span>
                 <strong>
-                  {{ statistics.average.primaryValue }}@if (statistics.average.primaryUnit === '%') {{{ statistics.average.primaryUnit }}} @else { <small>{{ statistics.average.primaryUnit }}</small> }
+                  {{ statistics.average.primaryValue }}
+                  @if (statistics.average.primaryUnit === '%') {
+                    {{ statistics.average.primaryUnit }}
+                  } @else {
+                    <small>{{ statistics.average.primaryUnit }}</small>
+                  }
                 </strong>
 
                 @if (statistics.average.secondaryValue && statistics.average.secondaryUnit) {
-                  <em>{{ statistics.average.secondaryValue }} {{ statistics.average.secondaryUnit }}</em>
+                  <em
+                    >{{ statistics.average.secondaryValue }}
+                    {{ statistics.average.secondaryUnit }}</em
+                  >
                 }
               </div>
 
               <div>
                 <span>Max</span>
                 <strong>
-                  {{ statistics.maximum.primaryValue }}@if (statistics.maximum.primaryUnit === '%') {{{ statistics.maximum.primaryUnit }}} @else { <small>{{ statistics.maximum.primaryUnit }}</small> }
+                  {{ statistics.maximum.primaryValue }}
+                  @if (statistics.maximum.primaryUnit === '%') {
+                    {{ statistics.maximum.primaryUnit }}
+                  } @else {
+                    <small>{{ statistics.maximum.primaryUnit }}</small>
+                  }
                 </strong>
 
                 @if (statistics.maximum.secondaryValue && statistics.maximum.secondaryUnit) {
-                  <em>{{ statistics.maximum.secondaryValue }} {{ statistics.maximum.secondaryUnit }}</em>
+                  <em
+                    >{{ statistics.maximum.secondaryValue }}
+                    {{ statistics.maximum.secondaryUnit }}</em
+                  >
                 }
               </div>
 

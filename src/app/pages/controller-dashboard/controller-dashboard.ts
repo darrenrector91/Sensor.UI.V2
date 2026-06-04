@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { finalize, forkJoin } from 'rxjs';
+import { finalize, forkJoin, Observable } from 'rxjs';
 import { ControllerCard } from '../../components/controller-card/controller-card';
 import { DashboardController } from '../../models/dashboard-controller';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
@@ -10,6 +10,7 @@ import { DashboardMeasurementsService } from '../../services/dashboard-measureme
 import { DeviceCreateDialogComponent } from '../../shared/dialogs/device-create-dialog/device-create-dialog';
 import { DashboardActionMenu } from '../../components/dashboard-action-menu/dashboard-action-menu';
 import { DeviceAdminService } from '../../services/device-admin.service';
+import { DashboardLocation } from '../../models/dashboard-location';
 
 @Component({
   selector: 'app-controller-dashboard',
@@ -87,11 +88,16 @@ export class ControllerDashboard implements OnInit {
   }
 
   protected openCreateSensorDialog(): void {
+    const _locations: Observable<DashboardLocation[]> = this.deviceAdminService.getLocations();
+    const _controllers: Observable<DashboardController[]> =
+      this.deviceAdminService.getControllers();
     forkJoin({
-      locations: this.deviceAdminService.getLocations(),
-      controllers: this.deviceAdminService.getControllers(),
+      locations: _locations,
+      controllers: _controllers,
     }).subscribe({
       next: ({ locations, controllers }) => {
+        console.log('locations', locations);
+        console.log('controllers', controllers);
         this.dialog
           .open(DeviceCreateDialogComponent, {
             data: {
@@ -106,6 +112,8 @@ export class ControllerDashboard implements OnInit {
           .afterClosed()
           .subscribe((result) => {
             if (result) {
+              console.log('result', result);
+
               this.loadMeasurements();
             }
           });
@@ -138,7 +146,7 @@ export class ControllerDashboard implements OnInit {
       if (!sensor) {
         sensor = new DashboardSensor(
           measurement.sensorId,
-          measurement.sensorKey,
+          measurement.controllerKey,
           measurement.sensorName,
           measurement.sensorType,
           [],

@@ -69,12 +69,7 @@
             <input matInput formControlName="name" placeholder="Garden ESP32" />
           </mat-form-field>
 
-          <mat-form-field
-            class="device-field"
-            appearance="outline"
-            floatLabel="always"
-            floatLabel="always"
-          >
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
             <mat-label>Location</mat-label>
             <mat-select formControlName="location">
               <mat-option [value]="null">Select location</mat-option>
@@ -182,9 +177,9 @@
             <mat-select formControlName="controllerId">
               <mat-option [value]="null">Select controller</mat-option>
 
-              @for (controller of data.availableControllers ?? []; track controller.controllerId) {
-                <mat-option [value]="controller.controllerId">
-                  {{ controller.controllerName }}
+              @for (controller of controllerOptions; track controller.id) {
+                <mat-option [value]="controller.id">
+                  {{ controller.name }}
                   @if (controller.location) {
                     — {{ controller.location }}
                   }
@@ -193,22 +188,9 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field
-            class="device-field"
-            appearance="outline"
-            floatLabel="always"
-            floatLabel="always"
-          >
+          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
             <mat-label>Location</mat-label>
-            <mat-select formControlName="location">
-              <mat-option [value]="null">Select location</mat-option>
-
-              @for (location of data.availableLocations ?? []; track location.locationId) {
-                <mat-option [value]="location.name">
-                  {{ location.name }}
-                </mat-option>
-              }
-            </mat-select>
+            <input matInput formControlName="location" readonly />
           </mat-form-field>
         </div>
       </section>

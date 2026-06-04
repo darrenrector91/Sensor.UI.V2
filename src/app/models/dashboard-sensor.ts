@@ -3,9 +3,9 @@ import { DashboardMeasurement } from './dashboard-measurement';
 export class DashboardSensor {
   constructor(
     public sensorId: number,
-    public sensorKey: string,
+    public controllerKey: string,
     public sensorName: string,
     public sensorType: string,
-    public measurements: DashboardMeasurement[]
+    public measurements: DashboardMeasurement[],
   ) {}
 }

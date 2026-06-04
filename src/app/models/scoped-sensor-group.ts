@@ -4,8 +4,8 @@ export class ScopedSensorGroup {
   constructor(
     public sensorId: number,
     public sensorName: string,
-    public sensorKey: string,
+    public controllerKey: string,
     public sensorType: string,
-    public measurementGroups: ScopedMeasurementGroup[]
+    public measurementGroups: ScopedMeasurementGroup[],
   ) {}
 }
