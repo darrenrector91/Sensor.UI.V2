@@ -5,7 +5,6 @@ export class DashboardMeasurement {
     public controllerName: string,
     public location: string,
     public sensorId: number,
-    public sensorKey: string,
     public sensorName: string,
     public sensorType: string,
     public measurementType: string,

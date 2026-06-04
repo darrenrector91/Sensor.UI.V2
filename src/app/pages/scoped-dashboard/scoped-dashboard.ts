@@ -117,7 +117,7 @@ export class ScopedDashboard implements OnInit {
       return new ScopedSensorGroup(
         sensorId,
         measurements[0]?.sensorName ?? `Sensor ${sensorId}`,
-        measurements[0]?.sensorKey ?? '',
+        measurements[0]?.controllerKey ?? '',
         measurements[0]?.sensorType ?? '',
         measurementGroups,
       );
@@ -166,7 +166,7 @@ export class ScopedDashboard implements OnInit {
 
       case DashboardScope.Sensor:
         return firstMeasurement
-          ? `${firstMeasurement.sensorKey} · ${firstMeasurement.sensorType}`
+          ? `${firstMeasurement.controllerKey} · ${firstMeasurement.sensorType}`
           : 'Sensor detail';
     }
   });
@@ -336,7 +336,6 @@ export class ScopedDashboard implements OnInit {
             metadata.controllerName,
             metadata.location,
             historyRow.sensorId,
-            metadata.sensorKey,
             metadata.sensorName,
             metadata.sensorType,
             historyRow.measurementType,

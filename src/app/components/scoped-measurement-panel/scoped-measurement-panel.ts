@@ -113,7 +113,6 @@ export class ScopedMeasurementPanel {
       minimum.measurement.controllerName,
       minimum.measurement.location,
       minimum.measurement.sensorId,
-      minimum.measurement.sensorKey,
       minimum.measurement.sensorName,
       minimum.measurement.sensorType,
       minimum.measurement.measurementType,
