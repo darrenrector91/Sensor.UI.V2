@@ -16,11 +16,10 @@ describe('MeasurementDisplayValueService', () => {
     1,
     'sht35-01',
     'SHT35 Sensor',
-    'TemperatureHumidity',
     'Temperature',
     '20',
     'C',
-    '2026-05-22T20:49:20.734983'
+    '2026-05-22T20:49:20.734983',
   );
 
   const humidityMeasurement = new DashboardMeasurement(
@@ -31,11 +30,10 @@ describe('MeasurementDisplayValueService', () => {
     1,
     'sht35-01',
     'SHT35 Sensor',
-    'TemperatureHumidity',
     'Humidity',
     '58.15',
     '%',
-    '2026-05-22T20:49:21.01768'
+    '2026-05-22T20:49:21.01768',
   );
 
   beforeEach(() => {
@@ -54,8 +52,8 @@ describe('MeasurementDisplayValueService', () => {
         10,
         'metric-card--temperature',
         '#d8e534',
-        'C'
-      )
+        'C',
+      ),
     );
 
     const value = service.getDisplayValue(metric);
@@ -77,8 +75,8 @@ describe('MeasurementDisplayValueService', () => {
         20,
         'metric-card--humidity',
         '#58efc3',
-        '%'
-      )
+        '%',
+      ),
     );
 
     const value = service.getDisplayValue(metric);
@@ -101,8 +99,7 @@ describe('MeasurementDisplayValueService', () => {
       'Battery',
       'BatteryVoltage',
       '4.1',
-      '',
-      '2026-05-22T20:49:21.01768'
+      '2026-05-22T20:49:21.01768',
     );
 
     const value = service.getMeasurementDisplayValue(measurement, 'V');

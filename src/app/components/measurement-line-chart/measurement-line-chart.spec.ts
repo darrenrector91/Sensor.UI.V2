@@ -15,11 +15,10 @@ describe('MeasurementLineChart', () => {
       1,
       'sht35-01',
       'SHT35 Sensor',
-      'TemperatureHumidity',
       'Temperature',
       '20',
       'C',
-      '2026-05-22T20:49:20.734983'
+      '2026-05-22T20:49:20.734983',
     ),
     new DashboardMeasurement(
       1,
@@ -29,17 +28,16 @@ describe('MeasurementLineChart', () => {
       1,
       'sht35-01',
       'SHT35 Sensor',
-      'TemperatureHumidity',
       'Temperature',
       '21',
       'C',
-      '2026-05-22T21:49:20.734983'
-    )
+      '2026-05-22T21:49:20.734983',
+    ),
   ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MeasurementLineChart]
+      imports: [MeasurementLineChart],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MeasurementLineChart);

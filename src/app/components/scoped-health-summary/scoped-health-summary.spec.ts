@@ -15,11 +15,10 @@ describe('ScopedHealthSummary', () => {
       1,
       'sht35-01',
       'SHT35 Sensor',
-      'TemperatureHumidity',
       'Temperature',
       '20',
       'C',
-      '2026-05-22T20:49:20.734983'
+      '2026-05-22T20:49:20.734983',
     ),
     new DashboardMeasurement(
       1,
@@ -29,17 +28,16 @@ describe('ScopedHealthSummary', () => {
       1,
       'sht35-01',
       'SHT35 Sensor',
-      'TemperatureHumidity',
       'Humidity',
       '58',
       '%',
-      '2026-05-22T20:49:21.01768'
-    )
+      '2026-05-22T20:49:21.01768',
+    ),
   ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ScopedHealthSummary]
+      imports: [ScopedHealthSummary],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ScopedHealthSummary);

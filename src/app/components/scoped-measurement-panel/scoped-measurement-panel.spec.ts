@@ -8,51 +8,40 @@ describe('ScopedMeasurementPanel', () => {
   let component: ScopedMeasurementPanel;
   let fixture: ComponentFixture<ScopedMeasurementPanel>;
 
-  const sensor = new ScopedSensorGroup(
-    1,
-    'SHT35 Sensor',
-    'sht35-01',
-    'TemperatureHumidity',
-    [
-      new ScopedMeasurementGroup(
+  const sensor = new ScopedSensorGroup(1, 'SHT35 Sensor', 'sht35-01', 'TemperatureHumidity', [
+    new ScopedMeasurementGroup('Temperature', [
+      new DashboardMeasurement(
+        1,
+        'greenhouse-01',
+        'Greenhouse Controller',
+        'Garden',
+        1,
+        'sht35-01',
+        'SHT35 Sensor',
         'Temperature',
-        [
-          new DashboardMeasurement(
-            1,
-            'greenhouse-01',
-            'Greenhouse Controller',
-            'Garden',
-            1,
-            'sht35-01',
-            'SHT35 Sensor',
-            'TemperatureHumidity',
-            'Temperature',
-            '20',
-            'C',
-            '2026-05-22T20:49:20.734983'
-          ),
-          new DashboardMeasurement(
-            1,
-            'greenhouse-01',
-            'Greenhouse Controller',
-            'Garden',
-            1,
-            'sht35-01',
-            'SHT35 Sensor',
-            'TemperatureHumidity',
-            'Temperature',
-            '22',
-            'C',
-            '2026-05-22T19:49:20.734983'
-          )
-        ]
-      )
-    ]
-  );
+        '20',
+        'C',
+        '2026-05-22T20:49:20.734983',
+      ),
+      new DashboardMeasurement(
+        1,
+        'greenhouse-01',
+        'Greenhouse Controller',
+        'Garden',
+        1,
+        'sht35-01',
+        'SHT35 Sensor',
+        'Temperature',
+        '22',
+        'C',
+        '2026-05-22T19:49:20.734983',
+      ),
+    ]),
+  ]);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ScopedMeasurementPanel]
+      imports: [ScopedMeasurementPanel],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ScopedMeasurementPanel);
