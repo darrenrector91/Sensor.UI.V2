@@ -16,91 +16,80 @@ describe('ControllerCard', () => {
     'Greenhouse Controller',
     'Garden',
     [
-      new DashboardSensor(
-        1,
-        'sht35-01',
-        'SHT35 Sensor',
-        'TemperatureHumidity',
-        [
-          new DashboardMeasurement(
-            1,
-            'greenhouse-01',
-            'Greenhouse Controller',
-            'Garden',
-            1,
-            'sht35-01',
-            'SHT35 Sensor',
-            'TemperatureHumidity',
-            'Humidity',
-            '58.15',
-            '%',
-            '2026-05-22T20:49:21.01768'
-          ),
-          new DashboardMeasurement(
-            1,
-            'greenhouse-01',
-            'Greenhouse Controller',
-            'Garden',
-            1,
-            'sht35-01',
-            'SHT35 Sensor',
-            'TemperatureHumidity',
-            'Temperature',
-            '20.35',
-            'C',
-            '2026-05-22T20:49:20.734983'
-          ),
-          new DashboardMeasurement(
-            1,
-            'greenhouse-01',
-            'Greenhouse Controller',
-            'Garden',
-            1,
-            'sht35-01',
-            'SHT35 Sensor',
-            'TemperatureHumidity',
-            'SoilMoisture',
-            '42',
-            '%',
-            '2026-05-22T20:49:19.734983'
-          ),
-          new DashboardMeasurement(
-            1,
-            'greenhouse-01',
-            'Greenhouse Controller',
-            'Garden',
-            1,
-            'sht35-01',
-            'SHT35 Sensor',
-            'TemperatureHumidity',
-            'Light',
-            '812',
-            'lux',
-            '2026-05-22T20:49:18.734983'
-          ),
-          new DashboardMeasurement(
-            1,
-            'greenhouse-01',
-            'Greenhouse Controller',
-            'Garden',
-            1,
-            'sht35-01',
-            'SHT35 Sensor',
-            'TemperatureHumidity',
-            'BatteryVoltage',
-            '4.1',
-            'V',
-            '2026-05-22T20:49:17.734983'
-          )
-        ]
-      )
-    ]
+      new DashboardSensor(1, 'sht35-01', 'SHT35 Sensor', 'TemperatureHumidity', [
+        new DashboardMeasurement(
+          1,
+          'greenhouse-01',
+          'Greenhouse Controller',
+          'Garden',
+          1,
+          'sht35-01',
+          'SHT35 Sensor',
+          'Humidity',
+          '58.15',
+          '%',
+          '2026-05-22T20:49:21.01768',
+        ),
+        new DashboardMeasurement(
+          1,
+          'greenhouse-01',
+          'Greenhouse Controller',
+          'Garden',
+          1,
+          'sht35-01',
+          'SHT35 Sensor',
+          'Temperature',
+          '20.35',
+          'C',
+          '2026-05-22T20:49:20.734983',
+        ),
+        new DashboardMeasurement(
+          1,
+          'greenhouse-01',
+          'Greenhouse Controller',
+          'Garden',
+          1,
+          'sht35-01',
+          'SHT35 Sensor',
+          'SoilMoisture',
+          '42',
+          '%',
+          '2026-05-22T20:49:19.734983',
+        ),
+        new DashboardMeasurement(
+          1,
+          'greenhouse-01',
+          'Greenhouse Controller',
+          'Garden',
+          1,
+          'sht35-01',
+          'SHT35 Sensor',
+          'Light',
+          '812',
+          'lux',
+          '2026-05-22T20:49:18.734983',
+        ),
+        new DashboardMeasurement(
+          1,
+          'greenhouse-01',
+          'Greenhouse Controller',
+          'Garden',
+          1,
+          'sht35-01',
+          'SHT35 Sensor',
+          'BatteryVoltage',
+          '4.1',
+          'V',
+          '2026-05-22T20:49:17.734983',
+        ),
+      ]),
+    ],
   );
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ControllerCard, NoopAnimationsModule],
-      providers: [provideRouter([])]
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ControllerCard);
