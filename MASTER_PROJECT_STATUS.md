@@ -1,4 +1,4 @@
-# Sensor.UI - MASTER PROJECT STATUS
+# Sensor.Api - MASTER PROJECT STATUS
 
 Last Updated: 2026-05-27
 
@@ -6,222 +6,120 @@ Last Updated: 2026-05-27
 
 # Project Purpose
 
-Sensor.UI is the Angular frontend for the generalized IoT sensor platform.
+Sensor.Api is the backend platform for the generalized IoT sensor system.
 
-The application consumes the Sensor.Api backend and renders:
+The API receives sensor measurements from ESP32 devices, stores them in PostgreSQL, and serves controller, sensor, location, measurement, and dashboard data to the Angular frontend.
 
-- controller dashboards
-- scoped dashboards
-- live measurement cards
-- historical measurement charts
-- grouped sensor views
-- location-aware dashboards
+The platform has evolved from a hardcoded temperature/humidity design into a generalized:
 
-The frontend is already operating far beyond prototype stage and has an established architecture that should be extended rather than replaced.
+Controller
+-> Sensor
+-> Measurement
 
----
+architecture.
 
-# Current Frontend Stack
-
-Frontend framework:
-
-- Angular standalone architecture
-
-Language:
-
-- TypeScript
-
-Styling:
-
-- SCSS
-
-Charting:
-
-- Chart.js
-
-Architecture style:
-
-- reusable component composition
-- scoped dashboard architecture
-- shared rendering services
-- grouped measurement rendering
-
-Angular conventions:
-
-- separate .ts / .html / .scss files
-- TypeScript model classes preferred over interfaces
-- no inline templates unless explicitly required
-- generated tests should remain
-- validation command:
-  - ng test --watch=false
+The backend is already operating with production-style layering and should be extended rather than redesigned.
 
 ---
 
-# Current Backend Integration
+# Current Backend Stack
 
-Primary API:
+Framework:
 
-- http://192.168.5.103:5278
+- .NET 8 ASP.NET Core Web API
 
-Swagger:
+Database:
 
-- http://localhost:5278/swagger
+- PostgreSQL
 
-Current backend endpoints actively integrated or intended for integration:
+Data access:
 
-- GET /api/dashboard/measurements
-- GET /api/sensors/{sensorId}/measurements
-- GET /api/sensors/{sensorId}/measurements/latest
-- GET /api/measurement-types
-- GET /api/controllers
-- GET /api/controllers/{controllerId}/sensors
-- GET /api/locations
+- Dapper
+- Npgsql
 
-Current dashboard functionality already uses:
+API documentation:
 
-- grouped dashboard measurements
-- range-aware history queries
-- live API rendering
+- Swagger
 
----
+Hosting:
 
-# Current Frontend Architecture
+- Raspberry Pi
 
-## Pages
+Solution projects:
 
-Current page architecture:
-
-- controller-dashboard
-- scoped-dashboard
-
-Current scoped dashboard routing:
-
-- /dashboard/controller/:id
-- /dashboard/location/:location
-- /dashboard/sensor/:id
-
-Main dashboard route:
-
-- /
+- Sensor.Api.Web
+- Sensor.Api.Data
+- Sensor.Api.Core
 
 ---
 
-## Components
+# Current Backend Architecture
 
-Current reusable components:
+Current layered architecture:
 
-- controller-card
-- measurement-line-chart
-- scoped-dashboard-header
-- scoped-health-summary
-- scoped-latest-measurements
-- scoped-measurement-panel
-- scoped-time-range-selector
+Controller
+-> IService
+-> Service
+-> IRepository
+-> Repository
 
-These components already establish the frontend rendering system and should NOT be rebuilt or duplicated.
+Responsibilities:
 
----
+Controller:
 
-## Shared Infrastructure
+- HTTP routing
+- model binding
+- response codes
+- thin request handling
 
-Existing shared systems:
+Service:
 
-- shared/dialogs/device-create-dialog
-- grouped dashboard rendering
-- reusable chart rendering
-- reusable measurement rendering
-- centralized measurement display abstraction
+- business logic
+- validation
+- orchestration
+- normalization
+- response shaping
 
----
+Repository:
 
-# Existing Frontend Services
+- SQL
+- Dapper mapping
+- database access only
 
-Current services already implemented:
+Repositories should NOT contain business rules.
 
-- dashboard-measurements.service.ts
-- measurement-display-config.service.ts
-- measurement-display-value.service.ts
-
-These services form the existing frontend rendering pipeline and should be extended rather than replaced.
-
----
-
-# Existing Frontend Models
-
-Current frontend model classes:
-
-- controller-card-metric
-- dashboard-controller
-- dashboard-measurement
-- dashboard-sensor
-- measurement-display-config
-- measurement-display-value
-- scoped-health-status
-- scoped-measurement-group
-- scoped-measurement-statistics
-- scoped-sensor-group
-- sensor-measurement-history
-
-The frontend already uses model classes consistently and should continue doing so.
+Controllers should inject services only.
 
 ---
 
-# Existing Frontend Enums
+# Current Database
 
-Current enums:
+Database:
 
-- dashboard-scope
-- measurement-display-kind
+- sensor_data
 
----
+User:
 
-# Current Dashboard Features
+- sensor_api
 
-## Dashboard Rendering
+Primary active tables:
 
-Currently working:
+- Controllers
+- Sensors
+- SensorMeasurements
+- MeasurementTypes
+- Locations
 
-- live controller dashboard
-- grouped measurement rendering
-- scoped dashboard views
-- controller grouping
-- sensor grouping
-- location-aware rendering
-- latest measurement rendering
-- timestamp rendering
-- temperature conversion rendering
+Legacy / deferred cleanup:
+
+- SensorReadings
+- SensorReadingsV2
 
 ---
 
-## Charting
+# Current Platform Direction
 
-Currently working:
-
-- Chart.js line charts
-- range-aware charts
-- selectable time ranges
-- 6H / 24H / 7D / 30D ranges
-- query-string persisted ranges
-
----
-
-## Measurement Display System
-
-Current architecture already includes:
-
-- measurement display abstraction
-- measurement display config service
-- measurement display formatting service
-- measurement display kind enum
-- centralized measurement rendering pipeline
-
-This architecture already exists and should be extended rather than recreated.
-
----
-
-# Current Backend Architecture Assumptions
-
-Frontend is built around the following backend model:
+Preferred architecture:
 
 Controller
 -> Sensor
@@ -229,60 +127,428 @@ Controller
 
 Measurements are generalized rows:
 
-- measurementType
-- value
-- unit
-- createdUtc
+- MeasurementType
+- Value
+- Unit
+- CreatedUtc
 
-Frontend should NOT assume:
+The system intentionally supports:
 
-- hardcoded temperature/humidity schema tables
-- fixed sensor types
-- fixed measurement types
+- Temperature
+- Humidity
+- Soil moisture
+- Light
+- Battery voltage
+- Water level
+- Pump state
+- Door state
+- Future measurement types
+
+without schema redesign.
+
+---
+
+# Current Measurement Model
+
+Current SensorMeasurements schema:
+
+- Id
+- SensorId
+- MeasurementType
+- Value
+- Unit
+- CreatedUtc
+
+Important architecture rule:
+
+- Value intentionally remains a string
+- Numeric parsing belongs only in chart/statistics-specific logic
 
 ---
 
 # Current MeasurementTypes Direction
 
-MeasurementTypes is now intended to become the frontend display source of truth.
+MeasurementTypes is now the intended source of truth for frontend display metadata.
 
-The backend already exposes:
+MeasurementTypes fields:
+
+- Name
+- DisplayName
+- DefaultUnit
+- Icon
+- DisplayKind
+- Priority
+- CssClass
+- AccentColor
+- Description
+
+MeasurementTypes should drive:
+
+- icons
+- colors
+- display styles
+- chart grouping
+- priority
+- css styling
+
+Angular should eventually stop hardcoding:
+
+- temperature display config
+- humidity display config
+
+---
+
+# Current Backend Features
+
+## Controllers
+
+Implemented:
+
+- GET /api/controllers
+- GET /api/controllers/{id}
+- POST /api/controllers
+- PUT /api/controllers/{id}
+
+---
+
+## Sensors
+
+Implemented:
+
+- GET /api/controllers/{controllerId}/sensors
+- GET /api/sensors/{id}
+- POST /api/sensors
+- PUT /api/sensors/{id}
+
+---
+
+## Measurements
+
+Implemented:
+
+- POST /api/sensors/{sensorId}/measurements
+- GET /api/sensors/{sensorId}/measurements
+- GET /api/sensors/{sensorId}/measurements/latest
+- GET /api/dashboard/measurements
+
+History endpoint supports:
+
+- fromUtc
+- toUtc
+- limit
+
+Range-aware history querying is already implemented.
+
+---
+
+## MeasurementTypes
+
+Implemented:
 
 - GET /api/measurement-types
 - POST /api/measurement-types
 
-Frontend currently still contains partially hardcoded measurement display configuration.
-
-The current milestone is to evolve the existing frontend rendering system so:
-
-- display metadata comes from the backend
-- existing UI appearance remains unchanged
-- fallback behavior remains intact
-
-This is a source-of-truth migration, NOT a dashboard redesign.
+MeasurementTypes table already exists and is seeded.
 
 ---
 
-# Current Active Frontend Milestone
+## Locations
 
-Current milestone:
+Implemented:
 
-- integrate backend MeasurementTypes metadata into the existing frontend display pipeline
+- GET /api/locations
+- GET /api/locations/{id}
+- POST /api/locations
+- PUT /api/locations/{id}
+- DELETE /api/locations/{id}
 
-Goal:
+Locations are relational and already integrated into:
 
-- preserve existing UI
-- preserve current dashboard appearance
-- preserve fallback behavior
-- eliminate hardcoded display metadata
+- Controllers
+- Sensors
+- Dashboard queries
 
-Current target service:
+---
 
-- measurement-display-config.service.ts
+## Status
 
-Expected supporting service:
+Implemented:
 
-- measurement-types.service.ts
+- GET /api/status
+- GET /api/status/database
+
+---
+
+# Relational Location System
+
+Controllers:
+
+- LocationId
+- resolved Location name
+
+Sensors:
+
+- LocationId
+- resolved Location name
+
+Dashboard measurements:
+
+- resolve location through LEFT JOIN
+
+Important PostgreSQL rule:
+quoted identifiers are required.
+
+Examples:
+
+- "Locations"
+- "LocationId"
+- "Name"
+
+---
+
+# Current Repository State
+
+Current repositories:
+
+- ControllerRepository
+- SensorRepository
+- SensorMeasurementRepository
+- DashboardRepository
+- MeasurementTypeRepository
+- LocationRepository
+
+Repository interfaces exist and are wired through services.
+
+---
+
+# Current QueryResults State
+
+The project intentionally uses:
+
+- QueryResults
+
+folder naming.
+
+DO NOT:
+
+- rename QueryResults
+- replace QueryResults
+- introduce QueryRequests folder
+
+Known technical debt:
+request DTOs currently live inside QueryResults naming.
+
+Examples:
+
+- CreateControllerQR
+- UpdateControllerQR
+- CreateSensorQR
+- UpdateSensorQR
+
+This cleanup is deferred and NOT a current priority.
+
+---
+
+# Current Raspberry Pi Deployment
+
+Pi host:
+
+- 192.168.5.103
+
+Swagger:
+
+- http://192.168.5.103:5278/swagger
+
+Angular dashboard:
+
+- http://192.168.5.103/
+
+Backend service:
+
+- sensor-api
+
+Deployment paths:
+
+- /home/drector/projects/Sensor.Api
+- /home/drector/apps/sensor-api
+
+Runtime:
+
+- /home/drector/.dotnet/dotnet
+
+---
+
+# Raspberry Pi Deployment Workflow
+
+## Frontend Deployment
+
+Angular is built locally on the Mac and deployed to the Raspberry Pi through Nginx.
+
+Build frontend:
+
+```bash
+ng test --watch=false
+npm run build
+```
+
+Build output:
+
+```text
+/Users/darrenrector/Documents/Projects/SensorDashboard/Sensor.UI/dist/Sensor.UI/browser
+```
+
+Copy to Pi staging area:
+
+```bash
+rsync -av --delete /Users/darrenrector/Documents/Projects/SensorDashboard/Sensor.UI/dist/Sensor.UI/browser/ drector@192.168.5.103:/tmp/sensor-ui/
+```
+
+Deploy on Pi:
+
+```bash
+sudo rsync -av --delete /tmp/sensor-ui/ /var/www/sensor-dashboard/
+sudo chown -R www-data:www-data /var/www/sensor-dashboard
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+Frontend web root:
+
+- /var/www/sensor-dashboard
+
+---
+
+## Backend Deployment
+
+Copy source from Mac:
+
+```bash
+rsync -av --delete --exclude ".git" --exclude "bin" --exclude "obj" /Users/darrenrector/Documents/Projects/SensorDashboard/Sensor.Api/ drector@192.168.5.103:/home/drector/projects/Sensor.Api/
+```
+
+Verify copy:
+
+```bash
+find /home/drector/projects/Sensor.Api -type f -mmin -10 | sort
+```
+
+Build:
+
+```bash
+cd ~/projects/Sensor.Api
+dotnet build ./Sensor.Api.Web/Sensor.Api.Web.csproj
+```
+
+Important:
+
+- Sensor.Api.slnx exists instead of a traditional .sln.
+- Use the explicit project build command above.
+
+Publish:
+
+```bash
+dotnet publish ./Sensor.Api.Web/Sensor.Api.Web.csproj -c Release -o /home/drector/apps/sensor-api
+```
+
+Restart:
+
+```bash
+sudo systemctl restart sensor-api
+sudo systemctl status sensor-api --no-pager
+```
+
+---
+
+## Deployment Verification
+
+Swagger:
+
+- http://192.168.5.103:5278/swagger
+
+Dashboard:
+
+- http://192.168.5.103/
+
+Verify new endpoints appear in Swagger before testing from Angular.
+
+---
+
+## Deployment Lesson Learned
+
+Location Create troubleshooting confirmed that a frontend deployment can succeed while new functionality still fails if the backend deployment was skipped.
+
+When adding new API endpoints:
+
+1. Deploy frontend.
+2. Deploy backend.
+3. Restart sensor-api.
+4. Verify endpoint appears in Swagger.
+5. Test from Angular.
+
+A 404 on a newly-added endpoint should trigger deployment verification before frontend debugging.
+
+---
+
+# Current ESP32 Integration
+
+ESP32 currently:
+
+- reads SHT35
+- posts Temperature
+- posts Humidity
+
+Current payload shape:
+
+```json
+{
+  "measurementType": "Temperature",
+  "value": "22.6",
+  "unit": "C"
+}
+```
+
+Current firmware behavior:
+
+- hardcoded sensorId = 1
+- hourly posting interval
+
+The generalized backend pipeline is already functioning.
+
+---
+
+# Current Frontend Integration Expectations
+
+Frontend already consumes:
+
+- dashboard measurements
+- range-aware history
+- grouped controller/sensor data
+
+Frontend direction:
+
+- load MeasurementTypes from backend
+- eliminate hardcoded frontend display config
+
+The backend APIs already support this direction.
+
+---
+
+# Current Angular Admin Status
+
+Completed:
+
+- Location Create workflow
+
+In Progress:
+
+- Controller Create workflow
+- Sensor Create workflow
+
+Current focus:
+
+- Location dropdown integration
+- Controller selection integration
+- MeasurementTypes-driven rendering
 
 ---
 
@@ -290,37 +556,48 @@ Expected supporting service:
 
 The following systems already exist and should NOT be recreated:
 
-- scoped dashboard architecture
-- measurement rendering pipeline
-- chart rendering system
-- grouped dashboard rendering
-- range-aware history integration
-- shared dialog infrastructure
-- dashboard routing system
-- measurement display abstraction
-- grouped statistics models
-- reusable chart components
-- reusable dashboard components
+- service layer architecture
+- repository abstraction
+- generalized measurement pipeline
+- range-aware history queries
+- dashboard aggregation endpoint
+- relational location joins
+- MeasurementTypes API
+- grouped dashboard aggregation
+- sensor history pipeline
 
-Before creating anything new:
+Before creating new systems:
 
-1. Verify it does not already exist
-2. Verify there is not already an abstraction layer
-3. Extend the existing architecture first
+1. Verify the capability does not already exist
+2. Extend existing architecture first
+3. Avoid parallel implementations
 
 ---
 
-# Known Current Frontend Gaps
+# Known Technical Debt
 
-Still needed:
+Current technical debt:
 
-- backend-driven measurement display config loading
-- Add Measurement Type workflow
-- Sensor Setup / Provisioning workflow
-- create workflows wired into existing dialog system
-- frontend integration for controller/sensor/location creation
+- request DTO naming inside QueryResults
+- legacy SensorReadings table
+- SensorReadingsV2 artifacts
+- hardcoded firmware sensorId
+- frontend partially hardcoded for display metadata
 
-These should extend existing systems rather than introducing parallel structures.
+Technical debt should NOT interrupt current feature completion.
+
+---
+
+# Current Active Backend Milestone
+
+Current milestone:
+
+- stabilize MeasurementTypes integration
+- support frontend metadata-driven rendering
+- support provisioning/setup workflows
+- maintain stable generalized measurement architecture
+
+Current backend architecture is considered stable.
 
 ---
 
@@ -329,78 +606,87 @@ These should extend existing systems rather than introducing parallel structures
 Explicitly deferred:
 
 - auth
-- NgRx/state rewrite
-- MQTT frontend integration
-- admin tooling
-- advanced filtering
+- MQTT
+- batch measurement endpoints
+- advanced analytics
 - pagination
-- analytics dashboards
-- deployment automation
-- major refactors
+- infrastructure automation
+- DTO restructuring
+- deployment pipelines
+- large-scale cleanup
 - architecture rewrites
-- frontend framework restructuring
+- overengineering
 
-Do NOT prioritize cleanup or refactors over completing current workflows.
+Do NOT prioritize cleanup over feature completion.
 
 ---
 
 # Current Branch Strategy
 
-Frontend work should continue using focused feature branches.
+Backend feature work should use focused branches.
 
 Examples:
 
+- feature/location-management
 - feature/angular-measurement-type-config
 - feature/sensor-provisioning
-- feature/device-create-workflow
 
 Keep branches:
 
-- small
 - focused
 - mergeable
 - milestone-oriented
 
 ---
 
-# Frontend Validation Workflow
+# Validation Workflow
 
-Validation command:
-
-```bash
-ng test --watch=false
-```
-
-Run frontend locally:
+Build backend:
 
 ```bash
-ng serve
+dotnet build ./Sensor.Api.Web/Sensor.Api.Web.csproj
 ```
 
-Frontend local URL:
+Run backend:
 
-- http://localhost:4200
+```bash
+dotnet run --project ./Sensor.Api.Web/Sensor.Api.Web.csproj
+```
+
+Swagger:
+
+- http://localhost:5278/swagger
+
+API validation examples:
+
+```bash
+curl http://localhost:5278/api/status
+curl http://localhost:5278/api/dashboard/measurements
+curl http://localhost:5278/api/measurement-types
+curl http://localhost:5278/api/controllers
+curl http://localhost:5278/api/locations
+```
 
 ---
 
 # Important Project Guidance
 
-This frontend is no longer an early prototype.
+This backend is no longer an early prototype.
 
-The core architecture already exists.
+The core architecture already exists and is functioning.
 
 Future work should focus on:
 
-- extending existing systems
+- extending current systems
 - completing workflows
-- evolving data sources
-- refining UX
-- integrating backend metadata
+- stabilizing integration
+- evolving metadata-driven rendering
+- supporting provisioning/setup workflows
 
 Avoid:
 
-- duplicate architecture
-- unnecessary scaffolding
-- rebuilding existing systems
-- speculative abstractions
-- large-scale rewrites
+- duplicate architectures
+- unnecessary abstractions
+- speculative redesigns
+- framework rewrites
+- parallel implementations

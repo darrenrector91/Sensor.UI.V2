@@ -1,16 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { finalize, forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { ControllerCard } from '../../components/controller-card/controller-card';
-import { DashboardController } from '../../models/dashboard-controller';
-import { DashboardMeasurement } from '../../models/dashboard-measurement';
-import { DashboardSensor } from '../../models/dashboard-sensor';
-import { DashboardMeasurementsService } from '../../services/dashboard-measurements.service';
-import { DeviceCreateDialogComponent } from '../../shared/dialogs/device-create-dialog/device-create-dialog';
 import { DashboardActionMenu } from '../../components/dashboard-action-menu/dashboard-action-menu';
-import { DeviceAdminService } from '../../services/device-admin.service';
+import { Controller } from '../../models/controller';
 import { DashboardLocation } from '../../models/dashboard-location';
+import { DashboardMeasurementsService } from '../../services/dashboard-measurements.service';
+import { DeviceAdminService } from '../../services/device-admin.service';
+import { DeviceCreateDialogComponent } from '../../shared/dialogs/device-create-dialog/device-create-dialog';
 
 @Component({
   selector: 'app-controller-dashboard',
@@ -22,27 +20,26 @@ export class ControllerDashboard implements OnInit {
   private readonly dashboardMeasurementsService = inject(DashboardMeasurementsService);
   private readonly dialog = inject(MatDialog);
 
-  protected readonly controllers = signal<DashboardController[]>([]);
+  protected readonly controllers = signal<Controller[]>([]);
   protected readonly isLoading = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
 
   private readonly deviceAdminService = inject(DeviceAdminService);
 
   ngOnInit(): void {
-    this.loadMeasurements();
+    this.getControllers();
   }
 
-  protected loadMeasurements(): void {
-    this.isLoading.set(true);
-    this.errorMessage.set(null);
+  protected getControllers(): void {
+    this.deviceAdminService.getControllers().subscribe({
+      next: (controllers) => {
+        this.controllers.set(
+          controllers.map((controller) => Object.assign(new Controller(), controller)),
+        );
+      },
 
-    this.dashboardMeasurementsService
-      .getMeasurements()
-      .pipe(finalize(() => this.isLoading.set(false)))
-      .subscribe({
-        next: (measurements) => this.controllers.set(this.groupMeasurements(measurements)),
-        error: () => this.errorMessage.set('Unable to load dashboard measurements.'),
-      });
+      error: () => this.errorMessage.set('Unable to load controllers.'),
+    });
   }
 
   protected openCreateLocationDialog(): void {
@@ -58,7 +55,7 @@ export class ControllerDashboard implements OnInit {
       .afterClosed()
       .subscribe((result) => {
         if (result) {
-          this.loadMeasurements();
+          this.getControllers();
         }
       });
   }
@@ -78,9 +75,8 @@ export class ControllerDashboard implements OnInit {
           })
           .afterClosed()
           .subscribe((result) => {
-            console.log('result', result);
             if (result) {
-              this.loadMeasurements();
+              this.getControllers();
             }
           });
       },
@@ -89,15 +85,12 @@ export class ControllerDashboard implements OnInit {
 
   protected openCreateSensorDialog(): void {
     const _locations: Observable<DashboardLocation[]> = this.deviceAdminService.getLocations();
-    const _controllers: Observable<DashboardController[]> =
-      this.deviceAdminService.getControllers();
+    const _controllers: Observable<Controller[]> = this.deviceAdminService.getControllers();
     forkJoin({
       locations: _locations,
       controllers: _controllers,
     }).subscribe({
       next: ({ locations, controllers }) => {
-        console.log('locations', locations);
-        console.log('controllers', controllers);
         this.dialog
           .open(DeviceCreateDialogComponent, {
             data: {
@@ -112,68 +105,66 @@ export class ControllerDashboard implements OnInit {
           .afterClosed()
           .subscribe((result) => {
             if (result) {
-              console.log('result', result);
-
-              this.loadMeasurements();
+              this.getControllers();
             }
           });
       },
     });
   }
 
-  private groupMeasurements(measurements: DashboardMeasurement[]): DashboardController[] {
-    const controllerMap = new Map<number, DashboardController>();
+  // private groupMeasurements(measurements: DashboardMeasurement[]): Controller[] {
+  //   const controllerMap = new Map<number, Controller>();
 
-    for (const measurement of measurements) {
-      let controller = controllerMap.get(measurement.controllerId);
+  //   for (const measurement of measurements) {
+  //     let controller = controllerMap.get(measurement.controllerId);
 
-      if (!controller) {
-        controller = new DashboardController(
-          measurement.controllerId,
-          measurement.controllerKey,
-          measurement.controllerName,
-          measurement.location,
-          [],
-        );
+  //     if (!controller) {
+  //       controller = new Controller(
+  //         measurement.controllerId,
+  //         measurement.controllerKey,
+  //         measurement.controllerName,
+  //         measurement.location,
+  //         [],
+  //       );
 
-        controllerMap.set(measurement.controllerId, controller);
-      }
+  //       controllerMap.set(measurement.controllerId, controller);
+  //     }
 
-      let sensor = controller.sensors.find(
-        (currentSensor) => currentSensor.sensorId === measurement.sensorId,
-      );
+  //     let sensor = controller.sensors.find(
+  //       (currentSensor) => currentSensor.sensorId === measurement.sensorId,
+  //     );
 
-      if (!sensor) {
-        sensor = new DashboardSensor(
-          measurement.sensorId,
-          measurement.controllerKey,
-          measurement.sensorName,
-          measurement.sensorType,
-          [],
-        );
+  //     if (!sensor) {
+  //       sensor = new DashboardSensor(
+  //         measurement.sensorId,
+  //         measurement.controllerKey,
+  //         measurement.sensorName,
+  //         measurement.sensorType,
+  //         [],
+  //       );
 
-        controller.sensors.push(sensor);
-      }
+  //       controller.sensors.push(sensor);
+  //     }
 
-      const existingMeasurementIndex = sensor.measurements.findIndex(
-        (currentMeasurement) => currentMeasurement.measurementType === measurement.measurementType,
-      );
+  //     const existingMeasurementIndex = sensor.measurements.findIndex(
+  //       (currentMeasurement) => currentMeasurement.measurementType === measurement.measurementType,
+  //     );
 
-      if (existingMeasurementIndex === -1) {
-        sensor.measurements.push(measurement);
-        continue;
-      }
+  //     if (existingMeasurementIndex === -1) {
+  //       sensor.measurements.push(measurement);
+  //       continue;
+  //     }
 
-      const existingMeasurement = sensor.measurements[existingMeasurementIndex];
+  //     const existingMeasurement = sensor.measurements[existingMeasurementIndex];
 
-      if (
-        new Date(measurement.createdUtc).getTime() >
-        new Date(existingMeasurement.createdUtc).getTime()
-      ) {
-        sensor.measurements[existingMeasurementIndex] = measurement;
-      }
-    }
+  //     if (
+  //       new Date(measurement.createdUtc).getTime() >
+  //       new Date(existingMeasurement.createdUtc).getTime()
+  //     ) {
+  //       sensor.measurements[existingMeasurementIndex] = measurement;
+  //     }
+  //   }
 
-    return Array.from(controllerMap.values());
-  }
+  //   return Array.from(controllerMap.values());
+  // }
 }

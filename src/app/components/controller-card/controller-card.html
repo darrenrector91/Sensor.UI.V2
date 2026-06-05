@@ -1,17 +1,14 @@
-<mat-card
-  class="controller-card"
-  [routerLink]="['/dashboard/controller', controller().controllerId]"
->
+<mat-card class="controller-card">
   <mat-card-content class="controller-card__content">
     <header class="controller-card__header">
       <div class="controller-card__identity">
         <div class="controller-card__icon">
-          <span class="material-symbols-outlined">potted_plant</span>
+          <span class="material-symbols-outlined">developer_board</span>
         </div>
 
         <div class="controller-card__heading">
           <h2 class="controller-card__title">
-            {{ controller().controllerName }}
+            {{ controller().name }}
           </h2>
 
           <p class="controller-card__subtitle">
@@ -20,17 +17,34 @@
         </div>
       </div>
 
-      <a
-        class="controller-card__location"
-        [routerLink]="['/dashboard/location', controller().location]"
-        (click)="$event.stopPropagation()"
+      <span
+        class="controller-card__status-badge"
+        [class.controller-card__status-badge--empty]="controller().statusLabel === 'Empty'"
+        [class.controller-card__status-badge--configured]="
+          controller().statusLabel === 'Configured'
+        "
+        [class.controller-card__status-badge--inactive]="controller().statusLabel === 'Inactive'"
       >
-        <span class="material-symbols-outlined">location_on</span>
-        <span>{{ controller().location }}</span>
-      </a>
+        {{ controller().statusLabel }}
+      </span>
     </header>
 
     <section class="controller-card__summary">
+      <div class="summary-item">
+        <div class="summary-item__icon">
+          <span class="material-symbols-outlined">location_on</span>
+        </div>
+
+        <div>
+          <p class="summary-item__label">Location</p>
+          <p class="summary-item__value">
+            {{ controller().location || 'No location assigned' }}
+          </p>
+        </div>
+      </div>
+
+      <div class="summary-divider"></div>
+
       <div class="summary-item">
         <div class="summary-item__icon">
           <span class="material-symbols-outlined">sensors</span>
@@ -38,104 +52,26 @@
 
         <div>
           <p class="summary-item__label">Sensors</p>
-          <p class="summary-item__value">{{ sensorCount() }}</p>
+          <p class="summary-item__value">
+            {{ controller().sensorCount }}
+          </p>
         </div>
       </div>
-
-      <div class="summary-divider"></div>
-
-      @if (primarySensor(); as sensor) {
-        <a
-          class="summary-item summary-item--sensor"
-          [routerLink]="['/dashboard/sensor', sensor.sensorId]"
-          (click)="$event.stopPropagation()"
-        >
-          <div class="summary-item__icon">
-            <span class="material-symbols-outlined">developer_board</span>
-          </div>
-
-          <div>
-            <p class="summary-item__name">
-              {{ primarySensorName() }}
-            </p>
-
-            <p class="summary-item__description">
-              {{ primarySensorType() }}
-            </p>
-          </div>
-        </a>
-      }
     </section>
 
-    <section
-      class="controller-card__metrics"
-      [class.controller-card__metrics--many]="visibleMetrics().length > 2"
-    >
-      @for (metric of visibleMetrics(); track trackMetric($index, metric)) {
-        <div
-          class="metric-card"
-          [class]="metric.config.cssClass"
-          [style.--measurement-accent]="metric.config.accentColor"
-        >
-          <div class="metric-card__header">
-            <span class="material-symbols-outlined">{{ metric.config.icon }}</span>
-            <span>{{ metric.config.label }}</span>
-          </div>
+    <footer class="controller-card__footer d-flex justify-content-between">
+      <button
+        mat-raised-button
+        type="button"
+        class="controller-card__action"
+        [routerLink]="['/dashboard/controller', controller().id]"
+        [disabled]="controller().sensorCount === 0"
+        title="View controller sensors"
+      >
+        Details
+      </button>
 
-          @if (getDisplayValue(metric); as displayValue) {
-            <div class="metric-card__value">
-              <span class="metric-card__number">{{ displayValue.primaryValue }}</span>
-              <span
-                class="metric-card__unit"
-                [class.metric-card__unit--percent]="displayValue.primaryUnit === '%'"
-                >{{ displayValue.primaryUnit }}</span
-              >
-            </div>
-
-            @if (displayValue.secondaryValue && displayValue.secondaryUnit) {
-              <div class="metric-card__secondary-value">
-                {{ displayValue.secondaryValue }} {{ displayValue.secondaryUnit }}
-              </div>
-            }
-          }
-
-          @switch (metric.config.displayKind) {
-            @case ('status') {
-              <div class="metric-card__status-pill">
-                {{ metric.measurement.value }}
-              </div>
-            }
-
-            @case ('gauge') {
-              <div class="metric-card__gauge">
-                <span></span>
-              </div>
-            }
-
-            @case ('timeline') {
-              <div class="metric-card__timeline">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            }
-          }
-        </div>
-      }
-    </section>
-
-    @if (hiddenMetricCount() > 0) {
-      <div class="controller-card__more-metrics">
-        +{{ hiddenMetricCount() }} more measurement{{ hiddenMetricCount() === 1 ? '' : 's' }}
-      </div>
-    }
-
-    <footer class="controller-card__footer">
-      <span class="material-symbols-outlined">schedule</span>
-      <span>
-        Last updated:
-        {{ lastUpdatedUtc() | date: 'short' }}
-      </span>
+      <button mat-raised-button type="button" class="controller-card__edit">Edit</button>
     </footer>
   </mat-card-content>
 </mat-card>
