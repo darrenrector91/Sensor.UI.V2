@@ -3,14 +3,14 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { environment } from '../../../../environments/environment';
-import { DeviceAdminService } from '../../../services/device-admin.service';
-import { AngularMaterialModules } from '../../angular-material';
-import { DeviceCreateDialogData } from '../../../models/device-create-dialog-data';
+import { Controller } from '../../../models/controller';
 import { CreateControllerRequest } from '../../../models/create-controller-request';
 import { CreateLocationRequest } from '../../../models/create-location-request';
 import { CreateSensorRequest } from '../../../models/create-sensor-request';
-import { ControllerOption } from '../../../models/controllerOption';
+import { DeviceCreateDialogData } from '../../../models/device-create-dialog-data';
 import { LocationOption } from '../../../models/locationOption';
+import { DeviceAdminService } from '../../../services/device-admin.service';
+import { AngularMaterialModules } from '../../angular-material';
 
 export type DeviceCreateDialogMode = 'controller' | 'sensor' | 'location';
 
@@ -24,7 +24,7 @@ export class DeviceCreateDialogComponent {
   isSaving = false;
 
   locationOptions: LocationOption[] = [];
-  controllerOptions: ControllerOption[] = [];
+  controller: Controller[] = [];
 
   locationForm: FormGroup;
   controllerForm: FormGroup;
@@ -43,9 +43,9 @@ export class DeviceCreateDialogComponent {
       }))
       .filter((location) => Number.isFinite(location.id) && !!location.name);
 
-    this.controllerOptions = (this.data.availableControllers ?? [])
+    this.controller = (this.data.availableControllers ?? [])
       .map((controller: any) => {
-        const option = new ControllerOption();
+        const option = new Controller();
 
         option.id = Number(controller.controllerId ?? controller.id);
         option.name = controller.controllerName ?? controller.name;
@@ -65,9 +65,9 @@ export class DeviceCreateDialogComponent {
 
     const defaultControllerId =
       this.data.selectedControllerId ??
-      (this.controllerOptions.length === 1 ? this.controllerOptions[0].id : null);
+      (this.controller.length === 1 ? this.controller[0].id : null);
 
-    const defaultController = this.controllerOptions.find(
+    const defaultController = this.controller.find(
       (controller) => controller.id === Number(defaultControllerId),
     );
 
@@ -89,7 +89,6 @@ export class DeviceCreateDialogComponent {
       description: [''],
       controllerType: ['ESP32', Validators.required],
       ipAddress: [''],
-      controllerKey: ['', Validators.required],
       pollIntervalSeconds: [60],
       status: [true],
       notes: [''],
@@ -112,7 +111,7 @@ export class DeviceCreateDialogComponent {
     });
 
     this.sensorForm.get('controllerId')?.valueChanges.subscribe((controllerId) => {
-      const controller = this.controllerOptions.find((item) => item.id === Number(controllerId));
+      const controller = this.controller.find((item) => item.id === Number(controllerId));
 
       this.sensorForm.patchValue({
         location: controller?.location ?? '',
@@ -170,9 +169,6 @@ export class DeviceCreateDialogComponent {
   }
 
   save(): void {
-    console.log('isLocationMode', this.isLocationMode);
-    console.log('isControllerMode', this.isControllerMode);
-
     if (this.isLocationMode) {
       this.saveLocation();
       return;
@@ -220,16 +216,22 @@ export class DeviceCreateDialogComponent {
 
     const formValue = this.controllerForm.getRawValue();
 
+    const locationId = Number(formValue.location);
+
     const request: CreateControllerRequest = {
       name: formValue.name.trim(),
-      controllerKey: formValue.controllerKey.trim(),
-      locationId: Number(formValue.location),
+      locationId,
+      isActive: formValue.status,
+      controllerType: formValue.controllerType,
+      ipAddress: formValue.ipAddress,
     };
 
     this.isSaving = true;
 
     this.deviceAdminService.createController(request).subscribe({
-      next: (result) => this.dialogRef.close(result),
+      next: () => {
+        this.dialogRef.close(true);
+      },
       error: (error) => {
         console.error('Failed to create controller', error);
         this.isSaving = false;
@@ -238,21 +240,8 @@ export class DeviceCreateDialogComponent {
   }
 
   private saveSensor(): void {
-    console.log('in saveSensor');
-    console.log('invalid ?', this.sensorForm.invalid);
-
-    console.log('sensorForm value', this.sensorForm.getRawValue());
-    console.log('sensorForm errors', this.sensorForm.errors);
-
     Object.keys(this.sensorForm.controls).forEach((key) => {
       const control = this.sensorForm.get(key);
-
-      console.log(key, {
-        value: control?.value,
-        valid: control?.valid,
-        disabled: control?.disabled,
-        errors: control?.errors,
-      });
     });
 
     if (this.sensorForm.invalid) {
@@ -261,8 +250,6 @@ export class DeviceCreateDialogComponent {
     }
 
     const formValue = this.sensorForm.getRawValue();
-
-    console.log('formValue', formValue);
 
     const request: CreateSensorRequest = {
       controllerId: Number(formValue.controllerId),

@@ -111,12 +111,7 @@
         <div class="form-grid">
           <mat-form-field class="device-field" appearance="outline" floatLabel="always">
             <mat-label>IP Address</mat-label>
-            <input matInput formControlName="ipAddress" placeholder="192.168.4.34" />
-          </mat-form-field>
-
-          <mat-form-field class="device-field" appearance="outline" floatLabel="always">
-            <mat-label>Device Identifier</mat-label>
-            <input matInput formControlName="controllerKey" placeholder="esp32-garden-01" />
+            <input matInput formControlName="ipAddress" placeholder="192.168.*.*" />
           </mat-form-field>
         </div>
 
@@ -177,14 +172,14 @@
             <mat-select formControlName="controllerId">
               <mat-option [value]="null">Select controller</mat-option>
 
-              @for (controller of controllerOptions; track controller.id) {
+              <!-- @for (controller of controllerOptions; track controller.id) {
                 <mat-option [value]="controller.id">
                   {{ controller.name }}
                   @if (controller.location) {
                     — {{ controller.location }}
                   }
                 </mat-option>
-              }
+              } -->
             </mat-select>
           </mat-form-field>
 

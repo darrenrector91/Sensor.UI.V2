@@ -6,12 +6,16 @@ import { CreateLocationRequest } from '../models/create-location-request';
 import { CreateSensorRequest } from '../models/create-sensor-request';
 import { DashboardLocation } from '../models/dashboard-location';
 import { DashboardController } from '../models/dashboard-controller';
+import { Controller } from '../models/controller';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeviceAdminService {
-  private readonly apiBaseUrl = 'http://192.168.5.103:5278/api';
+  // Url below needs to be uncommentted before pushing to prod
+  // private readonly apiBaseUrl = 'http://192.168.5.103:5278/api';
+
+  private readonly apiBaseUrl = 'http://localhost:5278/api';
 
   constructor(private readonly httpClient: HttpClient) {}
 
@@ -31,7 +35,7 @@ export class DeviceAdminService {
     return this.httpClient.get<DashboardLocation[]>(`${this.apiBaseUrl}/locations`);
   }
 
-  getControllers(): Observable<DashboardController[]> {
-    return this.httpClient.get<DashboardController[]>(`${this.apiBaseUrl}/controllers`);
+  getControllers(): Observable<Controller[]> {
+    return this.httpClient.get<Controller[]>(`${this.apiBaseUrl}/controllers`);
   }
 }
