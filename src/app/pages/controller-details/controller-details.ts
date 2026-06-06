@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
+import { ControllerDetailsHeader } from '../../components/controller-details-header/controller-details-header';
 
 @Component({
   selector: 'app-controller-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ControllerDetailsHeader],
   templateUrl: './controller-details.html',
   styleUrls: ['./controller-details.scss'],
 })

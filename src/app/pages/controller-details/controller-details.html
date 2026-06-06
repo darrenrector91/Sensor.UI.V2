@@ -1,7 +1,35 @@
 <div class="container test-component">
-  <div class="row">
+  <div class="row mb-3">
     <div class="col-12">
-      <div class="kicker">Controller Details Dashboard</div>
+      <!-- <div class="kicker">Controller Details Dashboard</div> -->
     </div>
   </div>
+
+  @if (isLoading()) {
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="dashboard-status">
+          <span>Loading dashboard...</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="dashboard-error">
+          {{ errorMessage() }}
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!isLoading() && !errorMessage()) {
+    <div class="row">
+      <div class="col-12">
+        <app-controller-details-header></app-controller-details-header>
+      </div>
+    </div>
+  }
 </div>
