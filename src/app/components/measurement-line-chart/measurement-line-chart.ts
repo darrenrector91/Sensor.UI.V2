@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, computed, ElementRef, input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  ElementRef,
+  input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import {
   CategoryScale,
   Chart,
@@ -8,17 +18,27 @@ import {
   LineController,
   LineElement,
   PointElement,
-  Tooltip
+  Tooltip,
 } from 'chart.js';
 import { DashboardMeasurement } from '../../models/dashboard-measurement';
 
-Chart.register(CategoryScale, LinearScale, LineController, LineElement, PointElement, Tooltip, Filler, Legend);
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
+  Tooltip,
+  Filler,
+  Legend,
+);
 
 @Component({
   selector: 'app-measurement-line-chart',
+  standalone: true,
   imports: [],
   templateUrl: './measurement-line-chart.html',
-  styleUrl: './measurement-line-chart.scss'
+  styleUrls: ['./measurement-line-chart.scss'],
 })
 export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy {
   readonly measurements = input.required<DashboardMeasurement[]>();
@@ -33,20 +53,23 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
 
   protected readonly numericMeasurements = computed(() =>
     [...this.measurements()]
-      .map(measurement => ({
+      .map((measurement) => ({
         value: Number(measurement.value),
-        createdUtc: measurement.createdUtc
+        createdUtc: measurement.createdUtc,
       }))
-      .filter(point => !Number.isNaN(point.value))
-      .sort((first, second) => new Date(first.createdUtc).getTime() - new Date(second.createdUtc).getTime())
+      .filter((point) => !Number.isNaN(point.value))
+      .sort(
+        (first, second) =>
+          new Date(first.createdUtc).getTime() - new Date(second.createdUtc).getTime(),
+      ),
   );
 
   protected readonly visibleMeasurements = computed(() =>
-    this.numericMeasurements().slice(-this.maxPoints())
+    this.numericMeasurements().slice(-this.maxPoints()),
   );
 
   protected readonly hiddenPointCount = computed(() =>
-    Math.max(this.numericMeasurements().length - this.visibleMeasurements().length, 0)
+    Math.max(this.numericMeasurements().length - this.visibleMeasurements().length, 0),
   );
 
   protected readonly hasEnoughData = computed(() => this.visibleMeasurements().length >= 2);
@@ -54,7 +77,7 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
   protected readonly emptyMessage = computed(() =>
     this.numericMeasurements().length === 0
       ? 'No numeric readings available.'
-      : 'More readings needed for a trend.'
+      : 'More readings needed for a trend.',
   );
 
   ngAfterViewInit(): void {
@@ -63,7 +86,11 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      (changes['measurements'] || changes['label'] || changes['unit'] || changes['accentColor'] || changes['maxPoints']) &&
+      (changes['measurements'] ||
+        changes['label'] ||
+        changes['unit'] ||
+        changes['accentColor'] ||
+        changes['maxPoints']) &&
       this.chartCanvas
     ) {
       this.renderChart();
@@ -90,11 +117,11 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
     this.chart = new Chart(canvas, {
       type: 'line',
       data: {
-        labels: chartPoints.map(point => this.formatLabel(point.createdUtc)),
+        labels: chartPoints.map((point) => this.formatLabel(point.createdUtc)),
         datasets: [
           {
             label: this.label(),
-            data: chartPoints.map(point => point.value),
+            data: chartPoints.map((point) => point.value),
             borderColor: this.accentColor(),
             backgroundColor: this.getGradient(canvas),
             borderWidth: 2,
@@ -103,20 +130,20 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
             pointRadius: 2,
             pointHoverRadius: 4,
             tension: 0.35,
-            fill: true
-          }
-        ]
+            fill: true,
+          },
+        ],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         interaction: {
           intersect: false,
-          mode: 'index'
+          mode: 'index',
         },
         plugins: {
           legend: {
-            display: false
+            display: false,
           },
           tooltip: {
             backgroundColor: 'rgba(3, 18, 13, 0.94)',
@@ -126,37 +153,40 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
             bodyColor: '#ffffff',
             displayColors: false,
             callbacks: {
-              label: context => context.parsed.y === null ? `${context.dataset.label}: unavailable` : `${context.dataset.label}: ${this.formatTooltipValue(context.parsed.y)}`
-            }
-          }
+              label: (context) =>
+                context.parsed.y === null
+                  ? `${context.dataset.label}: unavailable`
+                  : `${context.dataset.label}: ${this.formatTooltipValue(context.parsed.y)}`,
+            },
+          },
         },
         scales: {
           x: {
             border: {
-              color: 'rgba(255, 255, 255, 0.08)'
+              color: 'rgba(255, 255, 255, 0.08)',
             },
             grid: {
-              color: 'rgba(255, 255, 255, 0.05)'
+              color: 'rgba(255, 255, 255, 0.05)',
             },
             ticks: {
               color: 'rgba(255, 255, 255, 0.55)',
-              maxTicksLimit: 5
-            }
+              maxTicksLimit: 5,
+            },
           },
           y: {
             border: {
-              color: 'rgba(255, 255, 255, 0.08)'
+              color: 'rgba(255, 255, 255, 0.08)',
             },
             grid: {
-              color: 'rgba(255, 255, 255, 0.05)'
+              color: 'rgba(255, 255, 255, 0.05)',
             },
             ticks: {
               color: 'rgba(255, 255, 255, 0.55)',
-              callback: value => this.formatChartValue(Number(value))
-            }
-          }
-        }
-      }
+              callback: (value) => this.formatChartValue(Number(value)),
+            },
+          },
+        },
+      },
     });
   }
 
@@ -177,7 +207,7 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
   private formatLabel(createdUtc: string): string {
     return new Date(createdUtc).toLocaleTimeString([], {
       hour: 'numeric',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   }
 
@@ -212,7 +242,7 @@ export class MeasurementLineChart implements AfterViewInit, OnChanges, OnDestroy
 
   private formatNumericValue(value: number): string {
     return new Intl.NumberFormat('en-US', {
-      maximumFractionDigits: 1
+      maximumFractionDigits: 1,
     }).format(value);
   }
 

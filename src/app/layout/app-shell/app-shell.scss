@@ -1,0 +1,142 @@
+.controller-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 15%, rgba(26, 116, 70, 0.18), transparent 32%),
+    linear-gradient(135deg, #021c15 0%, #04110e 100%);
+}
+
+.dashboard-content {
+  min-height: 100vh;
+  padding-left: 6.25rem;
+}
+
+// Start Side menu
+
+.dashboard-action-rail {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 50;
+  width: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 0;
+  background: linear-gradient(180deg, rgba(3, 31, 24, 0.98), rgba(2, 20, 16, 0.98));
+  border-right: 1px solid rgba(29, 211, 170, 0.32);
+  box-shadow: 1rem 0 3rem rgba(0, 0, 0, 0.28);
+}
+
+.rail-button {
+  width: 2.85rem;
+  height: 2.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(84, 240, 207, 0.32);
+  border-radius: 0.9rem;
+  color: #f4fff8;
+  background: rgba(6, 45, 32, 0.65);
+  font-size: 1.2rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.rail-button--active,
+.rail-button:hover {
+  border-color: #79e85d;
+  color: #79e85d;
+  background: rgba(121, 232, 93, 0.12);
+}
+
+.rail-button .material-symbols-outlined {
+  display: block;
+  margin: 0;
+}
+
+.rail-spacer {
+  flex: 1;
+}
+
+.add-menu {
+  position: relative;
+}
+
+.rail-button--add {
+  color: #07160d;
+  background: #79e85d;
+  border-color: #79e85d;
+  font-size: 1.7rem;
+}
+
+.add-menu__panel {
+  position: absolute;
+  left: 3.9rem;
+  bottom: 0;
+  min-width: 12rem;
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.5rem;
+  background: rgba(3, 27, 20, 0.98);
+  border: 1px solid rgba(84, 240, 207, 0.45);
+  border-radius: 0.85rem;
+  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.4);
+  animation: add-menu-in 140ms ease-out;
+  transform-origin: bottom left;
+}
+
+.add-menu__panel button {
+  text-align: left;
+  color: #f4fff8;
+  background: transparent;
+  border: 0;
+  border-radius: 0.55rem;
+  padding: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.add-menu__panel button:hover {
+  color: #79e85d;
+  background: rgba(121, 232, 93, 0.12);
+}
+
+.material-symbols-outlined {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.add-menu__panel button {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+@media (max-width: 760px) {
+  .dashboard-action-rail {
+    left: 0.75rem;
+    width: 4rem;
+  }
+}
+
+@keyframes add-menu-in {
+  from {
+    opacity: 0;
+    transform: translateX(-0.35rem) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+// End Side Menu
+
+@media (max-width: 760px) {
+  .dashboard-content {
+    padding-left: 5.5rem;
+  }
+}

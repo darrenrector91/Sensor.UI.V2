@@ -11,9 +11,10 @@ import { MeasurementLineChart } from '../measurement-line-chart/measurement-line
 
 @Component({
   selector: 'app-scoped-measurement-panel',
+  standalone: true,
   imports: [MeasurementLineChart],
   templateUrl: './scoped-measurement-panel.html',
-  styleUrl: './scoped-measurement-panel.scss',
+  styleUrls: ['./scoped-measurement-panel.scss'],
 })
 export class ScopedMeasurementPanel {
   readonly sensor = input.required<ScopedSensorGroup>();

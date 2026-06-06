@@ -4,9 +4,10 @@ export type ScopedTimeRange = '6H' | '24H' | '7D' | '30D';
 
 @Component({
   selector: 'app-scoped-time-range-selector',
+  standalone: true,
   imports: [],
   templateUrl: './scoped-time-range-selector.html',
-  styleUrl: './scoped-time-range-selector.scss'
+  styleUrls: ['./scoped-time-range-selector.scss'],
 })
 export class ScopedTimeRangeSelector {
   readonly selectedRange = input<ScopedTimeRange>('7D');
