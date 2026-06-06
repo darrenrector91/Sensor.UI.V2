@@ -1,11 +1,16 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, signal } from '@angular/core';
 
 @Component({
   selector: 'app-controller-details',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './controller-details.html',
-  styleUrl: './controller-details.scss',
+  styleUrls: ['./controller-details.scss'],
 })
-export class ControllerDetails {
-
+export class ControllerDetails implements OnInit {
+  protected readonly isLoading = signal(false);
+  protected readonly errorMessage = signal<string | null>(null);
+  ngOnInit(): void {}
+  constructor() {}
 }

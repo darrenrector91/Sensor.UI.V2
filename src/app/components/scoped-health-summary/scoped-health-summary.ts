@@ -5,9 +5,10 @@ import { ScopedHealthStatus } from '../../models/scoped-health-status';
 
 @Component({
   selector: 'app-scoped-health-summary',
+  standalone: true,
   imports: [DatePipe],
   templateUrl: './scoped-health-summary.html',
-  styleUrl: './scoped-health-summary.scss'
+  styleUrls: ['./scoped-health-summary.scss'],
 })
 export class ScopedHealthSummary {
   readonly measurements = input.required<DashboardMeasurement[]>();
@@ -15,12 +16,12 @@ export class ScopedHealthSummary {
 
   private readonly staleThresholdMilliseconds = 2 * 60 * 60 * 1000;
 
-  protected readonly sensorCount = computed(() =>
-    new Set(this.measurements().map(measurement => measurement.sensorId)).size
+  protected readonly sensorCount = computed(
+    () => new Set(this.measurements().map((measurement) => measurement.sensorId)).size,
   );
 
-  protected readonly measurementTypeCount = computed(() =>
-    new Set(this.measurements().map(measurement => measurement.measurementType)).size
+  protected readonly measurementTypeCount = computed(
+    () => new Set(this.measurements().map((measurement) => measurement.measurementType)).size,
   );
 
   protected readonly measurementRowCount = computed(() => this.measurements().length);

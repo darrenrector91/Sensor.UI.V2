@@ -6,9 +6,10 @@ import { MeasurementDisplayValueService } from '../../services/measurement-displ
 
 @Component({
   selector: 'app-scoped-latest-measurements',
+  standalone: true,
   imports: [],
   templateUrl: './scoped-latest-measurements.html',
-  styleUrl: './scoped-latest-measurements.scss'
+  styleUrls: ['./scoped-latest-measurements.scss']
 })
 export class ScopedLatestMeasurements {
   readonly measurements = input.required<DashboardMeasurement[]>();

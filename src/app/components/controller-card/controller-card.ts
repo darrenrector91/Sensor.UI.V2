@@ -5,9 +5,10 @@ import { AngularMaterialModules } from '../../shared/angular-material';
 
 @Component({
   selector: 'app-controller-card',
+  standalone: true,
   imports: [RouterLink, AngularMaterialModules],
   templateUrl: './controller-card.html',
-  styleUrl: './controller-card.scss',
+  styleUrls: ['./controller-card.scss'],
 })
 export class ControllerCard {
   readonly controller = input.required<Controller>();

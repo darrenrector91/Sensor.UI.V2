@@ -16,9 +16,10 @@ export type DeviceCreateDialogMode = 'controller' | 'sensor' | 'location';
 
 @Component({
   selector: 'app-device-create-dialog',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, AngularMaterialModules],
   templateUrl: './device-create-dialog.html',
-  styleUrl: './device-create-dialog.scss',
+  styleUrls: ['./device-create-dialog.scss'],
 })
 export class DeviceCreateDialogComponent {
   isSaving = false;

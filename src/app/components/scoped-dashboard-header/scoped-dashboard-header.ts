@@ -1,13 +1,17 @@
 import { DatePipe } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ScopedTimeRange, ScopedTimeRangeSelector } from '../scoped-time-range-selector/scoped-time-range-selector';
+import {
+  ScopedTimeRange,
+  ScopedTimeRangeSelector,
+} from '../scoped-time-range-selector/scoped-time-range-selector';
 
 @Component({
   selector: 'app-scoped-dashboard-header',
+  standalone: true,
   imports: [DatePipe, RouterLink, ScopedTimeRangeSelector],
   templateUrl: './scoped-dashboard-header.html',
-  styleUrl: './scoped-dashboard-header.scss'
+  styleUrls: ['./scoped-dashboard-header.scss'],
 })
 export class ScopedDashboardHeader {
   readonly title = input.required<string>();

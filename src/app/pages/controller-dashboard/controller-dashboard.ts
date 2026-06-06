@@ -2,19 +2,20 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, Observable } from 'rxjs';
-import { ControllerCard } from '../../components/controller-card/controller-card';
-import { DashboardActionMenu } from '../../components/dashboard-action-menu/dashboard-action-menu';
 import { Controller } from '../../models/controller';
 import { DashboardLocation } from '../../models/dashboard-location';
 import { DashboardMeasurementsService } from '../../services/dashboard-measurements.service';
 import { DeviceAdminService } from '../../services/device-admin.service';
 import { DeviceCreateDialogComponent } from '../../shared/dialogs/device-create-dialog/device-create-dialog';
+import { ControllerCard } from '../../components/controller-card/controller-card';
+import { AngularMaterialModules } from '../../shared/angular-material';
 
 @Component({
   selector: 'app-controller-dashboard',
-  imports: [CommonModule, ControllerCard, DashboardActionMenu],
+  standalone: true,
+  imports: [CommonModule, AngularMaterialModules, ControllerCard],
   templateUrl: './controller-dashboard.html',
-  styleUrl: './controller-dashboard.scss',
+  styleUrls: ['./controller-dashboard.scss'],
 })
 export class ControllerDashboard implements OnInit {
   private readonly dashboardMeasurementsService = inject(DashboardMeasurementsService);
