@@ -229,6 +229,37 @@
   font-size: 0.95rem;
 }
 
+.sensor-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  gap: 1rem;
+  color: #e2e8f0;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.12);
+  border-top-color: #6ef28c;
+  animation: spin 1s linear infinite;
+}
+
+.loading-message {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 768px) {
   .connected-sensors-header {
     align-items: stretch;

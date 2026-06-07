@@ -23,6 +23,7 @@ import { ConnectedSensors } from '../../components/connected-sensors/connected-s
 })
 export class ControllerDetails implements OnInit {
   protected readonly isLoading = signal(false);
+  protected readonly isSensorsLoading = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
 
   controller: Controller | null = null;
@@ -81,13 +82,17 @@ export class ControllerDetails implements OnInit {
   }
 
   protected getSensors(controllerId: number): void {
+    this.isSensorsLoading.set(true);
+
     this.deviceAdminService.getSensors(controllerId).subscribe({
       next: (sensors) => {
         console.log('sensors', sensors, sensors.length);
         this.sensors = sensors;
+        this.isSensorsLoading.set(false);
       },
       error: () => {
         console.error('Unable to load connected sensors.');
+        this.isSensorsLoading.set(false);
       },
     });
   }

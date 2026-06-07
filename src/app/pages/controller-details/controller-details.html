@@ -36,7 +36,7 @@
         }
       </section>
       <section>
-        <app-connected-sensors [sensors]="sensors" (createSensor)="openCreateSensorDialog()"></app-connected-sensors>
+        <app-connected-sensors [sensors]="sensors" [isLoading]="isSensorsLoading()" (createSensor)="openCreateSensorDialog()"></app-connected-sensors>
       </section>
     </div>
   }

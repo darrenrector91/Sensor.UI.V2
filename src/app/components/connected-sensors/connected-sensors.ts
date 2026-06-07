@@ -13,6 +13,7 @@ import { Sensor } from '../../models/sensor';
 export class ConnectedSensors {
   @Output() createSensor = new EventEmitter<void>();
   @Input() sensors: Sensor[] = [];
+  @Input() isLoading = false;
 
   constructor() {
     console.log('child sensors', this.sensors);
