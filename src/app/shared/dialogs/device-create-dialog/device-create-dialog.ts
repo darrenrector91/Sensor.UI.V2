@@ -111,6 +111,11 @@ export class DeviceCreateDialogComponent {
       notes: [''],
     });
 
+    if (this.isControllerSelectionDisabled) {
+      this.sensorForm.get('controllerId')?.disable({ emitEvent: false });
+      this.sensorForm.get('location')?.disable({ emitEvent: false });
+    }
+
     this.sensorForm.get('controllerId')?.valueChanges.subscribe((controllerId) => {
       const controller = this.controller.find((item) => item.id === Number(controllerId));
 
@@ -127,6 +132,10 @@ export class DeviceCreateDialogComponent {
 
   get isLocationMode(): boolean {
     return this.data.mode === 'location';
+  }
+
+  get isControllerSelectionDisabled(): boolean {
+    return this.data.mode === 'sensor' && this.data.selectedControllerId != null;
   }
 
   get title(): string {

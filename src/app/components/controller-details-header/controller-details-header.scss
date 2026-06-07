@@ -25,7 +25,6 @@
   color: #f4fff7;
   font-size: 2.5rem;
   font-weight: 800;
-  letter-spacing: -0.04em;
   line-height: 1;
   text-shadow: 0 0 1rem rgba(255, 255, 255, 0.12);
 }
@@ -65,7 +64,10 @@
   background-color: transparent !important;
   border: 1px solid #78e85c !important;
   color: #78e85c !important;
-  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
 
   mat-icon {
     margin-right: 0.5rem;

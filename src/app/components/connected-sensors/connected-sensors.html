@@ -1,0 +1,71 @@
+<section class="connected-sensors-section">
+  <div class="connected-sensors-header">
+    <h2>Connected Sensors ({{ sensors.length }})</h2>
+
+    <div class="connected-sensors-actions">
+      <app-sensor-search></app-sensor-search>
+
+      <button type="button" class="btn-add-sensor" (click)="onCreateSensor()">
+        <i class="bi bi-plus-lg"></i>
+        Add Sensor
+      </button>
+    </div>
+  </div>
+
+  <div class="connected-sensors-content">
+    <ng-container *ngIf="sensors.length > 0; else emptySensors">
+      <div class="sensor-table-wrapper">
+        <table class="sensor-table">
+          <thead>
+            <tr>
+              <th>Sensor</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Last Reading</th>
+              <th>Last Updated</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sensor of sensors; trackBy: trackBySensorKey">
+              <td>
+                <div class="sensor-cell">
+                  <span class="sensor-icon" [ngClass]="getSensorIconClass(sensor)">
+                    <i class="bi" [ngClass]="getSensorIcon(sensor)"></i>
+                  </span>
+                  <div class="sensor-details">
+                    <div class="sensor-name">{{ sensor.name }}</div>
+                    <div class="sensor-key">{{ sensor.sensorKey }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>{{ sensor.sensorType || 'Unknown' }}</td>
+              <td>
+                <span class="status-pill" [ngClass]="getStatusClass(sensor)">
+                  <span class="status-dot"></span>
+                  {{ sensor.isActive ? 'Online' : 'Offline' }}
+                </span>
+              </td>
+              <td class="reading-column">—</td>
+              <td>{{ formatDate(sensor.createdUtc) }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button type="button" class="btn-view-sensor">View Sensor</button>
+                  <button type="button" class="btn-icon" title="More actions">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+
+    <ng-template #emptySensors>
+      <div class="sensor-table-empty">
+        No connected sensors found. Add a sensor to populate this list.
+      </div>
+    </ng-template>
+  </div>
+</section>
