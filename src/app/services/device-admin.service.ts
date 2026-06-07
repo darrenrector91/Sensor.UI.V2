@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Controller } from '../models/controller';
 import { CreateControllerRequest } from '../models/create-controller-request';
 import { CreateLocationRequest } from '../models/create-location-request';
 import { CreateSensorRequest } from '../models/create-sensor-request';
 import { DashboardLocation } from '../models/dashboard-location';
-import { DashboardController } from '../models/dashboard-controller';
-import { Controller } from '../models/controller';
+import { Sensor } from '../models/sensor';
 
 @Injectable({
   providedIn: 'root',
@@ -41,5 +41,13 @@ export class DeviceAdminService {
 
   getControllerDetails(id: number): Observable<Controller> {
     return this.httpClient.get<Controller>(`${this.apiBaseUrl}/controllers/${id}`);
+  }
+
+  getSensors(controllerId: number): Observable<Sensor[]> {
+    return this.httpClient.get<Sensor[]>(`${this.apiBaseUrl}/sensors`, {
+      params: {
+        controllerId: controllerId.toString(),
+      },
+    });
   }
 }

@@ -1,15 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { forkJoin, Observable } from 'rxjs';
 import { ControllerDetailsHeader } from '../../components/controller-details-header/controller-details-header';
 import { OverviewCard } from '../../components/overview-card/overview-card';
+import { ConnectedSensors } from '../../components/connected-sensors/connected-sensors';
 import { Controller } from '../../models/controller';
+import { DashboardLocation } from '../../models/dashboard-location';
 import { Overview } from '../../models/overview';
+import { Sensor } from '../../models/sensor';
 import { DeviceAdminService } from '../../services/device-admin.service';
+import { DeviceCreateDialogComponent } from '../../shared/dialogs/device-create-dialog/device-create-dialog';
 
 @Component({
   selector: 'app-controller-details',
   standalone: true,
-  imports: [CommonModule, ControllerDetailsHeader, OverviewCard],
+  imports: [CommonModule, ControllerDetailsHeader, OverviewCard, ConnectedSensors],
   templateUrl: './controller-details.html',
   styleUrls: ['./controller-details.scss'],
 })
@@ -19,22 +26,47 @@ export class ControllerDetails implements OnInit {
 
   controller: Controller | null = null;
   overviewCards: Overview[] = [];
+  sensors: Sensor[] = [];
 
   private readonly deviceAdminService = inject(DeviceAdminService);
+  private readonly dialog = inject(MatDialog);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
-    this.getControllerDetails();
+    const controllerId = this.getControllerIdFromUrl();
+
+    if (controllerId === null) {
+      this.errorMessage.set('Unable to determine controller ID from URL.');
+      return;
+    }
+
+    this.getControllerDetails(controllerId);
+    this.getSensors(controllerId);
   }
 
-  constructor() {}
+  protected getCurrentUrl(): string {
+    return this.router.url;
+  }
 
-  protected getControllerDetails(): void {
+  private getControllerIdFromUrl(): number | null {
+    const rawControllerId = this.route.snapshot.paramMap.get('controllerId');
+
+    if (!rawControllerId) {
+      return null;
+    }
+
+    const controllerId = Number(rawControllerId);
+
+    return Number.isFinite(controllerId) && controllerId > 0 ? controllerId : null;
+  }
+
+  protected getControllerDetails(controllerId: number): void {
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
-    this.deviceAdminService.getControllerDetails(1).subscribe({
+    this.deviceAdminService.getControllerDetails(controllerId).subscribe({
       next: (controller) => {
-        console.log('controller', controller);
         this.controller = controller;
         this.buildOverviewCards();
         this.isLoading.set(false);
@@ -43,6 +75,50 @@ export class ControllerDetails implements OnInit {
       error: () => {
         this.errorMessage.set('Unable to load controller details.');
         this.isLoading.set(false);
+      },
+    });
+  }
+
+  protected getSensors(controllerId: number): void {
+    this.deviceAdminService.getSensors(controllerId).subscribe({
+      next: (sensors) => {
+        console.log('sensors', sensors, sensors.length);
+        this.sensors = sensors;
+      },
+      error: () => {
+        console.error('Unable to load connected sensors.');
+      },
+    });
+  }
+
+  protected openCreateSensorDialog(): void {
+    const _locations: Observable<DashboardLocation[]> = this.deviceAdminService.getLocations();
+    const _controllers: Observable<Controller[]> = this.deviceAdminService.getControllers();
+
+    forkJoin({
+      locations: _locations,
+      controllers: _controllers,
+    }).subscribe({
+      next: ({ locations, controllers }) => {
+        this.dialog
+          .open(DeviceCreateDialogComponent, {
+            data: {
+              mode: 'sensor',
+              availableLocations: locations,
+              availableControllers: controllers,
+              selectedControllerId: this.controller?.id,
+              selectedLocationName: this.controller?.location,
+            },
+            panelClass: 'device-create-dialog-panel',
+            backdropClass: 'device-create-dialog-backdrop',
+            autoFocus: false,
+          })
+          .afterClosed()
+          .subscribe((result) => {
+            if (result) {
+              this.getSensors(this.getControllerIdFromUrl() ?? 0);
+            }
+          });
       },
     });
   }
@@ -68,22 +144,6 @@ export class ControllerDetails implements OnInit {
         secondaryText: 'Connected',
         statusClass: 'status-success',
       },
-      // {
-      //   icon: 'bi-calendar3',
-      //   label: 'Created',
-      //   primaryText: this.formatDate(this.controller.createdUtc),
-      //   secondaryText: '',
-      //   statusClass: 'status-success',
-      // },
-      // {
-      //   icon: 'bi-clock-history',
-      //   label: 'Last Updated',
-      //   primaryText: this.controller.lastUpdatedDateDisplay
-      //     ? this.formatDate(this.controller.lastUpdatedDateDisplay)
-      //     : 'Unknown',
-      //   secondaryText: '',
-      //   statusClass: 'status-success',
-      // },
       {
         icon: 'bi-shield-check',
         label: 'Status',
@@ -92,21 +152,5 @@ export class ControllerDetails implements OnInit {
         statusClass: this.controller.isActive ? 'status-success' : 'status-danger',
       },
     ];
-  }
-
-  private formatDate(dateUtc: string): string {
-    const parsedDate = new Date(dateUtc);
-
-    if (Number.isNaN(parsedDate.getTime())) {
-      return dateUtc;
-    }
-
-    return parsedDate.toLocaleString([], {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
   }
 }

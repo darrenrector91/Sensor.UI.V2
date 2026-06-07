@@ -30,15 +30,13 @@
       <div class="col-12">
         <app-controller-details-header></app-controller-details-header>
       </div>
-      <!-- <div class="col-12">
-        @for (card of overviewCards; track card) {
-          <app-overview-card [card]="card"></app-overview-card>
-        }
-      </div> -->
       <section class="overview-section">
         @for (card of overviewCards; track card) {
           <app-overview-card [card]="card"></app-overview-card>
         }
+      </section>
+      <section>
+        <app-connected-sensors [sensors]="sensors" (createSensor)="openCreateSensorDialog()"></app-connected-sensors>
       </section>
     </div>
   }

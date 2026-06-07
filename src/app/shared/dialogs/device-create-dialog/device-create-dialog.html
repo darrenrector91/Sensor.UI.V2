@@ -169,23 +169,23 @@
         <div class="form-grid">
           <mat-form-field class="device-field" appearance="outline" floatLabel="always">
             <mat-label>Controller</mat-label>
-            <mat-select formControlName="controllerId">
+            <mat-select formControlName="controllerId" [disabled]="isControllerSelectionDisabled">
               <mat-option [value]="null">Select controller</mat-option>
 
-              <!-- @for (controller of controllerOptions; track controller.id) {
-                <mat-option [value]="controller.id">
-                  {{ controller.name }}
-                  @if (controller.location) {
-                    — {{ controller.location }}
+              @for (controllerItem of controller; track controllerItem.id) {
+                <mat-option [value]="controllerItem.id">
+                  {{ controllerItem.name }}
+                  @if (controllerItem.location) {
+                    — {{ controllerItem.location }}
                   }
                 </mat-option>
-              } -->
+              }
             </mat-select>
           </mat-form-field>
 
           <mat-form-field class="device-field" appearance="outline" floatLabel="always">
             <mat-label>Location</mat-label>
-            <input matInput formControlName="location" readonly />
+            <input matInput formControlName="location" readonly [disabled]="isControllerSelectionDisabled" />
           </mat-form-field>
         </div>
       </section>
