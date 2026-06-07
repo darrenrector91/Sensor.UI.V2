@@ -6,6 +6,7 @@ export class Controller {
   locationId: number | null = null;
   isActive = false;
   createdUtc = '';
+  lastUpdatedDateDisplay = '';
   sensorCount = 0;
 
   get hasSensors(): boolean {
