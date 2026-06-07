@@ -1,11 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { ControllerCard } from './controller-card';
-import { DashboardController } from '../../models/dashboard-controller';
-import { DashboardMeasurement } from '../../models/dashboard-measurement';
-import { DashboardSensor } from '../../models/dashboard-sensor';
 import { Controller } from '../../models/controller';
+import { ControllerCard } from './controller-card';
 
 describe('ControllerCard', () => {
   let component: ControllerCard;
