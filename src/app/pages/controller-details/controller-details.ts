@@ -5,13 +5,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, Observable } from 'rxjs';
 import { ControllerDetailsHeader } from '../../components/controller-details-header/controller-details-header';
 import { OverviewCard } from '../../components/overview-card/overview-card';
-import { ConnectedSensors } from '../../components/connected-sensors/connected-sensors';
+
 import { Controller } from '../../models/controller';
 import { DashboardLocation } from '../../models/dashboard-location';
 import { Overview } from '../../models/overview';
 import { Sensor } from '../../models/sensor';
 import { DeviceAdminService } from '../../services/device-admin.service';
 import { DeviceCreateDialogComponent } from '../../shared/dialogs/device-create-dialog/device-create-dialog';
+import { ConnectedSensors } from '../../components/connected-sensors/connected-sensors';
 
 @Component({
   selector: 'app-controller-details',
