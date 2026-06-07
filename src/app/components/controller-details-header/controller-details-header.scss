@@ -60,22 +60,29 @@
   text-transform: uppercase;
 }
 
-.controller-details__edit-button {
-  background-color: transparent !important;
-  border: 1px solid #78e85c !important;
-  color: #78e85c !important;
-  transition:
-    background-color 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease;
+.btn-app-action {
+  height: 48px;
+  padding: 0 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(110, 242, 140, 0.45);
+  background: rgba(31, 85, 45, 0.65);
+  color: #6ef28c;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 
-  mat-icon {
-    margin-right: 0.5rem;
+  i {
+    font-size: 1.1rem;
+    line-height: 1;
   }
 }
 
-.controller-details__edit-button:hover {
-  background-color: #78e85c !important;
-  border-color: #ffffff !important;
-  color: #ffffff !important;
+.btn-app-action:hover {
+  background: rgba(31, 85, 45, 0.75);
+}
+
+.btn-app-action-title {
+  position: relative;
+  bottom: 2px;
 }

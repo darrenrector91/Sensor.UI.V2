@@ -193,36 +193,6 @@
   color: #cbd5e1;
 }
 
-.action-buttons {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.btn-view-sensor,
-.btn-icon {
-  border: 1px solid rgba(110, 242, 140, 0.3);
-  border-radius: 0.75rem;
-  background: rgba(16, 40, 29, 0.75);
-  color: #b7f5ad;
-  padding: 0.55rem 0.85rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.btn-view-sensor:hover,
-.btn-icon:hover {
-  background: rgba(31, 85, 45, 0.75);
-}
-
-.btn-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.8rem;
-  padding: 0.45rem;
-}
-
 .sensor-table-empty {
   padding: 2rem;
   color: #cbd5e1;
@@ -252,6 +222,22 @@
 .loading-message {
   font-size: 0.95rem;
   color: #cbd5e1;
+}
+
+.action-buttons i {
+  font-size: 1.5rem;
+  margin: 0 5px;
+  line-height: 1;
+  color: #6ef28c;
+}
+
+.action-buttons i:hover {
+  cursor: pointer;
+}
+
+.btn-app-action-title {
+  position: relative;
+  bottom: 2px;
 }
 
 @keyframes spin {
