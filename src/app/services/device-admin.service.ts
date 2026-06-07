@@ -38,4 +38,8 @@ export class DeviceAdminService {
   getControllers(): Observable<Controller[]> {
     return this.httpClient.get<Controller[]>(`${this.apiBaseUrl}/controllers`);
   }
+
+  getControllerDetails(id: number): Observable<Controller> {
+    return this.httpClient.get<Controller>(`${this.apiBaseUrl}/controllers/${id}`);
+  }
 }
