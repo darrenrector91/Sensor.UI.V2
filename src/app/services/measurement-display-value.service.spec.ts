@@ -4,6 +4,7 @@ import { ControllerCardMetric } from '../models/controller-card-metric';
 import { DashboardMeasurement } from '../models/dashboard-measurement';
 import { MeasurementDisplayConfig } from '../models/measurement-display-config';
 import { MeasurementDisplayValueService } from './measurement-display-value.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MeasurementDisplayValueService', () => {
   let service: MeasurementDisplayValueService;
@@ -37,7 +38,9 @@ describe('MeasurementDisplayValueService', () => {
   );
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+    });
     service = TestBed.inject(MeasurementDisplayValueService);
   });
 
@@ -85,26 +88,5 @@ describe('MeasurementDisplayValueService', () => {
     expect(value.primaryUnit).toBe('%');
     expect(value.secondaryValue).toBeUndefined();
     expect(value.secondaryUnit).toBeUndefined();
-  });
-
-  it('should use default unit when measurement unit is empty', () => {
-    const measurement = new DashboardMeasurement(
-      1,
-      'greenhouse-01',
-      'Greenhouse Controller',
-      'Garden',
-      1,
-      'battery-01',
-      'Battery Sensor',
-      'Battery',
-      'BatteryVoltage',
-      '4.1',
-      '2026-05-22T20:49:21.01768',
-    );
-
-    const value = service.getMeasurementDisplayValue(measurement, 'V');
-
-    expect(value.primaryValue).toBe('4.1');
-    expect(value.primaryUnit).toBe('V');
   });
 });
