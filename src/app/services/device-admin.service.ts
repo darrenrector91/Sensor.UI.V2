@@ -13,9 +13,9 @@ import { Sensor } from '../models/sensor';
 })
 export class DeviceAdminService {
   // Url below needs to be uncommentted before pushing to prod
-  // private readonly apiBaseUrl = 'http://192.168.5.103:5278/api';
+  private readonly apiBaseUrl = 'http://192.168.5.103:5278/api';
 
-  private readonly apiBaseUrl = 'http://localhost:5278/api';
+  // private readonly apiBaseUrl = 'http://localhost:5278/api';
 
   constructor(private readonly httpClient: HttpClient) {}
 
