@@ -4,6 +4,7 @@ import { ControllerCardMetric } from '../models/controller-card-metric';
 import { DashboardMeasurement } from '../models/dashboard-measurement';
 import { MeasurementDisplayConfig } from '../models/measurement-display-config';
 import { MeasurementDisplayValueService } from './measurement-display-value.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MeasurementDisplayValueService', () => {
   let service: MeasurementDisplayValueService;
@@ -37,7 +38,9 @@ describe('MeasurementDisplayValueService', () => {
   );
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+    });
     service = TestBed.inject(MeasurementDisplayValueService);
   });
 

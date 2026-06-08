@@ -3,6 +3,7 @@ import { of } from 'rxjs';
 import { ControllerDashboard } from './controller-dashboard';
 import { DashboardMeasurementsService } from '../../services/dashboard-measurements.service';
 import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('ControllerDashboard', () => {
   let component: ControllerDashboard;
@@ -19,6 +20,7 @@ describe('ControllerDashboard', () => {
           },
         },
         provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
 
