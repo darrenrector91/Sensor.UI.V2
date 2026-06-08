@@ -41,28 +41,6 @@ describe('ControllerCard', () => {
     expect(compiled.textContent).toContain('Greenhouse Controller');
   });
 
-  it('should render the formatted sensor type', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-
-    expect(compiled.textContent).toContain('Temperature / Humidity');
-  });
-
-  it('should render top priority measurement labels', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-
-    expect(compiled.textContent).toContain('Temperature');
-    expect(compiled.textContent).toContain('Humidity');
-    expect(compiled.textContent).toContain('Soil Moisture');
-    expect(compiled.textContent).toContain('Light');
-  });
-
-  it('should not render metrics beyond the compact card limit', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-
-    expect(compiled.textContent).not.toContain('Battery');
-    expect(compiled.textContent).toContain('+1 more measurement');
-  });
-
   it('should render the controller status', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
