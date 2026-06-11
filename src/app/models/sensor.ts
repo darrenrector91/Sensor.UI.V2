@@ -1,11 +1,17 @@
 export class Sensor {
+  id!: number;
   controllerId!: number;
-  sensorKey = '';
+  locationId: number | null = null;
+  locationName: string | null = null;
   name = '';
-  sensorType = '';
+  hardwareModel = '';
+  description = '';
+  communicationProtocol = '';
+  address: string | null = null;
+  measurementIntervalSeconds = 0;
+  notes = '';
   isActive = false;
   createdUtc = '';
-  locationId: number | null = null;
 
   get statusLabel(): string {
     return this.isActive ? 'Active' : 'Inactive';

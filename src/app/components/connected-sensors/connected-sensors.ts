@@ -12,12 +12,9 @@ import { Sensor } from '../../models/sensor';
 })
 export class ConnectedSensors {
   @Output() createSensor = new EventEmitter<void>();
+
   @Input() sensors: Sensor[] = [];
   @Input() isLoading = false;
-
-  constructor() {
-    console.log('child sensors', this.sensors);
-  }
 
   protected onCreateSensor(): void {
     this.createSensor.emit();
@@ -44,38 +41,73 @@ export class ConnectedSensors {
   }
 
   protected getSensorIconClass(sensor: Sensor): string {
-    const type = sensor.sensorType?.toLowerCase() ?? '';
+    const hardwareModel = sensor.hardwareModel?.toLowerCase() ?? '';
 
-    if (type.includes('temperature')) {
-      return 'sensor-icon--temperature';
+    if (
+      hardwareModel.includes('sht') ||
+      hardwareModel.includes('dht') ||
+      hardwareModel.includes('bme')
+    ) {
+      return 'sensor-icon--environment';
     }
 
-    if (type.includes('humidity') || type.includes('soil')) {
-      return 'sensor-icon--humidity';
+    if (hardwareModel.includes('soil')) {
+      return 'sensor-icon--soil';
+    }
+
+    if (hardwareModel.includes('ds18b20')) {
+      return 'sensor-icon--temperature';
     }
 
     return 'sensor-icon--default';
   }
 
   protected getSensorIcon(sensor: Sensor): string {
-    const type = sensor.sensorType?.toLowerCase() ?? '';
+    const hardwareModel = sensor.hardwareModel?.toLowerCase() ?? '';
 
-    if (type.includes('temperature')) {
+    if (
+      hardwareModel.includes('sht') ||
+      hardwareModel.includes('dht') ||
+      hardwareModel.includes('bme')
+    ) {
+      return 'bi-cloud-sun';
+    }
+
+    if (hardwareModel.includes('soil')) {
+      return 'bi-flower1';
+    }
+
+    if (hardwareModel.includes('ds18b20')) {
       return 'bi-thermometer-half';
     }
 
-    if (type.includes('humidity')) {
-      return 'bi-droplet';
-    }
-
-    if (type.includes('soil')) {
-      return 'bi-leaf';
-    }
-
-    return 'bi-circle-half';
+    return 'bi-cpu';
   }
 
-  protected trackBySensorKey(index: number, sensor: Sensor): string {
-    return sensor.sensorKey;
+  protected getConnectionLabel(sensor: Sensor): string {
+    const protocol = sensor.communicationProtocol?.trim();
+    const address = sensor.address?.trim();
+
+    if (protocol && address) {
+      return `${protocol} - ${address}`;
+    }
+
+    if (protocol) {
+      return protocol;
+    }
+
+    if (address) {
+      return address;
+    }
+
+    return 'Unknown connection';
+  }
+
+  protected getLocationLabel(sensor: Sensor): string {
+    return sensor.locationName || 'Unassigned location';
+  }
+
+  protected trackBySensorId(index: number, sensor: Sensor): number {
+    return sensor.id;
   }
 }

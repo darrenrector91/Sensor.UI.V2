@@ -17,6 +17,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, Arial, sans-serif;
+  color: #fff;
 }
 
 .device-create-dialog-panel {
@@ -94,4 +95,11 @@ body {
     'wght' 400,
     'GRAD' 0,
     'opsz' 24;
+}
+
+.mat-checkbox .mat-internal-form-field {
+  --mat-checkbox-label-text-color: #fff;
+  --mat-sys-on-surface: #fff; /* This ensures the fallback is also white */
+  --mat-checkbox-label-text-weight: 600;
+  --mat-checkbox-label-text-tracking: 0.05em;
 }

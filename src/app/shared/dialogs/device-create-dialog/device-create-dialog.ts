@@ -51,7 +51,7 @@ export class DeviceCreateDialogComponent {
         option.id = Number(controller.controllerId ?? controller.id);
         option.name = controller.controllerName ?? controller.name;
         option.locationId = controller.locationId ?? null;
-        option.location = controller.location ?? null;
+        option.locationName = controller.location ?? null;
 
         return option;
       })
@@ -73,7 +73,7 @@ export class DeviceCreateDialogComponent {
     );
 
     const defaultSensorLocationName =
-      defaultController?.location ??
+      defaultController?.locationName ??
       this.data.selectedLocationName ??
       (this.locationOptions.length === 1 ? this.locationOptions[0].name : '');
 
@@ -120,7 +120,7 @@ export class DeviceCreateDialogComponent {
       const controller = this.controller.find((item) => item.id === Number(controllerId));
 
       this.sensorForm.patchValue({
-        location: controller?.location ?? '',
+        location: controller?.locationName ?? '',
         locationId: controller?.locationId ?? null,
       });
     });

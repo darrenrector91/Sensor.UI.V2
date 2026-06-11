@@ -113,7 +113,7 @@ export class ControllerDetails implements OnInit {
               availableLocations: locations,
               availableControllers: controllers,
               selectedControllerId: this.controller?.id,
-              selectedLocationName: this.controller?.location,
+              selectedLocationName: this.controller?.locationName,
             },
             panelClass: 'device-create-dialog-panel',
             backdropClass: 'device-create-dialog-backdrop',
@@ -139,7 +139,7 @@ export class ControllerDetails implements OnInit {
       {
         icon: 'bi-geo-alt',
         label: 'Location',
-        primaryText: this.controller.location ?? 'Unknown',
+        primaryText: this.controller.locationName ?? 'Unknown',
         secondaryText: this.controller.controllerKey,
         statusClass: 'status-success',
       },
