@@ -22,8 +22,12 @@ export class ControllerDashboard implements OnInit {
   private readonly dialog = inject(MatDialog);
 
   protected readonly controllers = signal<Controller[]>([]);
+  // Keep the full list so we can filter without refetching
+  private readonly allControllers = signal<Controller[]>([]);
   protected readonly isLoading = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
+
+  isShowAllControllers: boolean = false;
 
   private readonly deviceAdminService = inject(DeviceAdminService);
 
@@ -34,9 +38,9 @@ export class ControllerDashboard implements OnInit {
   protected getControllers(): void {
     this.deviceAdminService.getControllers().subscribe({
       next: (controllers) => {
-        this.controllers.set(
-          controllers.map((controller) => Object.assign(new Controller(), controller)),
-        );
+        const mapped = controllers.map((controller) => Object.assign(new Controller(), controller));
+        this.allControllers.set(mapped);
+        this.applyControllerFilter();
       },
 
       error: () => this.errorMessage.set('Unable to load controllers.'),
@@ -111,6 +115,21 @@ export class ControllerDashboard implements OnInit {
           });
       },
     });
+  }
+
+  setControllerVisibility(event: boolean) {
+    this.isShowAllControllers = event;
+    this.applyControllerFilter();
+  }
+
+  private applyControllerFilter(): void {
+    const list = this.allControllers();
+    if (this.isShowAllControllers) {
+      this.controllers.set(list);
+      return;
+    }
+
+    this.controllers.set(list.filter((c) => c.hasSensors));
   }
 
   // private groupMeasurements(measurements: DashboardMeasurement[]): Controller[] {

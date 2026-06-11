@@ -1,5 +1,4 @@
 {
-  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
   "version": "2.0.0",
   "tasks": [
     {
@@ -37,6 +36,13 @@
           }
         }
       }
+    },
+    {
+      "label": "build-api",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["build", "${workspaceFolder:Sensor.Api}/Sensor.Api.Web/Sensor.Api.Web.csproj"],
+      "problemMatcher": "$msCompile"
     }
   ]
 }

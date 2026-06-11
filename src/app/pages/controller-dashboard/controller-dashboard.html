@@ -1,7 +1,18 @@
-<div>
+<div class="ms-2 mb-4">
   <div class="row">
-    <div class="col-12">
+    <div class="col-6 d-flex align-item-center justify-content-start">
       <div class="kicker">Environmental Controller Dashboard</div>
+    </div>
+    <div class="col-6 d-flex align-item-center justify-content-end">
+      <div class="isUnassignVisible">
+        <section class="unassigned-wrapper">
+          <span class="unassigned-list">
+            <mat-checkbox class="mat-checkbox" (change)="setControllerVisibility($event.checked)">
+              Show Unassigned Controllers
+            </mat-checkbox>
+          </span>
+        </section>
+      </div>
     </div>
   </div>
 </div>
