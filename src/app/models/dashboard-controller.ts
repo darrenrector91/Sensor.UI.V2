@@ -6,7 +6,8 @@ export class DashboardController {
     public controllerId: number,
     public controllerKey: string,
     public controllerName: string,
-    public location: string,
+    public locationId: number | null,
+    public locationName: string | null,
     public sensors: DashboardSensor[],
   ) {}
 

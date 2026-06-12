@@ -14,7 +14,7 @@ describe('ControllerCard', () => {
     id: 1,
     controllerKey: 'greenhouse-01',
     name: 'Greenhouse Controller',
-    location: 'Garden',
+    locationName: 'Garden',
     locationId: 1,
     isActive: true,
     createdUtc: '2026-05-22T20:49:17.734983',
