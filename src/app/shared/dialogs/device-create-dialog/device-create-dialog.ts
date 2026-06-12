@@ -49,9 +49,13 @@ export class DeviceCreateDialogComponent {
         const option = new Controller();
 
         option.id = Number(controller.controllerId ?? controller.id);
+        option.controllerKey = controller.controllerKey ?? '';
         option.name = controller.controllerName ?? controller.name;
         option.locationId = controller.locationId ?? null;
-        option.locationName = controller.location ?? null;
+        option.locationName = controller.locationName ?? null;
+        option.isActive = controller.isActive ?? false;
+        option.createdUtc = controller.createdUtc ?? '';
+        option.sensorCount = controller.sensorCount ?? 0;
 
         return option;
       })
@@ -97,17 +101,16 @@ export class DeviceCreateDialogComponent {
 
     this.sensorForm = this.formBuilder.group({
       name: ['', Validators.required],
-      sensorType: ['SHT35', Validators.required],
+      hardwareModel: ['SHT35', Validators.required],
       description: [''],
-      status: [true],
+      isActive: [true],
       controllerId: [defaultControllerId, Validators.required],
       locationId: [defaultLocationId, Validators.required],
       location: [{ value: defaultSensorLocationName, disabled: true }, Validators.required],
-      controllerKey: ['', Validators.required],
-      i2cAddress: ['0x44'],
-      measurementIntervalSeconds: [60],
-      temperatureUnit: ['°C'],
-      humidityUnit: ['%'],
+      measurementTypeIds: [[1, 2], Validators.required],
+      communicationProtocol: ['I2C', Validators.required],
+      address: ['0x44'],
+      measurementIntervalSeconds: [300, Validators.required],
       notes: [''],
     });
 
@@ -264,16 +267,15 @@ export class DeviceCreateDialogComponent {
     const request: CreateSensorRequest = {
       controllerId: Number(formValue.controllerId),
       locationId: Number(formValue.locationId),
-      controllerKey: formValue.controllerKey.trim(),
       name: formValue.name.trim(),
-      sensorType: formValue.sensorType,
-      description: formValue.description?.trim() || null,
-      status: Boolean(formValue.status),
-      i2cAddress: formValue.i2cAddress?.trim() || null,
+      hardwareModel: formValue.hardwareModel,
+      description: formValue.description?.trim() || '',
+      measurementTypeIds: formValue.measurementTypeIds ?? [],
+      communicationProtocol: formValue.communicationProtocol,
+      address: formValue.address?.trim() || null,
       measurementIntervalSeconds: Number(formValue.measurementIntervalSeconds),
-      temperatureUnit: formValue.temperatureUnit || null,
-      humidityUnit: formValue.humidityUnit || null,
-      notes: formValue.notes?.trim() || null,
+      notes: formValue.notes?.trim() || '',
+      isActive: Boolean(formValue.isActive),
     };
 
     this.isSaving = true;

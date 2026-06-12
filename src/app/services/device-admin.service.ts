@@ -1,23 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { Controller } from '../models/controller';
 import { CreateControllerRequest } from '../models/create-controller-request';
 import { CreateLocationRequest } from '../models/create-location-request';
 import { CreateSensorRequest } from '../models/create-sensor-request';
 import { DashboardLocation } from '../models/dashboard-location';
 import { Sensor } from '../models/sensor';
+import { API_BASE_URL } from '../core/api/api-url.token';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeviceAdminService {
-  // Url below needs to be uncommentted before pushing to prod
-  private readonly apiBaseUrl = 'http://192.168.5.103:5278/api';
+  private readonly httpClient = inject(HttpClient);
+  private readonly apiBaseUrl = inject(API_BASE_URL);
 
-  // private readonly apiBaseUrl = 'http://localhost:5278/api';
-
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(httpClient: HttpClient) {}
 
   createController(request: CreateControllerRequest): Observable<unknown> {
     return this.httpClient.post(`${this.apiBaseUrl}/controllers`, request);
